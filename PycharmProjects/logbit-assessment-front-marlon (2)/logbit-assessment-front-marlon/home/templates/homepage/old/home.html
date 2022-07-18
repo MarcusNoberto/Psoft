@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block body_class %}
+body__home
+{% endblock %}
+
+{% block content %}
+<main id="home" class="content">
+
+    {% if user.is_authenticated %}
+    {% include 'homepage/content_home.html' %}
+    {% endif %}
+
+</main>
+
+
+
+<!-- modal conclusao -->
+<div class="modal_conclusao" data-position="center">
+    <section class="modal--content" data-id="conclusao">
+        <button data-xclose="modal_conclusao" class="close--modal">
+            <ion-icon name="close"></ion-icon>
+        </button>
+
+        <div style="padding: 25px;">
+            <h5>Conclusão de módulo!</h5>
+
+            <p>Parabéns! Você acaba de concluir o módulo <strong>{{curso_concluido}}</strong></p>
+
+            {% if curso.atingiu_pre_requisito %}
+            <p class="mb-4">Agora os seguintes módulos estão disponíveis:</p>
+
+            {% for curso in curso_concluido.curso_set.all %}
+            <p><strong>{{curso}}</strong></p>
+            {% endfor %}
+            {% else %}
+            <p class="mb-4">Infelizmente você não cumpriu os pré requisitos desse curso.</p>
+
+            <p>É necessário ao menos <strong>{{curso_concluido.score_minimo}}% de score</strong> e
+                <strong>{{curso_concluido.progresso_minimo}}% de progresso</strong>.
+            </p>
+            <p>Mas não desanime, reveja as aulas e dê uma olhada nas dicas, temos certeza que você irá conseguir!</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.querySelector('.sidebar').style.transition = 'none'
+    document.querySelector('.grid--app').classList.add('sidebar--is-closed')
+    document.querySelector('.sidebar-close').classList.add('d-none')
+    document.querySelector('.sidebar').classList.add('d-none')
+</script>
+
+<script>
+    const quebraResponsivo = window.matchMedia("(max-width: 1024px)").matches
+    const modalConclusao = ModalX('.modal_conclusao', {
+        deep: true,
+        zIndex: 100000,
+        zIndexDeep: 9000,
+        closeOnSwipe: false, //Hammer.js for enable gestures
+        observer: false, //create oberver in modal element
+        bgModal: "white",
+        video: false
+    }).init()
+
+    const swiper = new Swiper('.intro--carousel', {
+        slidesPerView: "auto",
+        spaceBetween: 24,
+        slidesOffsetAfter: 40,
+        centeredSlides: true,
+      
+
+
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        
+            renderBullet: function (index, className) {
+                return '<span class="' + className + '">' + (index + 1) + "</span>";
+            },
+        },
+
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        breakpoints: {
+     
+          1024: {
+              
+            centeredSlides: false,
+          },
+        },
+
+    });
+
+    function setWidthInSwiper() {
+        const text = document.querySelector(".intro .container--mod  .text--container")
+        const textWidth = text.getBoundingClientRect().width
+        const swiperContainer = document.querySelector(".intro--carousel")
+        swiperContainer.style.maxWidth = `calc(100vw - ${textWidth}px - 80px )`
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        !quebraResponsivo ? setWidthInSwiper() : ""
+        swiper.update()
+        swiper.navigation.update()
+        swiper.pagination.update()
+
+    })
+
+
+
+</script>
+
+{% if curso_concluido %}
+<script>
+    modalConclusao.openModal('conclusao')
+</script>
+{% endif %}
+{% endblock %}

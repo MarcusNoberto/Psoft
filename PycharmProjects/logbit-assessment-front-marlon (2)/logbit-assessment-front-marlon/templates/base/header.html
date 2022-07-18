@@ -1,0 +1,47 @@
+{% load static %}
+
+<header class="header">
+    <div class="flex items-center gap-20">
+        <div class="menu-btn" onclick="menu.toogleMenu()">
+            <div class="menu-btn__burger"></div>
+        </div>
+    
+        <img src="{% static 'assessment/assets/dist/images/logo_image.png' %}" height="80px" alt="logo"/>
+    </div>
+
+    <div class="input-container">
+        <input type="text" name="header_search" id="header_search" placeholder="Pesquisar...">
+
+        <button class="btn search">
+            <svg class="w-12 h-12">
+                <use xlink:href="#icon_search"></use>
+            </svg>
+
+            <span class="sm:hidden">Buscar</span>
+        </button>
+    </div>
+
+    <div class="flex items-center gap-8 sm:hidden">
+        <button class="btn bg-neutral-5 px-20 h-40 rounded-[1.25rem] light-gray-hover text-neutral-90 font-semibold text-[.875rem]">Instruções</button>
+
+        <button class="btn bg-[#D402031A] px-0 w-40 h-40 rounded-full light-red-hover">
+            <svg class="w-24 h-24">
+                <use xlink:href="#icon_logout"></use>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<script>
+    const menuBtn = document.querySelector('.menu-btn');
+let menuOpen = false;
+menuBtn.addEventListener('click', () => {
+  if(!menuOpen) {
+    menuBtn.classList.add('open');
+    menuOpen = true;
+  } else {
+    menuBtn.classList.remove('open');
+    menuOpen = false;
+  }
+});
+</script>

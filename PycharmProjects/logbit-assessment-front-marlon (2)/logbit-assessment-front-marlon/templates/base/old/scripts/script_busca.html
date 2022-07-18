@@ -1,0 +1,101 @@
+<script>
+    function minhaBusca(i, w, els) {
+        const input = document.querySelector(i)
+        const wrapper = document.querySelector(w)
+        const items = wrapper.querySelectorAll(els)
+
+        const verificaVazio = () => Array.from(items).filter(i => i.dataset.visivel === "true")
+
+        const mostraVazio = () => {
+            document.createElement(span)
+        }
+
+        function filtraItens() {
+            const gsapPadroes = {
+                duration: .3,
+                opacity: 1
+            }
+
+            items.forEach(i => {
+                let valorDigitado
+                let nome
+                let condicao
+
+                if (input.value.includes(" ")) { //se input tem espaÃ§o metodo array
+                    valorDigitado = input.value.trim().toLowerCase().split(" ")
+                    nome = i.dataset.nome.toLowerCase().split(" ")
+                    condicao = valorDigitado.filter(valor => nome.includes(valor)).length === valorDigitado
+                        .length
+
+
+                } else { //se n metodo string
+                    nome = i.dataset.nome.toLowerCase().trim()
+                    valorDigitado = input.value.trim().toLowerCase()
+                    condicao = nome.includes(valorDigitado)
+                }
+
+
+                if (input.value.length === 0) { //ta vazio mostra td
+                    gsap.to(i, {
+                        ...gsapPadroes,
+                        display: "inherit",
+                        opacity: 1
+                    })
+                    i.dataset.visivel = true
+
+                    if (i.classList.contains('item--sidebar')) {
+                        $(`#${i.id} .accordion-collapse`).collapse('hide')
+                        $(`#${i.id} button`).addClass('collapsed')
+                    }
+
+                } else if (condicao) {
+                    gsap.to(i, {
+                        ...gsapPadroes,
+                        display: "inherit"
+                    })
+                    i.dataset.visivel = true
+
+                    if (i.classList.contains('item--sidebar')) {
+                        const accordion = $(`#${i.id} .accordion-collapse`)
+                        const accordionBody = accordion.children('.accordion-body')
+                        accordion.collapse('show')
+
+                        minhaBusca('#search_input', `#${accordionBody.attr('id')}`, '.accordion-link').init()
+                    }
+
+                } else {
+                    gsap.to(i, {
+                        ...gsapPadroes,
+                        display: "none",
+                        opacity: 0
+                    })
+                    i.dataset.visivel = false
+
+                    if (i.classList.contains('item--sidebar')) {
+                        $(`#${i.id} .accordion-collapse`).collapse('hide')
+                        $(`#${i.id} button`).addClass('collapsed')
+                    }
+                }
+
+                if (verificaVazio().length === 0) {
+                    wrapper.parentElement.classList.add("vazio")
+
+                } else {
+                    wrapper.parentElement.classList.remove("vazio")
+                }
+            })
+        }
+
+        function init() {
+            input.addEventListener("keyup", filtraItens)
+            return this
+        }
+
+        return {
+            init
+        }
+    }
+
+    const buscanormais = minhaBusca("#search_input", ".wrapper--sidebar", ".item--sidebar")
+    buscanormais.init()
+</script>

@@ -1,0 +1,58 @@
+@layer components {
+	.swiper {
+		&[swiper-home], 
+		&[swiper-suggestions] {
+			@apply mt-24;
+
+			.swiper-slide {
+				@apply w-[14.125rem] p-8;
+			}
+
+			div[class^="swiper-button"] {
+				@apply bg-neutral-90 w-40 h-40 rounded-full -translate-y-14 sm:hidden;
+
+				&::after {
+					content: "";
+					background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwIDE2TDE0IDEyTDEwIDgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+);
+					@apply bg-no-repeat bg-contain w-full h-full absolute left-0 right-0 top-0 bottom-0 object-cover;
+				}
+
+				&.swiper-button-prev::after {
+					@apply rotate-180;
+				}
+
+				&.swiper-button-disabled {
+					@apply hidden;
+				}
+			}
+
+			.image-container {
+				@apply relative;
+
+				&::after {
+					content: '';
+					background-color: rgba(0, 0, 0, 0.5);
+					@apply absolute left-0 top-0 w-full h-full rounded;
+				}
+
+				img {
+					@apply w-[14.125rem] h-[8.25rem] rounded;
+				}
+
+				button {
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					@apply absolute bg-primary-red z-10 px-12 py-8 text-white font-semibold text-sm rounded-lg;
+				}
+			}
+
+			p {
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				@apply text-neutral-80 text-sm font-medium mt-8 overflow-hidden leading-[1rem];
+			}
+		}
+	}
+}

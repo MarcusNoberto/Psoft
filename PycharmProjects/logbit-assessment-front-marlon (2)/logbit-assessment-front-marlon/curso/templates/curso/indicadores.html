@@ -1,0 +1,48 @@
+<div class="dashboard--container">
+    <div class="d-flex">
+        <h3 class="theme--content-title">Tus Indicadores</h3>
+        <!-- <a href="">Ver mais</a> -->
+    </div>
+
+    <div class="dashboard--wrapper">
+        {% for modulo in request.content_params.curso.modulo_set.all %}
+            <div class="dashboard--item">
+                <div class="item-top">
+                    <div>
+                        <strong class="theme--content-label primary">Capítulo {{forloop.counter}}</strong><br>
+                        <strong class="theme--content-name">{{modulo.titulo}}</strong>
+                    </div>
+                    <div class="d-flex">
+                        <div>
+                            <strong class="theme--content-label">SCORE</strong>
+                            <p class="theme--content-value score">{{modulo.score.porcentagem}}%</p>
+                        </div>
+                        {% comment %}
+                            <div>
+                                <strong class="theme--content-label">PESO</strong>
+                                <p class="theme--content-value peso">25% ??</p>
+                            </div>
+                        {% endcomment %}
+                    </div>
+                </div>
+
+                <div class="item-bottom">
+                    <strong class="theme--content-label">
+                        Pendiente:
+                        <span>{{modulo.progresso_modulo.itens_pendentes}} Itens</span>
+                    </strong>
+                    <div>
+                        <strong class="theme--content-label">
+                            Progreso:
+                            <span>{{modulo.progresso_modulo.progresso_total}}%</span>
+                        </strong>
+
+                        <div class="fill-line">
+                            <span class="fill-bar" style="width: {{modulo.progresso_modulo.progresso_total|floatformat:'0'}}%"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,110 @@
+@layer components {
+	.sidebar {
+		@apply 
+			bg-neutral-100 
+			shrink-0 
+			w-[var(--width-menu)] 
+			flex 
+			flex-col 
+			justify-between 
+			fixed 
+			top-80 
+			left-0 
+			z-50 
+			md:-translate-x-[var(--width-menu-closed)] 
+			rounded-tr-2xl 
+			shadow-md 
+			overflow-hidden;
+		
+		transition: width 0.2s ease;
+		height: calc(100vh - 5rem);
+
+		
+		> ul {
+			@apply overflow-y-auto overflow-x-hidden flex flex-col flex-1 max-h-[70vh] styled-scroll;
+		}
+
+		.menu-item {
+			@apply whitespace-nowrap relative overflow-hidden;
+
+			&.active > a {
+				@apply !bg-neutral-90;
+
+				span, svg {
+					color: #FFF;
+					--cor-1: #FFF !important;
+				}
+			}
+
+			a {
+				@apply flex items-center relative h-64 px-[1.1875rem] gap-8 transition-colors cursor-pointer;
+
+				span {
+					@apply inline-flex text-neutral-40 font-medium text-base leading-[1.125rem] transition-colors;
+				}
+
+				&.current-page {
+					@apply bg-primary-red-o;
+
+					.icon {
+						--cor-1: #D40203;
+					}
+
+					span {
+						@apply text-white;
+					}
+				}
+
+				&:not(.current-page):hover {
+					@apply bg-neutral-90;
+
+					span, svg {
+						color: #FFF;
+						--cor-1: #FFF;
+					}
+				}
+			}
+
+			svg {
+				@apply grow-0 shrink-0 w-24 h-24 transition-all;
+
+				&.arrow {
+					@apply absolute top-20 bottom-0 right-32;
+				}
+			}
+		}
+	}
+
+	body:not(.menu-closed) {
+		.sidebar {
+			@apply md:translate-x-0 md:w-screen;
+		}
+	}
+}
+
+.menu-closed {
+	.sidebar {
+		@apply w-[var(--width-menu-closed)];
+	}
+
+	.menu-item {
+		.arrow {
+			opacity: 0 !important;
+		}
+		span, p {
+			@apply opacity-0;
+		}
+	}
+}
+
+.accordion-item.active .arrow {
+	@apply rotate-180;
+}
+
+.accordion-content {
+    @apply overflow-hidden h-0;
+    
+    &.active {
+        @apply h-auto;
+    }
+}

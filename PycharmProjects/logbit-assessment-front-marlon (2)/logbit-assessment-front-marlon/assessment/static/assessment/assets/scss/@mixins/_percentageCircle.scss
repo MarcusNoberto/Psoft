@@ -1,0 +1,42 @@
+@mixin percentageCircle($circleW, $svgW, $bg, $color) {
+    .single-chart {
+        width: $circleW;
+        position: relative;
+        display: grid;
+        place-items: center;
+        background: $bg;
+        border-radius: 50%;
+    
+        .circular-chart {
+            display: block;
+            max-height: 250px;
+        }
+        
+        .circle-bg {
+            fill: none;
+            stroke: $bg;
+            stroke-width: 3.8;
+        }
+        
+        .circle {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            animation: progress 1s ease-out forwards;
+            stroke: $color;
+        }
+        
+        svg:last-child, img {
+            position: absolute;
+            border-radius: 50%;
+            width: $svgW;
+            height: $svgW;
+        }
+
+        @keyframes progress {
+            0% {
+                stroke-dasharray: 0 100;
+            }
+        } 
+    }
+}

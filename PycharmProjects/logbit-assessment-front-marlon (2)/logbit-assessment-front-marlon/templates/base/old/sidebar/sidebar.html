@@ -1,0 +1,124 @@
+{% load avatar_tags %}
+
+<div class="sidebar">
+    <div class="sidebar-close">
+        <button>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 8L6.5 12L10.5 16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M17.5 7L12.5 12L17.5 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
+
+    <header class="sidebar-header">
+        <h3><!-- Nível de maestria  -->{{request.content_params.curso}}</h3>
+
+        <div class="header-user">
+            <div class="single-chart " data-xopen="modal_imagens" data-id="modal_avatar" data-classx="modal_avatar" >
+                <svg viewBox="0 0 36 36" class="circular-chart orange">
+                    <path class="circle-bg" d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="circle" stroke-dasharray="{{request.content_params.curso.progresso_curso.progresso_total|floatformat:'0'}}, 100" d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+
+                {% avatar user %}
+            </div>
+
+            <div class="content">
+               
+                <p>Score actual: {{request.content_params.curso.score.porcentagem|floatformat:'0'}}%</p>
+                <p>Progreso: {{request.content_params.curso.progresso_total_modulos|floatformat:'0'}}%</p>
+                </div>
+        </div>
+    </header>
+
+    <div class="sidebar-search">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.7138 6.8382C18.1647 9.28913 18.1647 13.2629 15.7138 15.7138C13.2629 18.1647 9.28913 18.1647 6.8382 15.7138C4.38727 13.2629 4.38727 9.28913 6.8382 6.8382C9.28913 4.38727 13.2629 4.38727 15.7138 6.8382" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M19.0009 19L15.7109 15.71" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <input type="text" placeholder="Buscar una clase o tag" id="search_input">
+    </div>
+
+    <div class="sidebar-accordion accordion" id="accordionSidebar">
+        <h3 class="theme--content-title">Estado de Entrenamiento</h3>
+        <ul class="accordion__lista wrapper--sidebar">
+            {% for modulo in request.content_params.curso.modulo_set.all %}
+                <li class="accordion-item item--sidebar" id="accordion-modulo-{{modulo.id}}" data-nome="{{modulo.titulo}} {{modulo.get_all_itens.names}}">
+                    <div class="accordion__lista-header accordion-header">
+                        <button class="collapsed accordion-button d-flex justify-content-between {{modulo.class_sidebar}}" data-toggle="collapse" data-target="#modulo-{{modulo.id}}" aria-expanded="false" aria-controls="modulo-{{modulo.id}}">
+                            <div class="accordion-title">
+                                <div>
+                                    <div class="single-chart">
+                                        <svg id="icon_circulo_laranja" viewBox="0 0 36 36" class="circular-chart orange">
+                                          <path class="circle-bg" d="M18 2.0845
+                                                  a 15.9155 15.9155 0 0 1 0 31.831
+                                                  a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                          <path class="circle" stroke-dasharray="{{modulo.progresso_modulo.progresso_total|floatformat:'0'}}, 100" d="M18 2.0845
+                                                  a 15.9155 15.9155 0 0 1 0 31.831
+                                                  a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        </svg>
+
+                                        <svg>
+                                            {% if modulo.class_sidebar == 'done' or modulo.class_sidebar == 'doing' %}
+                                                <use xlink:href="#icon_geladeira"></use>
+                                            {% else %}
+                                                <use xlink:href="#icon_cadeado"></use>
+                                            {% endif %}
+                                        </svg>
+                                    </div>
+
+                                    <span class="name-category">{{ modulo.titulo }}</span>
+                                </div>
+
+                                <span class="status">
+                                    
+                                    {% if modulo.class_sidebar == 'done' or modulo.class_sidebar == 'doing' %}
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 17.5V17.5C5.8575 17.5 2.5 14.1425 2.5 10V10C2.5 5.8575 5.8575 2.5 10 2.5V2.5C14.1425 2.5 17.5 5.8575 17.5 10V10C17.5 14.1425 14.1425 17.5 10 17.5Z" stroke="var(--cor-1, #D40203)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M13.3327 8.33301L9.16602 12.4997L6.66602 9.99967" stroke="var(--cor-1, #D40203)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    {% endif %}
+                                        
+                                    {{modulo.progresso_modulo.itens_concluidos}} en {{modulo.progresso_modulo.total_itens}}
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div id="modulo-{{modulo.id}}" class="accordion-collapse collapse" aria-labelledby="modulo-{{modulo.id}}" data-parent="#accordionSidebar">
+                        <div class="accordion-body d-flex flex-column" id="accordion-body-modulo-{{modulo.id}}">
+                            {% for item in modulo.get_all_itens.all_itens %}
+                                {% if item.tipo == 'video' %}
+                                    {% include 'base/sidebar/codigo_video.html' %}
+                                {% else %}
+                                    {% include 'base/sidebar/codigo_pergunta.html' %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        
+        {% if user.is_superuser %}
+            <a href="{% url 'admin:index' %}" target="_blank" class="admin-btn">Admin</a>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const closeBtn = document.querySelector('.sidebar-close button')
+    const sidebarContainer = document.querySelector('.sidebar')
+    const appContainer = document.querySelector('.grid--app')
+
+    function handleCloseSidebar(el) {
+        appContainer.classList.toggle('sidebar--is-closed')
+    }
+
+    closeBtn.addEventListener('click', handleCloseSidebar)
+</script>

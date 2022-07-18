@@ -1,0 +1,65 @@
+{% load static %}
+
+<div class="grid bg-[#000] w-100 rounded-lg overflow-hidden relative min-h-[22rem] max-h-[26.75rem] md:2min-h-[26.75rem]">
+    <video 
+        controls 
+        js-video
+        data-id="{{ video_atual.id }}"
+        data-token="{{ csrf_token }}"
+        data-module="{{ modulo_atual.id }}"
+        class="w-full h-full m-auto max-h-[26.75rem]"
+        {% if video_atual.thumbnail %}
+            poster="{{video_atual.thumbnail.url}}"
+        {% else %}
+            poster="{% static 'assessment/assets/dist/images/video_padrao.png' %}"
+        {% endif %}
+    >
+        <source src="{{video_atual.video.url}}" type="video/mp4">
+        Seu navegador não suporta a tag de vídeo.
+    </video>
+
+
+    <div js-overlay class="absolute bg-[#00000080] inset-0 flex items-center justify-center gap-24 invisible opacity-0 transition-opacity">
+        <a href="" js-back class="group flex items-center gap-8 font-medium text-base text-white leading-[1.1875rem]">
+            <svg class="w-24 h-24 group-hover:-translate-x-4 transition">
+                <use xlink:href="#icon_go_back"></use>
+            </svg>
+
+            <span class="sm:hidden">Aula Anterior</span>
+        </a>
+
+        <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-12 p-16 bg-[#FFFFFF1A] border border-white rounded-2xl">
+                <div class="stars flex items-center justify-center gap-4">
+                    {% for star in estrelas %}
+                        {% if star.preenchida %}
+                            <svg class="w-20 h-20 rounded-full hover:bg-[#FFFFFF3A] transition" data-star="{{star.data_star}}" style="cursor: pointer;">
+                                <use xlink:href="#icon_star_checked"></use>
+                            </svg>
+                        {% else %}
+                            <svg class="w-20 h-20 rounded-full hover:bg-[#FFFFFF3A] transition" data-star="{{star.data_star}}" style="cursor: pointer;">
+                                <use xlink:href="#icon_star_unchecked"></use>
+                            </svg>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <span class="block font-medium text-lg text-white leading-[1.375rem]">
+                    Como foi a aula?
+                </span>
+            </div>
+
+            <button js-replay class="h-32 rounded-lg bg-[#FFFFFF1A] font-medium text-sm text-white leading-[1.0625rem] border border-transparent hover:border-neutral-60 hover:bg-[#FFFFFF3A] transition">
+                Assistir novamente
+            </button>
+        </div>
+
+        <a href="" js-next class="group flex items-center gap-8 font-medium text-base text-white leading-[1.1875rem]">
+            <span class="sm:hidden">Próxima aula</span>
+
+            <svg class="w-24 h-24 rotate-180 group-hover:translate-x-4 transition">
+                <use xlink:href="#icon_go_back"></use>
+            </svg>
+        </a>
+    </div>
+</div>

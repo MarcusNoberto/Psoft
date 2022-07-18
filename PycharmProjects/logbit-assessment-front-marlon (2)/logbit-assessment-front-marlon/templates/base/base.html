@@ -1,0 +1,152 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Global css -->
+    <!-- <link rel="stylesheet" href="{% static 'assessment/assets/css/style.compilado.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assessment/assets/dist/css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assessment/assets/dist/css/tailwind.base.css' %}">
+
+    <!-- CHOICES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/choices.js/9.0.1/choices.min.js"
+		integrity="sha512-Jex3o5q2NYqbgb4GnE718R/FFdBaY395iW5eDDRACtrLfzOgttk6UuU0e//ls0nlmVQSX/YkyKJ2z8yK/LgKFQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
+		integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
+		crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+
+    <!-- Global scripts -->
+	<script src="{% static 'assessment/assets/src/js/GLOBAL.js' %}"></script>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'home/images/favicon.ico' %}">
+
+    <title>Logbit</title>
+
+    {% if user.is_superuser %}
+        <style>
+            .admin-btn {
+                align-self: start;
+                margin-top: 10px;
+                background: #ef9170;
+                color: white;
+                margin-left: 20px;
+                position: fixed;
+                left: 0px !important;
+                bottom: 4px;
+                padding: 10px 20px;
+                border-radius: 3px;
+            }
+
+            .admin-btn:hover {
+                background-color: #d64513;
+            }
+        </style>
+    {% endif %}    
+
+    {% block extra_styles %}
+    <!--  -->
+    {% endblock %}
+</head>
+
+<body class="menu-closed {% block body_class %} {% endblock %}">
+    {% include 'base/svgs.html' %}
+
+    <div class="flex flex-col">
+        {% include 'base/header.html' %}
+
+        <div class="flex">
+            {% include 'base/sidebar.html' %}
+
+            <div class="container-main">
+                {% block content %}
+                <!--  -->
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal_padrao" data-position="center">
+		{% block modal_padrao %}
+		<!--  -->
+		{% endblock %}
+	</div>
+
+
+    <!-- SCRIPTS --------------------------------------------------------------------- -->
+    <script>
+        // variavel utilizada nas funcoes.js
+        const valid_csrf_token = "{{csrf_token}}"
+
+    </script>
+    <!-- Js Front -->
+    <!-- <script type="module" src="{% static 'assessment/assets/js/main.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'assessment/assets/dist/js/main.js' %}"></script>
+
+    <!-- Ion-ions -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+    <!--bootstrap js-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Include Choices JavaScript (latest) -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <!-- Swiper -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+    <!-- Sidebar search -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"
+        integrity="sha512-eP6ippJojIKXKO8EPLtsUMS+/sAGHGo1UN/38swqZa1ypfcD4I0V/ac5G3VzaHfDaklFmQLEs51lhkkVaqg60Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="{% static 'assessment/assets/js/modules/modalX.js' %}"></script>
+
+    <script src="{% static 'assessment/assets/js/funcoes.js' %}"></script>
+
+    {% comment %}
+    <!-- Script que mostra o ativo na sidebar, retirado por hora -->
+    {% include 'base/scripts/script_show_active_sidebar.html' %}
+    {% include 'base/scripts/script_busca.html' %}
+    {% include 'base/modal_mudar_foto.html' %}
+    {% endcomment %}
+
+    <script>
+        const modal_padrao = ModalX('.modal_padrao', {
+			deep: true,
+			zIndex: 1000000,
+			zIndexDeep: 900000,
+			bgModal: "white"
+		}).init()
+    </script>
+
+    {% block extra_js %}
+    <!--  -->
+    {% endblock %}
+</body>
+
+</html>

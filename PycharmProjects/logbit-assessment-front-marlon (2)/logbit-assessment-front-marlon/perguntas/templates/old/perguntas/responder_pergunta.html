@@ -1,0 +1,96 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_styles %}
+{% endblock %}
+
+{% block content %}
+
+<main id="module">
+    {% include 'base/breadcrumb.html' %}
+
+    <div class="content">
+        <div class="modulo--wrapper">
+            <div>
+                <header>
+                    <h2 class="modulo--title">Pregunta - {{pergunta.modulo}}</h2>
+                    <p class="modulo--desc">{{pergunta.descricao|linebreaks}}</p>
+                </header>
+
+                <form action="{% url 'responder_pergunta' pergunta.tipo pergunta.id %}" name="form-pergunta" method="post">
+                    {% csrf_token %}
+                    <div class="wrapper-questions">
+                        <div class="modulo--question border--top">
+                            <p>{{pergunta.titulo}}</p>
+                            <span>{{pergunta.descricao}}</span>
+                            
+                            {% for alternativa in pergunta.alternativa_set.all %}
+                                <div class="mt-3 radio--form">
+                                    <label for="pergunta_multipla_escolha-{{alternativa.id}}">
+                                        {% if pergunta.contem_mais_de_uma_resposta %}
+                                            <input type="checkbox" name="resposta{{forloop.counter0}}" value="{{alternativa.id}}" id="pergunta_multipla_escolha-{{alternativa.id}}" {% if alternativa.titulo in respostas_titles %} checked {% endif %}>
+                                        {% else %}
+                                            <input type="radio" name="resposta" value="{{alternativa.titulo}}" id="pergunta_multipla_escolha-{{alternativa.id}}" {% if alternativa.titulo in respostas_titles %} checked {% endif %}>
+                                        {% endif %}
+
+                                        <span>{{alternativa.titulo}}</span>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <button onclick="document.forms['form-pergunta'].submit()" class="modulo--button">Continuar</button>
+        </div>
+
+        <div class="video--list no--border">
+            <div class="list--title">
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 15H20" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M4 20H20" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M14 5H20" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M14 10H20" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5.50191C4.00002 5.14165 4.19381 4.80925 4.5073 4.63175C4.8208 4.45426 5.20553 4.4591 5.51446 4.64444L8.84524 6.64292C9.14642 6.82365 9.33071 7.14914 9.33071 7.50039C9.33071 7.85164 9.14642 8.17713 8.84524 8.35786L5.51446 10.3564C5.20553 10.5417 4.82078 10.5466 4.50728 10.3691C4.19378 10.1916 4 9.85913 4 9.49887V5.50191Z" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <h2>Clases sugeridas</h2>
+            </div>
+
+            <div class="list--itens">
+                {% for video in pergunta.modulo.video_set.all %}
+                    <a href="{% url 'video:video' video.modulo.id video.id %}?curso={{request.content_params.curso.id}}">
+                        <div class="list--item">
+                            <img src="{% static 'assessment/assets/img/thumb-small2.png' %}" class="video">
+                            <div class="video-desc">
+                                <div class="d-inline-flex">
+                                    <span>{{video.titulo}}</span>
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10 17.5V17.5C5.8575 17.5 2.5 14.1425 2.5 10V10C2.5 5.8575 5.8575 2.5 10 2.5V2.5C14.1425 2.5 17.5 5.8575 17.5 10V10C17.5 14.1425 14.1425 17.5 10 17.5Z" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M13.3327 8.33301L9.16602 12.4997L6.66602 9.99967" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+
+                                <p>{{video.descricao|linebreaks}}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+{% comment %}
+    <script type="module">
+        import initChoices from "{% static './assessment/assets/js/modules/initChoices.js' %}"
+
+        // Select choices
+        const questionSelectEl = document.querySelector('#pergunta_objetiva')
+        initChoices(questionSelectEl)
+    </script>
+{% endcomment %}
+{% endblock %}

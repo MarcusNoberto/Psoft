@@ -1,0 +1,232 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_styles %}
+{% endblock %}
+
+{% block content %}
+<main id="video">
+    {% include 'base/breadcrumb.html' %}
+    
+    <div class="content">
+        <div class="video--container">
+            {% if video_atual.thumbnail %}
+                <div class="video--item">
+                    <img src="{{video_atual.thumbnail.url}}" class="background" data-id="video" data-xopen="modal_video">
+                    <img src="{% static 'assessment/assets/img/play-icon.png' %}" class="icon">
+                </div>
+            {% else %}
+                <!--{% static 'assessment/assets/img/thumb-large.png' %}-->
+                <div class="video--item">
+                    <img src="{% static 'assessment/assets/img/video-padrao.png' %}" class="background" data-id="video" data-xopen="modal_video">
+                    <img src="{% static 'assessment/assets/img/play-icon.png' %}" class="icon">
+                </div>
+            {% endif %}
+
+            <div class="video--wrapper">
+                <header>
+                    <div>
+                        <strong class="theme--content-label primary">{{ modulo_atual.titulo }}</strong>
+                        <h3 class="theme--content-title"> {{ video_atual.titulo }}</h3>
+
+                        <div class="stars">
+                            {% for star in estrelas %}
+                                {% if star.preenchida %}
+                                    <svg class="star" data-star="{{star.data_star}}" style="cursor: pointer;">
+                                        <use xlink:href="#icon_star_checked"></use>
+                                    </svg>
+                                {% else %}
+                                    <svg class="star" data-star="{{star.data_star}}" style="cursor: pointer;">
+                                        <use xlink:href="#icon_star_unchecked"></use>
+                                    </svg>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <strong class="theme--content-label small">
+                            Publicación en:
+                            <span class="theme--content-label primary small"> {{video_atual.data_criacao|date:'d/m/Y'}}</span>
+                        </strong>
+
+                        <div class="video--perfil">
+                            <img src="https://cdn1.peopleimages.com/picture/202110/2278235-theres-some-amazing-pictures-of-this-trail-online-fit_400_400.jpg">
+                            <p>{{video_atual.usuario_criacao}}</p>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="tab--container">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#description" role="tab" data-toggle="tab">Descripción</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#comments" role="tab" data-toggle="tab">Comentarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#material" role="tab" data-toggle="tab">Materiales complementarios</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        {% include 'video_templates/tab_descricao.html' %}
+                        {% include 'video_templates/tab_comentarios.html' %}
+                        {% include 'video_templates/tab_materiais_complementares.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video--list">
+            <div class="list--title">
+                <svg>
+                    <use xlink:href="#icon_videos"></use>
+                </svg>
+
+                <h2>Más clases</h2>
+            </div>
+
+            {% for video in videos %}
+                <a href="{% url 'video:video' modulo_atual.id video.id %}?curso={{request.content_params.curso.id}}">
+                    <ul class="list--itens">
+                        <li class="list--item">
+                            {% if video.thumbnail %}
+                                <div class="video">
+                                    <img src="{{video.thumbnail.url}}" class="background">
+                                    <img src="{% static 'assessment/assets/img/play-icon.png' %}" class="icon">
+                                </div>
+                            {% else %}
+                                <div class="video">
+                                    <img src="{% static 'assessment/assets/img/video-padrao.png' %}" class="background">
+                                    <img src="{% static 'assessment/assets/img/play-icon.png' %}" class="icon">
+                                </div>
+                            {% endif %}
+                            <div class="video-desc">
+                                <div class="d-flex">
+                                    <span>{{ video.titulo }}</span>
+                                    {% if user in video.usuarios_concluintes.all %}
+                                        <svg>
+                                            <use xlink:href="#icon_certo"></use>
+                                        </svg>
+                                    {% endif %}
+                                </div>
+
+                                <p>{{ video.descricao|linebreaks }}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+<div class="modal_video" data-position="center">
+    <section class="modal--content" data-id="video">
+        <button data-xclose="modal_video" class="close--modal">
+            <ion-icon name="close"></ion-icon>
+        </button>
+
+        <video controls id="modal--video">
+            <source src="{{video_atual.video.url}}" type="video/mp4">
+        </video>
+    </section>
+</div>
+
+{% include 'video_templates/modal_confirmacao_avaliacao_video.html' %}
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+        $('[data-toggle="collapse"]').on('click', function (e) {
+        $(this).tab('show')
+
+    })
+    
+    const fileSwiper = new Swiper(".swiper", {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        }
+    });
+
+
+    // Modais
+    const modalVideo = ModalX('.modal_video', {
+        deep: true,
+        zIndex: 100000,
+        zIndexDeep: 9000,
+        closeOnSwipe: false, //Hammer.js for enable gestures
+        observer: false, //create oberver in modal element
+        bgModal: "white",
+        video: true
+    })
+
+    const modalAvaliacaoVideo = ModalX('.modal_avaliacao_video', {
+        deep: true,
+        zIndex: 100000,
+        zIndexDeep: 9000,
+        closeOnSwipe: false,
+        observer: false,
+        bgModal: "white",
+        video: false
+    })
+
+    modalVideo.init()
+    modalAvaliacaoVideo.init()
+
+    // Video
+    const videoId = '{{video_atual.id}}'
+    const csrf_token = '{{ csrf_token }}'
+
+    function concluirVisualizacao() {
+        $.ajax({
+            url: "{% url 'video:conclui_visualizacao_video' %}",
+            type: "POST",
+            data: {
+                'video_id': videoId,
+                'csrfmiddlewaretoken': csrf_token,
+            },
+            success: function (data) {
+                window.location.href = data.url
+            }
+        })
+    }
+    document.getElementById('modal--video').addEventListener('ended', (event) => concluirVisualizacao())
+
+    function avaliarVideo(nota) {
+        $.ajax({
+            url: "{% url 'video:avaliar_video' %}",
+            type: "POST",
+            data: {
+                'video_id': videoId,
+                'csrfmiddlewaretoken': csrf_token,
+                'nota': nota
+            },
+            success: function (data) {
+                // window.alert('Mostrar o modal confirmando o sucesso')
+                // modalAvaliacaoVideo.openModal('avaliacao')
+                console.log('Nota enviada');
+                window.location.reload()
+            },
+            error: function (data) {
+                window.alert('Mostrar o modal com erro')
+            }
+        })
+    }
+    
+    document.querySelectorAll('.star')
+        .forEach((star) => star.addEventListener('click', 
+            (event) => avaliarVideo(star.dataset.star)))
+</script>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,119 @@
+@layer components {
+	.quiz-questions {
+        @apply grid grid-cols-2 gap-16 mt-80 sm:flex sm:flex-col;
+
+        .question {
+            @apply bg-white py-16 pl-16 px-24 rounded-lg flex gap-12 shadow-lg cursor-pointer border border-transparent hover:shadow-xl transition-shadow;
+
+            input {
+                @apply hidden;
+            }
+
+            .status {
+                @apply w-24 h-24 text-center;
+
+                span {
+                    @apply block translate-y-1 font-semibold text-sm leading-140 text-neutral-80;
+                }
+    
+                svg {
+                    @apply w-24 h-24 shrink-0 hidden;
+    
+                    --cor-bg: transparent;
+                    --cor-borda: #000000BF;
+                    --cor-check: #000000BF;
+                }
+            }
+
+            p {
+				@apply flex-1 text-neutral-60 text-base font-medium leading-140;
+            }
+
+            &.selected {
+                @apply cursor-auto border border-[#000000BF] hover:shadow-lg;
+
+                span {
+                    @apply hidden;
+                }
+
+                p {
+                    @apply text-[#000000BF];
+                }
+
+                &.right {
+                    @apply bg-[#42CC82];
+
+                    svg[right] {
+                        @apply block;
+                    }
+                }
+
+                &.wrong {
+                    @apply bg-[#FF7879];
+
+                    svg[wrong] {
+                        @apply block;
+                    }
+                }
+            }
+
+            &.deselected {
+                @apply pointer-events-none shadow-none hover:shadow-none;
+
+                span {
+                    @apply hidden;
+                }
+
+                p {
+                    @apply text-[#00000066];
+                }
+
+                &.right {
+                    svg {
+                        --cor-bg: #42CC821A;
+                        --cor-borda: #42CC82;
+                        --cor-check: #42CC82;
+
+                        &[right] {
+                            @apply block;
+                        }
+                    }
+                }
+
+                &.wrong {
+                    svg {
+                        --cor-bg: #D402031A;
+                        --cor-borda: #D40203;
+
+                        &[wrong] {
+                            @apply block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .right-answer {
+        @apply inline-flex gap-12 font-medium text-base leading-140 text-[#18A057];
+
+        svg {
+            @apply w-24 h-24 shrink-0;
+    
+            --cor-bg: #18A0571A;
+            --cor-borda: #18A057;
+            --cor-check: #18A057;
+        }
+    }
+
+    .wrong-answer {
+        @apply inline-flex gap-12 font-medium text-base leading-140 text-[#D40203];
+
+        svg {
+            @apply w-24 h-24 shrink-0;
+    
+            --cor-bg: #D402031A;
+            --cor-borda: #D40203;
+        }
+    }
+}

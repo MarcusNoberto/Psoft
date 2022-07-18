@@ -1,0 +1,22 @@
+<a href="{% url 'video:video' modulo.id item.id %}?curso={{request.content_params.curso.id}}" class="accordion-link {% if video_atual.id == item.id %}active{% endif %}" data-nome="{{item}}">
+    <div>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 10V10C17.5 14.1425 14.1425 17.5 10 17.5V17.5C5.8575 17.5 2.5 14.1425 2.5 10V10C2.5 5.8575 5.8575 2.5 10 2.5V2.5C14.1425 2.5 17.5 5.8575 17.5 10Z" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.11716 7.54803L12.3522 9.46136C12.7613 9.70303 12.7613 10.2955 12.3522 10.5372L9.11716 12.4505C8.70049 12.6972 8.17383 12.3964 8.17383 11.9122V8.08636C8.17383 7.60219 8.70049 7.30136 9.11716 7.54803V7.54803Z" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <p>{{item}}</p>
+    </div>
+
+
+    {% if request.user in item.usuarios_concluintes.all %}
+        <svg class="done" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 17.5V17.5C5.8575 17.5 2.5 14.1425 2.5 10V10C2.5 5.8575 5.8575 2.5 10 2.5V2.5C14.1425 2.5 17.5 5.8575 17.5 10V10C17.5 14.1425 14.1425 17.5 10 17.5Z" stroke="var(--cor-1, #D40203)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13.3327 8.33301L9.16602 12.4997L6.66602 9.99967" stroke="var(--cor-1, #D40203)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    {% endif %}
+
+    <svg width="36" height="38" viewBox="0 0 36 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 25L22 19L16 13" stroke="#76777D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+</a>

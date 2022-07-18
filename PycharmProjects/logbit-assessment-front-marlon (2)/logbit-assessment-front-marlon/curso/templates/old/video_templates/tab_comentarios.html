@@ -1,0 +1,222 @@
+{% load avatar_tags %}
+
+<div role="tabpanel" class="tab-pane fade comments" id="comments">
+    <div class="comment" id="comentarios">
+        {% for comentario in comentarios %}
+            <div class="comments--content">
+                <div class="left--content">
+                    {% avatar user %}
+                </div>
+                <div class="right--content">
+                    <div class="d-flex">
+                        <p>{{ comentario.usuario_criacao}}</p>
+                        <span>{{ comentario.data_criacao|date:'d/m/Y' }}</span>
+                    </div>
+
+                    <div class="comment--text" id="comentario-{{comentario.id}}">
+                        <p>{{ comentario.comentario }}</p>
+                        {% if comentario.resposta_comentario_set.all.count > 0 %}
+                            <button data-toggle="collapse" data-target="#respostas-{{comentario.id}}" onclick="this.style.display='none'">
+                                <svg>
+                                    <use xlink:href="#icon_arrow_right_down"></use>
+                                </svg>
+                                {{comentario.resposta_comentario_set.all.count}} resposta(s)
+                            </button>
+                        {% endif %}
+                    </div>
+
+                    <div 
+                        {% if comentario.resposta_comentario_set.all.count > 0 %}
+                            class="respostas collapse fade"
+                        {% else %}
+                            class="respostas collapse fade show"
+                        {% endif %}
+                        
+                        id="respostas-{{comentario.id}}">
+
+                        {% for resposta in comentario.resposta_comentario_set.all %}
+                            <div class="video--perfil comment">
+                                {% avatar user %}
+                                <p>{{ resposta.usuario_criacao}}</p>
+                                <span>{{ resposta.data_criacao|date:'d/m/Y' }}</span>
+                            </div>
+            
+                            <div class="comment--text">
+                                <p>{{ resposta.comentario }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="responder_comentario">
+
+                        <textarea placeholder="Insertar una respuesta..." name="comentario" id="id_comentario_{{comentario.id}}" class="form-control"></textarea>
+                        <button data-idvideo="{{video_atual.id}}" data-idcomentario="{{comentario.id}}" type="button" onclick="criar_sub_comentario(this)">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div id="div-not-comments">
+                <p>Sin comentarios</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="criar_comentario">
+        {% avatar user %}
+        <textarea placeholder="Insertar un comentario..." name="comentario" id="id_comentario_{{comentario.id}}"></textarea>
+        <button data-idvideo="{{video_atual.id}}" type="button" onclick="criar_comentario(this)">Enviar</button>
+    </div>
+</div>
+
+<script>
+    
+    const urls = {
+        url_criar_comentario: "{% url 'url_criar_comentario' %}"
+    }
+
+
+
+    function addAutoHeightInTextArea(){
+        const textareas = document.querySelectorAll(".responder_comentario  textarea, .criar_comentario textarea");
+        textareas.forEach(i => {
+            i.style.height = "40px"
+            i.addEventListener('input', autoResize, false)
+        })
+      
+     
+        function autoResize() {
+            this.style.height = this.scrollHeight + 'px';
+        }
+    }
+
+
+    // Adicionar Comentário ao Vídeo
+
+    const criar_elemento_comentario = ({
+        id_comentario,
+        first_name,
+        last_name,
+        username,
+        data_criacao,
+        comentario,
+        video_id
+    
+    }) =>`
+        <div class="comments--content">
+            <div class="left--content">
+                {% avatar user %}
+            </div>
+            <div class="right--content">
+                <div class="d-flex">
+                    <p>${username}</p>
+                    <span>${data_criacao}</span>
+                </div>
+
+                <div class="comment--text" id="comentario-33">
+                    <p>${comentario}</p>
+                    
+                </div>
+
+                <div class="respostas collapse fade show" id="respostas-${id_comentario}">
+
+                    
+                </div>
+
+                <div class="responder_comentario">
+
+                    <textarea placeholder="Inserta una respuesta..." name="comentario" id="id_comentario_${id_comentario}" class="form-control"></textarea>
+
+                    <button data-idvideo="${video_id}" data-idcomentario="${id_comentario}" type="button" onclick="criar_sub_comentario(this)">Enviar</button>
+                </div>
+            </div>
+        </div>`
+
+
+    const criar_comentario = async (el)=>{
+        let video_id = el.dataset.idvideo
+        let comentario = el.closest('.criar_comentario').querySelector('textarea').value
+
+        if (comentario.length > 0){
+
+            el.closest('.criar_comentario').querySelector('textarea').value=""
+           
+            const response = await getFetchPOST(urls.url_criar_comentario, {
+                comentario: comentario,
+                video_id: video_id
+            })
+            response.video_id = video_id
+
+            let elemento_comentario = criar_elemento_comentario(await response)
+            console.log( await response)
+
+            document.querySelector(`#comentarios`).innerHTML+=(elemento_comentario)
+            if (document.querySelector(`#div-not-comments`))
+            document.querySelector(`#div-not-comments`).style.display="none";
+            addAutoHeightInTextArea()
+        }
+    }
+    
+
+    // Adicionar Resposta ao Comentário
+    const criar_elemento_sub_comentario = ({
+        id_comentario,
+        first_name,
+        last_name,
+        username,
+        data_criacao,
+        comentario
+    
+    }) =>`
+    <div class="video--perfil comment">
+        {% avatar user %}
+        <p>${username}</p>
+        <span>${data_criacao}</span>
+    </div>
+
+    <div class="comment--text">
+        <p>${comentario}</p>
+    </div>
+    `
+
+    const criar_sub_comentario = async (el)=>{
+        let video_id = el.dataset.idvideo
+        let comentario_id = el.dataset.idcomentario
+        let comentario = el.closest('.responder_comentario').querySelector('textarea').value
+        const comentsContainer =  el.closest('.comments--content')
+        const myTab = comentsContainer.querySelector('[data-toggle="collapse"]')
+
+
+        if (comentario.length > 0){
+            el.closest('.responder_comentario').querySelector('textarea').value=""
+
+            const response = await getFetchPOST(urls.url_criar_comentario, {
+                comentario: comentario,
+                comentario_id: comentario_id,
+                video_id: video_id
+            })
+      
+          
+
+
+            let elemento_sub_comentario = criar_elemento_sub_comentario(await response)
+            const container =  document.querySelector(`#respostas-${comentario_id}`)
+      
+            const ultimo = container.closest(".right--content").querySelector(".responder_comentario")
+            container.innerHTML+=(elemento_sub_comentario)
+            //se a tab estiver fechada abra se n nada
+            if(myTab && !myTab.getAttribute("aria-expanded")){
+                myTab.click()
+                setTimeout(() => {
+                    ultimo.scrollIntoView({block: "end", behavior: "instant"})
+                }, 450)
+
+            }
+            setTimeout(() => {  ultimo.querySelector("textarea").focus() }, 450)
+            
+            addAutoHeightInTextArea()
+           
+        }
+    }
+    addAutoHeightInTextArea()
+
+
+</script>

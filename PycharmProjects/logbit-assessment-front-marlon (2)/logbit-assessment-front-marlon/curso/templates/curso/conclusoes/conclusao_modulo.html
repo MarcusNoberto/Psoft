@@ -1,0 +1,141 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<main class="container-content" js-page="estrategia">
+    {% include 'base/breadcrumb.html' %}
+
+    <div class="flex gap-24 flex-col w-full max-w-[1300px] mx-auto mt-[2.75rem] xl:mt-0">
+        <h1 class="font-medium text-2xl leading-[1.8125rem] text-neutral-90">
+            Você chegou ao final do Quiz,
+            <span class="text-primary-red">
+                Parabéns!
+            </span>
+        </h1>
+
+        <div class="grid grid-cols-2 gap-24 sm:flex sm:flex-col">
+            <div class="card p-24 rounded-lg">
+                <h4 class="font-normal text-lg leading-[1.375rem] text-neutral-80">
+                    Detalhes do Quiz
+                </h4>
+
+                <ul class="flex flex-col mt-24">
+                    <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-b border-neutral-10">
+                        <span class="block font-semibold text-neutral-70">
+                            Item
+                        </span>
+                        <span class="block font-medium text-primary-red">
+                            Missão e Visão
+                        </span>
+                    </li>
+                    <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-b border-neutral-10">
+                        <span class="block font-semibold text-neutral-70">
+                            Score final
+                        </span>
+                        <span class="block font-medium text-primary-red">
+                            80%
+                        </span>
+                    </li>
+                    <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-b border-neutral-10">
+                        <span class="block font-semibold text-neutral-70">
+                            Nível atingido
+                        </span>
+                        <span class="block font-medium text-primary-red">
+                            Prata
+                        </span>
+                    </li>
+                    <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-neutral-10">
+                        <span class="block font-semibold text-neutral-70">
+                            Acertos
+                        </span>
+                        <span class="block font-medium text-primary-red">
+                            6 de 15
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card p-24 rounded-lg flex flex-col">
+                <h4 class="font-normal text-lg leading-[1.375rem] text-neutral-80 mb-24">
+                    Resultados
+                </h4>
+
+                <div class="flex justify-between mb-24 flex-1 md2:flex-col-reverse">
+                    <div class="card card-trophy md2:w-full md2:mt-20">
+                        <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
+                        <span>Nível Prata</span>
+                    </div>
+
+                    <div class="relative w-[16.1875rem] h-[8.125rem] md2:mx-auto">
+                        <svg viewBox="0 0 259 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M192.885 24.1556C194.735 21.079 193.747 17.0699 190.582 15.3763C173.188 6.06944 153.877 0.829505 134.106 0.0906926C114.336 -0.64812 94.6875 3.13588 76.6475 11.1185C73.3647 12.5712 72.0806 16.4954 73.6955 19.7015C75.3104 22.9076 79.2123 24.1797 82.5032 22.7453C98.5757 15.7398 116.045 12.4248 133.621 13.0816C151.197 13.7384 168.37 18.348 183.875 26.5335C187.049 28.2095 191.035 27.2323 192.885 24.1556Z" fill="#E9E9EA" />
+                            <path d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#E9E9EA" />
+                            <path d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#E9E9EA" />
+                            <path d="M71.8665 20.41C70.1812 17.2403 66.2358 16.0229 63.1543 17.8645C44.8274 28.8171 29.4495 44.1348 18.4177 62.4919C7.38582 80.849 1.07758 101.617 0.00787042 122.941C-0.171992 126.526 2.75474 129.438 6.34459 129.439C9.93444 129.439 12.8261 126.527 13.0259 122.943C14.0829 103.98 19.7437 85.5232 29.5603 69.1882C39.377 52.8532 53.0174 39.1922 69.2662 29.3586C72.3374 27.4999 73.5517 23.5796 71.8665 20.41Z" fill="#E9E9EA" />
+                            <path js-progress-bar d="M71.8665 20.41C70.1812 17.2403 66.2358 16.0229 63.1543 17.8645C44.8274 28.8171 29.4495 44.1348 18.4177 62.4919C7.38582 80.849 1.07758 101.617 0.00787042 122.941C-0.171992 126.526 2.75474 129.438 6.34459 129.439C9.93444 129.439 12.8261 126.527 13.0259 122.943C14.0829 103.98 19.7437 85.5232 29.5603 69.1882C39.377 52.8532 53.0174 39.1922 69.2662 29.3586C72.3374 27.4999 73.5517 23.5796 71.8665 20.41Z" fill="#AC6D2F" />
+                            <path js-progress-bar d="M192.885 24.1556C194.735 21.079 193.747 17.0699 190.582 15.3763C173.188 6.06944 153.877 0.829505 134.106 0.0906926C114.336 -0.64812 94.6875 3.13588 76.6475 11.1185C73.3647 12.5712 72.0806 16.4954 73.6955 19.7015C75.3104 22.9076 79.2123 24.1797 82.5032 22.7453C98.5757 15.7398 116.045 12.4248 133.621 13.0816C151.197 13.7384 168.37 18.348 183.875 26.5335C187.049 28.2095 191.035 27.2323 192.885 24.1556Z" fill="#C0C0C0" />
+                            <path js-progress-bar d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#DBB000" />
+                        </svg>
+
+                        <span js-progress-value class="absolute bottom-10 left-1/2 -translate-x-1/2 font-bold text-[2.5366rem] leading-[3.0625rem] text-neutral-80"></span>
+                    </div>
+                </div>
+
+                <a class="flex items-center gap-8 group font-semibold text-sm leading-[1.0625rem] text-primary-red" href="#">
+                    Refazer
+
+                    <svg class="transition-transform group-hover:translate-x-2" width="4" height="10" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 9.5L5 5.5L1 1.5" stroke="#D40203" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="card p-24 rounded-lg">
+            <h4 class="font-normal text-lg leading-[1.375rem] text-neutral-80">
+                Aulas sugeridas
+            </h4>
+
+            <div class="swiper" swiper-suggestions>
+                <div class="swiper-wrapper">
+                    <a href="#" class="swiper-slide">
+                        <div class="image-container">
+                            <img src="https://images.unsplash.com/photo-1655820023276-3c3c7c7e8869?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="slide">
+                        </div>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. aasadd</p>
+                    </a>
+                </div>
+
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+{% block extra_js %}
+
+<script type="module">
+    import renderPieProgress from "{% static 'assessment/assets/src/js/modules/renderPieProgress.js' %}"
+
+    renderPieProgress(50)
+</script>
+
+<script>
+    const swiper = new Swiper('[swiper-suggestions]', {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    })
+</script>
+
+
+{% endblock %}

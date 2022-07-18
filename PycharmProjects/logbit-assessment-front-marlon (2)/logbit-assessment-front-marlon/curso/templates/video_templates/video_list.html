@@ -1,0 +1,75 @@
+{% load static %}
+
+<div class="card video-list-container">
+    <h4 class="card-title">
+        <svg><use xlink:href="#icon_video"></use></svg>
+        Próximo
+    </h4>
+    
+    <div class="quiz-content">
+        <div class="flex">
+            <div class="quiz-content-icon">
+                <svg><use xlink:href="#icon_quiz_color"></use></svg>
+            </div>
+
+            <h4 class="card-title">Iniciar Quiz</h4>
+        </div>
+
+        <a href="https://simulador.logbit.com.br/perguntas/responder/pergunta_multipla_escolha/4/?curso=1" class="btn quiz">
+            Começar
+        </a>
+    </div>
+
+    <h4 class="card-title">
+        <svg><use xlink:href="#icon_playlist"></use></svg>
+        Aulas
+    </h4>
+
+    <ul class="video-list">
+        {% for video in videos %}
+            <li class="video-item {% if video.id == video_atual.id %} active {% endif %}">
+                <svg class="check {% if user in video.usuarios_concluintes.all %} show {% endif %} sm:hidden">
+                    <use xlink:href="#icon_check"></use>
+                </svg>
+
+                {% if video.thumbnail %}
+                    <a 
+                        href="{% url 'video:video' modulo_atual.id video.id %}?curso={{request.content_params.curso.id}}" 
+                        class="video-thumbnail dark-bg"
+                        title="{{ video.titulo }}"
+                    >
+                        <img src="{{video.thumbnail.url}}" class="background">
+                        <svg><use xlink:href="#icon_play"></use></svg>
+                    </a>
+                {% else %}
+                    <a 
+                        href="{% url 'video:video' modulo_atual.id video.id %}?curso={{request.content_params.curso.id}}" 
+                        class="video-thumbnail dark-bg"
+                        title="{{ video.titulo }}"
+                    >
+                        <img src="{% static 'assessment/assets/dist/images/video_padrao.png' %}" class="background">
+                        <svg><use xlink:href="#icon_play"></use></svg>
+                    </a>
+                {% endif %}
+
+                <div class="video-desc">
+                    <span>{{ video.titulo|linebreaks }}</span>
+
+                    <div class="flex items-center justify-between sm:mt-16">
+                        <svg class="check {% if user in video.usuarios_concluintes.all %} show {% endif %} hidden sm:block">
+                            <use xlink:href="#icon_check"></use>
+                        </svg>
+
+                        <button class="btn materials-small" data-id="modal_materials" data-xopen="modal_padrao" onclick="fillMaterialModal('{{ video.id }}')">
+                            <svg>
+                                <use xlink:href="#icon_materials"></use>
+                            </svg>
+    
+                            Materiais
+                        </button>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

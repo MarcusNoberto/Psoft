@@ -1,0 +1,89 @@
+{% load static %}
+{% load troca_virgula_ponto %}
+
+<div class="intro">
+    <div class="container--mod">
+        <div class="intro--wrapper">
+            <div class="text--container">
+                <div class="text">
+                    <h3>¡Hola, {{user.first_name}}!</h3>
+                
+                     <div>
+                        <p>Bienvenido al portal de capacitación del programa de excelencia en Gestión de Coolers E2E.</p>
+
+                        <p> Esperamos que puedas explorar al máximo el contenido, incluir a tu portafolio de conocimientos
+                         el know-how y prepararte para asumir los desafios que se presentan en un área tan dinámica como
+                         la de Coolers.</p>
+ 
+                       <p>  <strong>¡Manos a la obra y excelentes estudios!</strong></p>
+                     </div>
+                </div>
+            </div>
+       
+            <section class="intro--carousel swiper">
+
+                <div class="badge--wrapper">
+
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper--buttons">
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+    
+                </div>
+
+                <div class="swiper-wrapper">
+
+                    {% for curso in cursos %}
+                    <article class="swiper-slide">
+
+                        <a {% if curso.atingiu_pre_requisito %}
+                        href="{% url 'curso' curso.id %}"
+                        {% endif %} class="content--item">
+
+                            <span class="bg" 
+                                {% if curso.foto_capa %}
+                                    style="background-image: url('{{curso.foto_capa.url}}')" 
+                                {% else %}
+                                    style="background-image: url({% static 'assessment/assets/img/curso-padrao.png' %})" 
+                                {% endif %}></span>
+                            <div class="text--inside">
+
+                                <div class="item-title">
+                                    <h2>{{curso.titulo}}</h2>
+                                </div>
+                                <div class="descricao">
+                                    <p>{{curso.descricao}}</p>
+                                </div>
+                                <div class="qtdQuestion">
+                                    <p>Score:</p> <span class="red">{{curso.score.porcentagem}}%</span>
+                                </div>
+                                <div class="progresso--wrapper">
+                                    <div class="qtdQuestion">
+                                        <p>Progreso:</p><span> {{curso.progresso_curso.progresso_total}}%</span>
+                                    </div>
+                                    <span class="bar" style="--progresso:{% trocar_virgula_ponto curso.progresso_curso.progresso_total %}%"><i></i></span>
+                                </div>
+                                {% if curso.atingiu_pre_requisito %}
+                                <p class="internal--link">
+                                    Entrar en el modulo
+                                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                                </p>
+                                {% else %}
+                                <p class="internal--link">
+                                    Prerrequisito pendiente
+                                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                                </p>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </article>
+                    {% endfor %}
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+</div>

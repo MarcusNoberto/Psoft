@@ -1,0 +1,111 @@
+.theme {
+    &--content-title {
+        margin-bottom: 1.5rem;
+        font-weight: 400;
+        font-size: 1.5rem;
+        line-height: 1.8125rem;
+        color: #000;
+    }
+
+    &--content-label {
+        font-weight: 700;
+        font-size: 0.875rem;
+        line-height: 1.0625rem;
+        color: $neutral-80;
+
+        &.small {
+            font-size: 0.75rem;
+            color: $neutral-70;
+
+            span {
+                margin: 0;
+            }
+        }
+
+        &.primary {
+            color: $red-primary;
+        }
+
+        span {
+            color: $neutral-100;
+            margin-left: 0.5rem;
+        }
+    }
+
+    &--content-name {
+        margin-top: 0.375rem;
+        font-weight: bold;
+        font-size: 1rem;
+        line-height: 1.1875rem;
+        color: $neutral-80;
+    }
+
+    &--content-value {
+        font-weight: 400;
+        font-size: 1.5rem;
+        line-height: 1.8125rem;
+        color: #000;
+
+        &.score {
+            color: $red-primary;
+        }
+
+        &.peso {
+            color: $green-primary;
+        }
+    }
+}
+
+.choices {
+    max-width: 29.75rem;
+
+    &::after {
+        border-color: $red-primary transparent transparent !important;
+    }
+
+    &.is-open::after {
+        border-color: transparent transparent $red-primary !important;
+    }
+
+    .choices__inner,
+    .choices__list {
+        min-height: none !important;
+        border-color: $neutral-5 !important;
+        font-weight: 600;
+        color: $neutral-60;
+    }
+
+    .choices__item {
+        border-top: 1px solid $neutral-5;
+    }
+}
+
+.btn--1 {
+    align-self: start;
+    background: #d40203;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 500;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+.btn--2 {
+    align-self: start;
+
+    color: black;
+    font-weight: 500;
+
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &:hover {
+        background: rgba(212, 2, 3, 0.19);
+    }
+}

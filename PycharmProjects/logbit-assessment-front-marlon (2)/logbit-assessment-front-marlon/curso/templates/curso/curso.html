@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+<main id="initial">
+    {% include 'base/breadcrumb.html' %}
+
+    <div class="content">
+        <div class="left--content">
+            <!--{% include 'curso/header_indicadores.html' %}-->
+            {% include 'curso/indicadores.html' %}
+        </div>
+        
+        <div class="right--content">
+            {% include 'curso/dicas_oportunidades.html' %}
+        </div>
+    </div>
+</main>
+{% endblock %}

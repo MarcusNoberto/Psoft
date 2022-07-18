@@ -1,0 +1,254 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block body_class %}
+body__video
+{% endblock %}
+
+
+{% block extra_styles %}
+
+{% endblock %}
+
+{% block content %}
+    <main class="container-content" js-page="aquisicao">
+        {% include 'base/breadcrumb.html' %}
+
+        <div class="flex gap-16 md2:flex-col">
+            <div class="flex flex-1 flex-col gap-16">
+                {% include 'video_templates/video_player.html' %}
+
+                <div class="card card-video">
+                    <div class="flex justify-between gap-16">
+                        <div>
+                            <strong class="font-bold text-xs text-primary-red leading-[1rem] block">
+                                {{ modulo_atual.titulo }}
+                            </strong>
+        
+                            <h4 class="mt-4 font-medium text-2xl leading-[1.75rem] text-neutral-80">
+                                {{ video_atual.titulo }}
+                            </h4>
+                        </div>
+
+                        <button class="btn materials" data-id="modal_materials" data-xopen="modal_padrao" onclick="fillMaterialModal('{{ video_atual.id }}')">
+                            <svg>
+                                <use xlink:href="#icon_materials"></use>
+                            </svg>
+
+                            <span class="sm:hidden">Materiais <span class="md:hidden">complementares</span></span>
+                        </button>
+                    </div>
+
+                    <div class="mt-16 font-normal text-sm leading-150 text-neutral-80">
+                        {{ video_atual.descricao|linebreaks }}
+                    </div>
+                </div>
+
+                <div class="card card-video">
+                    <strong class="text-neutral-60">Fórum de dúvidas</strong>
+
+                    {% include 'video_templates/comments.html' %}
+                </div>
+            </div>
+
+            {% include 'video_templates/video_list.html' %}
+        </div>
+    </main>
+{% endblock %}
+
+{% block modal_padrao %}
+    {% include 'video_templates/modal_materials.html' %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function fillMaterialModal(videoId) {
+            const getMaterials = async () => {
+                const response = await fetch(`/api/anexos_video/?video=${videoId}`)
+                const data = await response.json()
+
+                if (data.results.length) {
+                    const template = generateMaterialItem(data.results)
+                    insertModalHtml(template)
+
+                } else {
+                    insertModalHtml('', true)
+                }
+            }
+
+            const generateMaterialItem = (material) => {
+                return material.map(({
+                    id,
+                    titulo,
+                    anexo,
+                    arquivo_icon
+                }) => {
+                    return `
+                        <li class="materials-item" material-id="${id}">
+                            <div title="${titulo}">
+                                <svg><use xlink:href="#${arquivo_icon}"></use></svg>
+                                <span>
+                                    ${titulo}.<b attachment-format>${arquivo_icon.replace('icon_', '')}</b>
+                                </span>
+                            </div>
+
+                            <a href="${anexo}" target="_blank" class="btn attachment">
+                                Visualizar
+                            </a>
+                        </li>
+                    `
+                }).join("")
+            }
+
+            const insertModalHtml = (el, isEmpty) => {
+                const listEl = document.querySelector('.materials-list')
+
+                if (isEmpty) {
+                    listEl.innerHTML = `
+                        <span class="materials-list-empty">
+                            Sem materiais complementares
+                        </span>
+                    `
+                } else {
+                    listEl.innerHTML = el
+                }
+            }
+
+            getMaterials()
+        }
+
+        function handleVideoObserver() {
+            const videoEl = document.querySelector('[js-video]')
+            const videoOverlay = document.querySelector('[js-overlay]')
+            const videoReplay = document.querySelector('[js-replay]')
+
+            const videoId = videoEl.dataset.id
+            const moduleId = videoEl.dataset.module
+            const csrf_token = videoEl.dataset.token
+
+            let timer
+
+            // Funcions
+            const replayVideo = () => {
+                videoOverlay.classList.remove('visible', 'opacity-100')
+                videoOverlay.classList.add('invisible', 'opacity-0')
+
+                videoEl.play()
+            }
+
+            const showOverlay = () => {
+                videoOverlay.classList.remove('invisible', 'opacity-0')
+                videoOverlay.classList.add('visible', 'opacity-100')
+            }
+          
+            const setPreviousVideoLink = () => {
+                const goBackLink = videoOverlay.querySelector('[js-back]')
+
+                if (videoId === '1') {
+                    goBackLink.classList.add('brightness-50', 'pointer-events-none')
+                    return
+                }
+
+                const lastVideo = Number(videoId) - 1
+                const newPath = `/cursos/video/${moduleId}/${lastVideo}/${window.location.search}`
+
+                goBackLink.setAttribute('href', newPath)
+            }
+
+            const setNextVideoLink = () => {
+                const numberOfModuleVideos = document.querySelectorAll('.video-list .video-item').length
+                const goNextLink = videoOverlay.querySelector('[js-next]')
+                const lastVideo = Number(videoId) + 1
+
+                if (Number(videoId) === numberOfModuleVideos) {
+                    goNextLink.querySelector('span').innerHTML = 'Iniciar Quiz'
+
+                    const newPath = `quiz`
+                    goNextLink.setAttribute('href', newPath)
+
+                } else {
+                    const newPath = `/cursos/video/${moduleId}/${lastVideo}/${window.location.search}`
+                    goNextLink.setAttribute('href', newPath)
+                }
+            }
+
+
+            // Requests
+            const completePreview = () => {
+                $.ajax({
+                    url: "{% url 'video:conclui_visualizacao_video' %}",
+                    type: "POST",
+                    data: {
+                        'video_id': videoId,
+                        'csrfmiddlewaretoken': csrf_token,
+                    },
+                    // success: data => videoOverlay.querySelector('[js-next]').setAttribute('href', data.url),
+                    error: data => alert('ERROR ', data)
+                })
+            }
+
+            const rateVideo = nota => {
+                $.ajax({
+                    url: "{% url 'video:avaliar_video' %}",
+                    type: "POST",
+                    data: {
+                        'video_id': videoId,
+                        'csrfmiddlewaretoken': csrf_token,
+                        'nota': nota
+                    },
+                    success: data => alert('Nota enviada'),
+                    error: data => alert('Mostrar o modal com erro', data)
+                })
+            }
+
+
+            // Timer
+            const startTimer = () => {
+                timer = setInterval(() => { 
+                    if (videoEl.currentTime >= videoEl.duration * 0.5) {
+                        console.log('50%')
+                        completePreview()
+                        stopTimer()
+                    }
+                }, 2000)
+            }
+
+            const stopTimer = () => clearInterval(timer)
+
+
+            // Events
+            const events = () => {
+                videoEl.addEventListener('play', () => {
+                    startTimer()
+                })
+
+                videoEl.addEventListener('ended', () => {
+                    stopTimer()
+                    showOverlay()
+                })
+                
+                videoEl.addEventListener('pause', stopTimer)
+                videoReplay.addEventListener('click', replayVideo)
+
+                videoOverlay.querySelectorAll('.stars > svg').forEach(star => star.addEventListener('click', event => {
+                    star.closest('.stars').classList.add('brightness-50', 'pointer-events-none')
+                    rateVideo(star.dataset.star)
+                }))
+            }
+
+            function init() {
+                events()
+                setPreviousVideoLink()
+                setNextVideoLink()
+
+                return this
+            }
+
+            return {
+                init
+            }
+        }
+
+        handleVideoObserver().init()
+    </script>
+{% endblock %}

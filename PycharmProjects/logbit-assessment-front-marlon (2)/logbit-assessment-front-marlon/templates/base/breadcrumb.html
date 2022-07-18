@@ -1,0 +1,31 @@
+<ul class="breadcrumb-wrapper">
+    <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">
+            Início
+        </a>
+
+        <svg>
+            <use xlink:href="#icon_arrow_right"></use>
+        </svg>
+    </li>
+
+    {% if not curso %}
+        <li class="breadcrumb-item">
+            <a href="{% url 'curso' request.content_params.curso.id %}">
+                {{request.content_params.curso}}
+            </a>
+
+            <svg>
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+        </li>
+
+        <a ></a>
+    {% endif %}
+
+    <li class="breadcrumb-item">
+        <a href="#">
+            {{title|default:"A 'title' variable is required"}}
+        </a>
+    </li>
+</ul>
