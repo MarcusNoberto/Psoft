@@ -16,6 +16,10 @@
 
         &.quiz {
             @apply bg-primary-red rounded-lg px-24 py-14 font-semibold text-sm text-white leading-[1.225rem] dark-red-hover;  
+
+            &[disabled] {
+                @apply pointer-events-none opacity-50;
+            }
         }
 
         &.materials-small {

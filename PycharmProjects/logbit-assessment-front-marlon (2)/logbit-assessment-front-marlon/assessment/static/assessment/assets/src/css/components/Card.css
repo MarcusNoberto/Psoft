@@ -27,23 +27,25 @@
 			}
 		}
 
-		.footer-card{
+		.footer-card {
 			@apply w-full px-24 flex justify-between mt-auto;
-			.texto-footer{
-				p{
+
+			.texto-footer {
+				p {
 					@apply text-neutral-90;
-					strong{
+
+					strong {
 						@apply text-neutral-90 font-bold ;
 					}
 				}
-				
 			}
 
-			a{
+			a {
 				@apply inline-flex items-end text-primary-red font-semibold text-sm ml-auto;
 
-				svg{
-					@apply w-24 h-24;
+				svg {
+					@apply w-24 h-24 translate-y-1;
+					--cor-1: #D40203;
 				}
 			}
 		}
@@ -63,6 +65,18 @@
 
 		span {
 			@apply block font-semibold text-base leading-[1.1875rem] text-neutral-80;
+		}
+
+		&.small {
+			@apply w-full h-[7.1875rem] bg-neutral-5;
+
+			img {
+				@apply w-48 h-48;
+			}
+
+			span {
+				@apply text-sm leading-[1.0625rem] text-neutral-90 px-8 pb-8 text-center;
+			}
 		}
 	}
 }

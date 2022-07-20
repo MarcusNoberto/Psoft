@@ -1,0 +1,33 @@
+{% load static %}
+
+<div class="card card-home flex flex-col md2:col-span-2 py-24 h-[25rem]">
+    <h3 class="line-before relative text-lg text-neutral-80 pl-24">
+        Melhorar meu score
+    </h3>
+
+    <!-- <div class="conteudo flex items-center justify-center h-full">
+        <p class="max-w-[220px] text-center text-neutral-80 font-medium">Você ainda não finalizou nenhum Quiz. Comece nas aulas para seu score subir</p>
+    </div> -->
+
+    <div class="flex-1 flex flex-col items-center justify-center px-24">
+        <div class="card card-trophy small !w-[8.375rem]">
+            <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
+            <span>Prata em Estratégia</span>
+        </div>
+
+        <p class="mt-24 text-sm font-medium text-neutral-80 leading-[1.0625rem] text-center">
+            Faltam apenas 22% para você chegar atingir <strong>Prata em Manutenção</strong>
+        </p>
+
+        <a href="#" class="btn materials mt-32 w-max !h-32 !px-8 !py-8">Responder o Quiz</a>
+    </div>
+
+    <div class="footer-card">
+        <a href="#" class="group">
+            Detalhes
+            <svg class="transition-transform group-hover:translate-x-2">
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+        </a>
+    </div>
+</div>

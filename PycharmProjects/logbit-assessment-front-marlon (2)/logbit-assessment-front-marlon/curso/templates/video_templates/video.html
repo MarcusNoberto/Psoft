@@ -11,7 +11,7 @@ body__video
 {% endblock %}
 
 {% block content %}
-    <main class="container-content" js-page="aquisicao">
+    <main class="container-content" js-page="{{request.content_params.curso}}">
         {% include 'base/breadcrumb.html' %}
 
         <div class="flex gap-16 md2:flex-col">
@@ -140,37 +140,6 @@ body__video
                 videoOverlay.classList.remove('invisible', 'opacity-0')
                 videoOverlay.classList.add('visible', 'opacity-100')
             }
-          
-            const setPreviousVideoLink = () => {
-                const goBackLink = videoOverlay.querySelector('[js-back]')
-
-                if (videoId === '1') {
-                    goBackLink.classList.add('brightness-50', 'pointer-events-none')
-                    return
-                }
-
-                const lastVideo = Number(videoId) - 1
-                const newPath = `/cursos/video/${moduleId}/${lastVideo}/${window.location.search}`
-
-                goBackLink.setAttribute('href', newPath)
-            }
-
-            const setNextVideoLink = () => {
-                const numberOfModuleVideos = document.querySelectorAll('.video-list .video-item').length
-                const goNextLink = videoOverlay.querySelector('[js-next]')
-                const lastVideo = Number(videoId) + 1
-
-                if (Number(videoId) === numberOfModuleVideos) {
-                    goNextLink.querySelector('span').innerHTML = 'Iniciar Quiz'
-
-                    const newPath = `quiz`
-                    goNextLink.setAttribute('href', newPath)
-
-                } else {
-                    const newPath = `/cursos/video/${moduleId}/${lastVideo}/${window.location.search}`
-                    goNextLink.setAttribute('href', newPath)
-                }
-            }
 
 
             // Requests
@@ -238,8 +207,6 @@ body__video
 
             function init() {
                 events()
-                setPreviousVideoLink()
-                setNextVideoLink()
 
                 return this
             }

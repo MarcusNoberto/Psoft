@@ -7,154 +7,22 @@ body__home
 
 {% block content %}
 <main class="container-content mt-64" js-page="home">
-    <div class="card card-home main">
-        <div class="card-content">
-            <h1 class="line-bottom">Bem vindo, <strong>Marlon!</strong></h1>
-
-            <p>
-                Esperamos que você possa explorar ao máximo o conteúdo, incluir em seu portfólio de conhecimentos o
-                know-how e preparar-se para enfrentar os desafios que se apresentam em uma área tão dinâmica como a de
-                Coolers.
-            </p>
-
-            <p>Mãos à obra e excelentes estudos!</p>
-        </div>
-
-        <div class="h-[max-content]">
-            <p class="font-normal text-base leading-[1.25rem] text-neutral-80 mt-8">
-                Por aqui você pode começar
-            </p>
-
-            <div class="swiper" swiper-home>
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1655820023276-3c3c7c7e8869?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="slide">
-
-                            <button>Começar</button>
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. aasadd</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1655820023276-3c3c7c7e8869?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="slide">
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. aasadd</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1655820023276-3c3c7c7e8869?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="slide">
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. aasadd</p>
-                    </div>
-                </div>
-
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </div>
-    </div>
+    {% include './cards/main_card.html' %}
 
     <div class="home-line">
         <h2 class="font-medium text-2xl text-neutral-80 mb-16 mt-80">
             Avanço nas vídeo-aulas
+            {% if user.is_authenticated %}
+            sim
+            {% else %}
+            nao
+            {% endif %}
         </h2>
 
-        <div class="grid grid-cols-3 gap-16">
-            <div class="card card-home flex flex-col py-24 h-[25rem]">
-                <h3 class="line-before relative text-lg text-neutral-80 pl-24">
-                    Meu progresso
-                </h3>
-                <div class="conteudo relative flex flex-col justify-center h-full mt-24 px-16">
-                    <p class="porcentagem text-center text-[2.5rem] font-semibold text-neutral-90">80%</p>
-
-                    <div class="barra overflow-hidden flex h-16 w-full bg-neutral-5 rounded-[3.3125rem] mt-24">
-                        <div class="barra-children h-full flex justify-center" style="background: #F40000; width:10%"></div>
-                        <div class="barra-children h-full flex justify-center" style="background: #FF560E; width:10%"></div>
-                        <div class="barra-children h-full flex justify-center" style="background:#E5813E; width:10%"></div>
-                        <div class="barra-children h-full flex justify-center" style="background:#F79900; width:10%"></div>
-                        <div class="barra-children h-full flex justify-center" style="background:#D7B85B; width:10%"></div>
-                        <div class="barra-children h-full flex justify-center" style="background:#B59E74; width:10%"></div>
-                    </div>
-                    <div class="legendas grid grid-cols-[max-content_max-content_max-content] gap-x-32 items-center justify-center mt-32 ">
-                        <div class="item flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-estrategia block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Estratégia</p>
-                        </div>
-                        <div class="item flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-controle block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Controle</p>
-                        </div>
-                        <div class="item flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-manutencao block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Manutenção</p>
-                        </div>
-                        <div class="item flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-aquisicao block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Aquisição</p>
-                        </div>
-                        <div class="item flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-mercado block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Mercado</p>
-                        </div>
-                        <div class="item flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-descarte block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Descarte</p>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="footer-card  ">
-                    <div class="texto-footer">
-                        <p class="text-sm text-neutral-90"> <strong>0 de 64</strong> Aulas concluídas</p>
-
-                    </div>
-                    <a href="#">Detalhes
-                        <svg style="--cor-1: #D40203">
-                            <use xlink:href="#icon_arrow_right"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="card card-home flex flex-col py-24 h-[25rem]">
-                <h3 class="line-before relative text-lg text-neutral-80 pl-24">
-                    Meu progresso no tempo
-                </h3>
-                <div class="conteudo relative h-full mt-24 px-16">
-                    <a href="#" class="btn quiz !px-16 !py-16 absolute bottom-2/4 left-2/4  -translate-x-[50%] translate-y-[50%] z-10 ">Começar pelas aulas</a>
-                    <div class="" id="chart"></div>
-                </div>
-                <div class="footer-card pt-24">
-                    <div class="texto-footer">
-
-                        <p class="text-xs font-normal text-neutral-90">Última aula vista à 2 meses</p>
-                        <h3 class="mt-4 font-semibold text-neutral-90 text-sm">
-                            Parcial - Missão e Visão
-                        </h3>
-                    </div>
-                    <a href="#">Detalhes
-                        <svg style="--cor-1: #D40203">
-                            <use xlink:href="#icon_arrow_right"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="card card-home flex flex-col py-24 h-[25rem]">
-                <h3 class="line-before relative text-lg text-neutral-80 pl-24">
-                    Minhas conquistas
-                </h3>
-                <div class="conteudo flex flex-col items-center justify-center h-full">
-                    <p class="text-sm text-center text-neutral-80 font-normal">Ainda não tem nenhuma conquista</p>
-                    <a href="#" class="btn materials mt-8 !h-32 !px-8 !py-8">Conquistar troféu</a>
-                </div>
-
-            </div>
+        <div class="grid grid-cols-3 md2:grid-cols-2 md:flex md:flex-col gap-16">
+            {% include './cards/progress_card.html' %}
+            {% include './cards/time_card.html' %}
+            {% include './cards/conquests_card.html' %}
         </div>
     </div>
 
@@ -163,88 +31,10 @@ body__home
             Avanço no Quiz
         </h2>
 
-        <div class="grid grid-cols-3 gap-16">
-            <div class="card card-home flex flex-col py-24 h-[25rem]">
-                <h3 class="line-before relative text-lg text-neutral-80 pl-24">
-                    Meu score
-                </h3>
-                <div class="conteudo flex flex-col justify-center h-full p-24">
-
-                    <div class="relative w-[16.1875rem] h-[8.125rem] mx-auto">
-                        <svg viewBox="0 0 259 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M192.885 24.1556C194.735 21.079 193.747 17.0699 190.582 15.3763C173.188 6.06944 153.877 0.829505 134.106 0.0906926C114.336 -0.64812 94.6875 3.13588 76.6475 11.1185C73.3647 12.5712 72.0806 16.4954 73.6955 19.7015C75.3104 22.9076 79.2123 24.1797 82.5032 22.7453C98.5757 15.7398 116.045 12.4248 133.621 13.0816C151.197 13.7384 168.37 18.348 183.875 26.5335C187.049 28.2095 191.035 27.2323 192.885 24.1556Z" fill="#E9E9EA" />
-                            <path d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#E9E9EA" />
-                            <path d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#E9E9EA" />
-                            <path d="M71.8665 20.41C70.1812 17.2403 66.2358 16.0229 63.1543 17.8645C44.8274 28.8171 29.4495 44.1348 18.4177 62.4919C7.38582 80.849 1.07758 101.617 0.00787042 122.941C-0.171992 126.526 2.75474 129.438 6.34459 129.439C9.93444 129.439 12.8261 126.527 13.0259 122.943C14.0829 103.98 19.7437 85.5232 29.5603 69.1882C39.377 52.8532 53.0174 39.1922 69.2662 29.3586C72.3374 27.4999 73.5517 23.5796 71.8665 20.41Z" fill="#E9E9EA" />
-                            <path js-progress-bar d="M71.8665 20.41C70.1812 17.2403 66.2358 16.0229 63.1543 17.8645C44.8274 28.8171 29.4495 44.1348 18.4177 62.4919C7.38582 80.849 1.07758 101.617 0.00787042 122.941C-0.171992 126.526 2.75474 129.438 6.34459 129.439C9.93444 129.439 12.8261 126.527 13.0259 122.943C14.0829 103.98 19.7437 85.5232 29.5603 69.1882C39.377 52.8532 53.0174 39.1922 69.2662 29.3586C72.3374 27.4999 73.5517 23.5796 71.8665 20.41Z" fill="#AC6D2F" />
-                            <path js-progress-bar d="M192.885 24.1556C194.735 21.079 193.747 17.0699 190.582 15.3763C173.188 6.06944 153.877 0.829505 134.106 0.0906926C114.336 -0.64812 94.6875 3.13588 76.6475 11.1185C73.3647 12.5712 72.0806 16.4954 73.6955 19.7015C75.3104 22.9076 79.2123 24.1797 82.5032 22.7453C98.5757 15.7398 116.045 12.4248 133.621 13.0816C151.197 13.7384 168.37 18.348 183.875 26.5335C187.049 28.2095 191.035 27.2323 192.885 24.1556Z" fill="#C0C0C0" />
-                            <path js-progress-bar d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#DBB000" />
-                        </svg>
-
-                        <span js-progress-value class="absolute bottom-10 left-1/2 -translate-x-1/2 font-bold text-[2.5366rem] leading-[3.0625rem] text-neutral-80"></span>
-                    </div>
-                    <div class="legendas flex items-center justify-center mt-64 ">
-                        <div class="item mr-8 flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-bronze block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Bronze</p>
-                        </div>
-                        <div class="item mr-8 flex items-center gap-8">
-                            <span class="legenda-badge legenda-badge w-16 h-[.375rem] rounded-lg bg-prata block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Prata</p>
-                        </div>
-                        <div class="item mr-8 flex items-center gap-8">
-                            <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-ouro block"></span>
-                            <p class="text-neutral-80 font-medium text-xs">Ouro</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="footer-card  ">
-                    <div class="texto-footer">
-                        <h3 class="mb-4 text-neutral-black font-medium text-base">Geral</h3>
-                        <p class="text-xs font-normal">Média dos itens<br> respondidos <strong>(0 de 64)</strong></p>
-                    </div>
-                    <a href="#">Detalhes
-                        <svg style="--cor-1: #D40203">
-                            <use xlink:href="#icon_arrow_right"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="card card-home flex flex-col py-24 h-[25rem]">
-                <h3 class="line-before relative text-lg text-neutral-80 pl-24">
-                    Minha evolução
-                </h3>
-                <div class="conteudo relative flex flex-col h-full mt-24 px-16">
-                    <div id="chart2"></div>
-                    <a href="#" class="btn quiz  !px-16 !py-16 absolute bottom-2/4 left-2/4  -translate-x-[50%] translate-y-[50%] z-10 ">Começar pelas aulas</a>
-                </div>
-
-                <div class="footer-card pt-24 ">
-                    <a href="#">Detalhes
-                        <svg style="--cor-1: #D40203">
-                            <use xlink:href="#icon_arrow_right"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="card card-home flex flex-col py-24 h-[25rem]">
-                <h3 class="line-before relative text-lg text-neutral-80 pl-24">
-                    Melhorar meu score
-                </h3>
-                <div class="conteudo flex items-center justify-center h-full">
-                    <p class="max-w-[220px] text-center text-neutral-80 font-medium">Você ainda não finalizou nenhum Quiz. Comece nas aulas para seu score subir</p>
-                </div>
-                <div class="footer-card  ">
-                    <a href="#">Detalhes
-                        <svg style="--cor-1: #D40203">
-                            <use xlink:href="#icon_arrow_right"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+        <div class="grid grid-cols-3 md2:grid-cols-2 md:flex md:flex-col gap-16">
+            {% include './cards/score_card.html' %}
+            {% include './cards/evolution_card.html' %}
+            {% include './cards/improve_score_card.html' %}
         </div>
     </div>
 </main>
@@ -252,12 +42,15 @@ body__home
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <script type="module">
     import renderPieProgress from "{% static 'assessment/assets/src/js/modules/renderPieProgress.js' %}"
 
-    renderPieProgress(0)
+    renderPieProgress(35)
 </script>
+
 <script>
+    // Slide config
     const swiper = new Swiper('[swiper-home]', {
         slidesPerView: 'auto',
         spaceBetween: 8,
@@ -266,15 +59,27 @@ body__home
             prevEl: '.swiper-button-prev',
         },
     })
+
+    //Progress bar config
+    function setProgressPercentage() {
+        const courses = document.querySelectorAll('[data-tippy-content]')
+
+        courses.forEach(el => {
+            const percentage = el.dataset.tippyContent
+            el.style.width = percentage
+
+            tippy(el, {
+                theme: 'light',
+                offset: [0, 1]
+            })
+        })
+    }
+
+    setProgressPercentage()
 </script>
 
-<script>
-
-    var options = {
-        series: [{
-            name: "Desktops",
-            data: [0, 0, 0, 0]
-        }],
+<script> // Graphics config
+    const lineChartConfig = {
         chart: {
             width: '100%',
             height: '100%',
@@ -292,11 +97,8 @@ body__home
             curve: 'smooth',
             color: '#F0F0F0'
         },
-
         grid: {
-
             row: {
-
                 opacity: 0.5
             },
             xaxis: {
@@ -309,14 +111,10 @@ body__home
                     show: true
                 }
             }
-
         },
         markers: {
             size: 5,
-
-
         },
-
         yaxis: {
             // labels: {
             //     formatter: function (val) {
@@ -324,125 +122,139 @@ body__home
             //     },
             // }
         },
+    }
 
+    const timeProgressOpt = {
+        series: [{
+            name: "Desktops",
+            data: [10, 60, 36, 0]
+        }],
         xaxis: {
             categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
-        }
-    };
+        },
+        ...lineChartConfig,
+    }
 
-
-    var optionsBar = {
-        chart: {
-            type: "bar",
-            height: ' 160',
-            stacked: true,
-            stackType: "100%",
-            toolbar: {
-                show: false
-            }
-        },
-        colors: ['#F40000', '#FF560E', '#E5813E', '#F79900', '#D7B85B', '#B59E74'],
-        series: [
-            {
-                name: "Estratégia",
-                data: [32]
-            },
-            {
-                name: "Controle",
-                data: [41]
-            },
-            {
-                name: "Manutenção",
-                data: [12]
-            },
-            {
-                name: "Aquisição",
-                data: [65]
-            },
-            {
-                name: "Mercado",
-                data: [65]
-            },
-            {
-                name: "Descarte",
-                data: [65]
-            }
-        ],
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                barHeight: '16px',
-            }
-        },
-        dataLabels: {
-            dropShadow: {
-                enabled: false
-            },
-            formatter: function (val) {
-                return val ? val.toFixed(1) + '%' : ''
-            }
-        },
-        stroke: {
-            width: 0
-        },
-        grid: {
-            show: false,
-            padding: {
-                top: 0,
-                bottom: 0,
-                right: 0,
-                left: 0
-            }
-        },
-        yaxis: {
-
-            labels: {
-                show: false
-            },
-            axisBorder: {
-                show: false
-            },
-            axisTicks: {
-                show: false
-            }
-        },
+    const myEvolutionOpt = {
+        series: [{
+            name: "Desktops",
+            // data: [0, 0, 0, 0]
+        }],
         xaxis: {
-
-            labels: {
-                show: false
-            },
-            axisBorder: {
-                show: false
-            },
-            axisTicks: {
-                show: false
-            }
+            categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
         },
-        fill: {
-            opacity: 1,
-            type: "gradient",
-            gradient: {
-                shade: "dark",
-                type: "vertical",
-                shadeIntensity: 0.35,
-                gradientToColors: undefined,
-                inverseColors: false,
-                opacityFrom: 0.85,
-                opacityTo: 0.85,
-                stops: [90, 0, 100]
-            }
-        },
+        ...lineChartConfig,
+    }
 
-        legend: {
-            position: "bottom",
-            horizontalAlign: "right"
-        }
-    };
+    // const barChart = {
+    //     chart: {
+    //         type: "bar",
+    //         height: ' 160',
+    //         stacked: true,
+    //         stackType: "100%",
+    //         toolbar: {
+    //             show: false
+    //         }
+    //     },
+    //     colors: ['#F40000', '#FF560E', '#E5813E', '#F79900', '#D7B85B', '#B59E74'],
+    //     series: [
+    //         {
+    //             name: "Estratégia",
+    //             data: [32]
+    //         },
+    //         {
+    //             name: "Controle",
+    //             data: [41]
+    //         },
+    //         {
+    //             name: "Manutenção",
+    //             data: [12]
+    //         },
+    //         {
+    //             name: "Aquisição",
+    //             data: [65]
+    //         },
+    //         {
+    //             name: "Mercado",
+    //             data: [65]
+    //         },
+    //         {
+    //             name: "Descarte",
+    //             data: [65]
+    //         }
+    //     ],
+    //     plotOptions: {
+    //         bar: {
+    //             horizontal: true,
+    //             barHeight: '16px',
+    //         }
+    //     },
+    //     dataLabels: {
+    //         dropShadow: {
+    //             enabled: false
+    //         },
+    //         formatter: function (val) {
+    //             return val ? val.toFixed(1) + '%' : ''
+    //         }
+    //     },
+    //     stroke: {
+    //         width: 0
+    //     },
+    //     grid: {
+    //         show: false,
+    //         padding: {
+    //             top: 0,
+    //             bottom: 0,
+    //             right: 0,
+    //             left: 0
+    //         }
+    //     },
+    //     yaxis: {
+    //         labels: {
+    //             show: false
+    //         },
+    //         axisBorder: {
+    //             show: false
+    //         },
+    //         axisTicks: {
+    //             show: false
+    //         }
+    //     },
+    //     xaxis: {
+    //         labels: {
+    //             show: false
+    //         },
+    //         axisBorder: {
+    //             show: false
+    //         },
+    //         axisTicks: {
+    //             show: false
+    //         }
+    //     },
+    //     fill: {
+    //         opacity: 1,
+    //         type: "gradient",
+    //         gradient: {
+    //             shade: "dark",
+    //             type: "vertical",
+    //             shadeIntensity: 0.35,
+    //             gradientToColors: undefined,
+    //             inverseColors: false,
+    //             opacityFrom: 0.85,
+    //             opacityTo: 0.85,
+    //             stops: [90, 0, 100]
+    //         }
+    //     },
+    //     legend: {
+    //         position: "bottom",
+    //         horizontalAlign: "right"
+    //     }
+    // };
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
-    var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
-    chart2.render();
+    const timeProgressEl = new ApexCharts(document.querySelector("#chart-time-progress"), timeProgressOpt)
+    const myEvolutionEl = new ApexCharts(document.querySelector("#chart-my-evolution"), myEvolutionOpt)
 
+    timeProgressEl.render()
+    myEvolutionEl.render()
 </script>
 {% endblock %}

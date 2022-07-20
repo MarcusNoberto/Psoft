@@ -36,14 +36,14 @@
 				}
 
 				img {
-					@apply w-[14.125rem] h-[8.25rem] rounded;
+					@apply w-[14.125rem] h-[8.25rem] rounded object-cover;
 				}
 
-				button {
+				button, a {
 					top: 50%;
 					left: 50%;
 					transform: translate(-50%, -50%);
-					@apply absolute bg-primary-red z-10 px-12 py-8 text-white font-semibold text-sm rounded-lg;
+					@apply absolute bg-primary-red z-10 px-12 py-8 text-white font-semibold text-sm rounded-lg transition-opacity;
 				}
 			}
 

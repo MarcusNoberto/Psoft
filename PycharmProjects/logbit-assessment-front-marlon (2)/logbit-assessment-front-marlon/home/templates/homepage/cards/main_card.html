@@ -1,0 +1,40 @@
+{% load static %}
+
+<div class="card card-home main md:!flex md:flex-col">
+    <div class="card-content md:pr-24">
+        <h1 class="line-bottom">Bem vindo, <strong>Marlon!</strong></h1>
+
+        <p>
+            Esperamos que você possa explorar ao máximo o conteúdo, incluir em seu portfólio de conhecimentos o
+            know-how e preparar-se para enfrentar os desafios que se apresentam em uma área tão dinâmica como a de
+            Coolers.
+        </p>
+
+        <p>Mãos à obra e excelentes estudos!</p>
+    </div>
+
+    <div class="h-[max-content] md:w-full px-24">
+        <p class="font-normal text-base leading-[1.25rem] text-neutral-80 mt-8 md:mt-32">
+            Por aqui você pode começar
+        </p>
+
+        <div class="swiper" swiper-home>
+            <div class="swiper-wrapper">
+                {% for video in lista %}
+                    <div class="swiper-slide group">
+                        <div class="image-container">
+                            <img src="{{video.thumbnail.url}}" alt="{{video.titulo}}">
+                            {% comment %} {% url 'video:video' modulo_atual.id video.id %}?curso={{request.content_params.curso.id}} {% endcomment %}
+                            <a href="{{video.modulo.id}}/" class="opacity-0 group-hover:opacity-100">Começar</a>
+                        </div>
+
+                        <p>{{video.titulo}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</div>

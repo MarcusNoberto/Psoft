@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db import models
 from decouple import config
+from core.models import Profile
 
 
 class Kinetics(models.Model):
@@ -158,6 +159,12 @@ class Kinetics(models.Model):
 
         user_final = authenticate(username=user.username, password=default_password)
         login(request, user_final)
+        profile = user.profile
+        if not profile:
+            Profile.objects.create(user=user)
+        
+        user.profile.adiciona_acesso()
+        
 
         if user_final is not None:
             print("Usuário autenticado")

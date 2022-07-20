@@ -11,7 +11,29 @@ def video(request, id_modulo, id_video):
 
     video_atual = Video.objects.get(id=id_video)
 
-    videos = Video.objects.filter(modulo=id_modulo)
+    videos = Video.objects.filter(modulo=id_modulo).order_by('ordem', 'id')
+    id_videos = []
+    for id in videos:
+        id_videos.append(id.id)
+    id_proximo = -1
+    id_anterior = -1
+    for index, id_video in enumerate(id_videos) :
+        if video_atual.id == id_video:
+            id_proximo = index +1
+            id_anterior = index -1
+    video_proximo = None
+    video_anterior = None
+    try:
+        video_proximo = videos[id_proximo]
+    except:
+        pass
+    try:
+        video_anterior = videos[id_anterior]
+    except:
+        pass
+        
+            
+
     anexos = AnexoVideo.objects.filter(video=id_video)
 
     avaliacoes = Avaliacao.objects.filter(video=id_video)
@@ -27,6 +49,8 @@ def video(request, id_modulo, id_video):
     context = {
         'videos':videos,
         'video_atual':video_atual,
+        'video_proximo': video_proximo,
+        'video_anterior': video_anterior,
 
         'modulo_atual':modulo_atual,
 

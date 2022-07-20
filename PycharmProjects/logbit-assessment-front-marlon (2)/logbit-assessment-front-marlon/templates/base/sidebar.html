@@ -2,7 +2,6 @@
 
 <nav class="sidebar ">
 	<ul js-menu-lista>
-
 		<li class="menu-item group">
 			<a href="{% url 'home' %}" js-menu-page="home">
 				<svg class="icon">
@@ -13,83 +12,35 @@
 			</a>
 		</li>
 
-		<!-- <ul class="text-primary-red">
-			<h1>AA {{request.content_params.curso.nome}}</h1>
-			{% for modulo in request.content_params.curso.nome %}
-				<h2>a {{modulo.titulo}}</h2>
-			{% endfor %}
-		</ul> -->
+		{% for module in request.user.curso_set.all %}
+			<div class="accordion-item menu-item" js-accordion js-accordion-gsap>
+				<a js-menu-page="{{module.titulo}}" class="accordion-title" data-accordion="{{module.id}}">
+					<svg class="icon">
+						<use xlink:href="#icon_strategy"></use>
+					</svg>
+	
+					<span>{{module.titulo}}</span>
+	
+					<svg class="arrow">
+						<use xlink:href="#icon_arrow_bottom"></use>
+					</svg>
+				</a>
+
+				<ul class="accordion-content bg-neutral-90 pl-48" data-accordion="{{module.id}}">
+					{% for curso in module.modulo_set.all %}
+						<li class="accordion-container max-w-[468px]">
+							<a href="/cursos/video/{{curso.id}}/{{curso.video_set.first.id}}?curso={{module.id}}"> <!-- Trazer id do primeiro video de cada curso no lugar de 8 -->
+								<svg class="icon">
+									<use xlink:href="#icon_acquisition"></use>
+								</svg>
 		
-
-		{%for modulo in request.user.curso_set.all%}
-		<div class="accordion-item menu-item" js-accordion js-accordion-gsap>
-			<a js-menu-page="estrategia" class="accordion-title" data-accordion="1">
-				<svg class="icon">
-					<use xlink:href="#icon_strategy"></use>
-				</svg>
-
-				<span>{{modulo.titulo}}</span>
-
-				<svg class="arrow">
-					<use xlink:href="#icon_arrow_bottom"></use>
-				</svg>
-			</a>
-			<ul class="accordion-content bg-neutral-90 pl-48" data-accordion="1">
-				<li class="accordion-container max-w-[468px]">
-					<a href="https://simulador.logbit.com.br/cursos/video/1/1/?curso=1">
-						<svg class="icon">
-							<use xlink:href="#icon_acquisition"></use>
-						</svg>
-
-						<span>Videos</span>
-					</a>
-				</li>
-				<li class="accordion-container max-w-[468px]">
-					<a href="https://simulador.logbit.com.br/perguntas/responder/pergunta_multipla_escolha/4/?curso=1">
-						<svg class="icon">
-							<use xlink:href="#icon_acquisition"></use>
-						</svg>
-
-						<span>Quiz</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		{%endfor%}
-
-		<!-- <div class="accordion-item menu-item" js-accordion js-accordion-gsap>
-			<a js-menu-page="aquisicao" class="accordion-title" data-accordion="2">
-				<svg class="icon">
-					<use xlink:href="#icon_acquisition"></use>
-				</svg>
-
-				<span>Aquisição</span>
-
-				<svg class="arrow">
-					<use xlink:href="#icon_arrow_bottom"></use>
-				</svg>
-			</a>
-			<ul class="accordion-content bg-neutral-90 pl-48" data-accordion="2">
-				<li>
-					<a href="">
-						<svg class="icon">
-							<use xlink:href="#icon_acquisition"></use>
-						</svg>
-		
-						<span>Submenu 1</span>
-					</a>
-				</li>
-				<li>
-					<a href="">
-						<svg class="icon">
-							<use xlink:href="#icon_acquisition"></use>
-						</svg>
-		
-						<span>Submenu 2</span>
-					</a>
-				</li>
-			</ul>
-		</div> -->
+								<span>{{curso.titulo}}</span>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endfor %}
 
 		<li js-lista-name="hidden" class="hidden click-hidden"></li>
 	</ul>

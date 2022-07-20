@@ -28,7 +28,7 @@
                             Item
                         </span>
                         <span class="block font-medium text-primary-red">
-                            Missão e Visão
+                            {{ modulo.titulo }}
                         </span>
                     </li>
                     <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-b border-neutral-10">
@@ -36,7 +36,7 @@
                             Score final
                         </span>
                         <span class="block font-medium text-primary-red">
-                            80%
+                            {{ percent_acertos }}%
                         </span>
                     </li>
                     <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-b border-neutral-10">
@@ -44,7 +44,7 @@
                             Nível atingido
                         </span>
                         <span class="block font-medium text-primary-red">
-                            Prata
+                            {{ medalha }}
                         </span>
                     </li>
                     <li class="flex items-center justify-between text-sm leading-[1.0625rem] h-48 border-neutral-10">
@@ -52,7 +52,7 @@
                             Acertos
                         </span>
                         <span class="block font-medium text-primary-red">
-                            6 de 15
+                            {{ quantos_acertos }} de {{ total_perguntas }}
                         </span>
                     </li>
                 </ul>
@@ -65,8 +65,18 @@
 
                 <div class="flex justify-between mb-24 flex-1 md2:flex-col-reverse">
                     <div class="card card-trophy md2:w-full md2:mt-20">
-                        <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
-                        <span>Nível Prata</span>
+                        <img 
+                            {% if medalha == 'Ouro' %}
+                                src="{% static 'assessment/assets/dist/images/gold_trophy.png' %}" 
+                            {% elif medalha == 'Prata' %}
+                                src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" 
+                            {% else %}
+                                src="{% static 'assessment/assets/dist/images/bronze_trophy.png' %}" 
+                            {% endif %}
+
+                            alt="Nível {{ medalha }}" 
+                        />
+                        <span>Nível {{ medalha }}</span>
                     </div>
 
                     <div class="relative w-[16.1875rem] h-[8.125rem] md2:mx-auto">
@@ -123,7 +133,7 @@
 <script type="module">
     import renderPieProgress from "{% static 'assessment/assets/src/js/modules/renderPieProgress.js' %}"
 
-    renderPieProgress(50)
+    renderPieProgress({{ percent_acertos }})
 </script>
 
 <script>

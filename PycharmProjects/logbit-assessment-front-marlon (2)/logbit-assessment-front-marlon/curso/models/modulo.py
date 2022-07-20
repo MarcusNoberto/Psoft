@@ -1,5 +1,6 @@
 from collections import namedtuple
 from itertools import chain
+from re import X
 
 from crum import get_current_user
 from django.db import models
@@ -106,6 +107,8 @@ class Modulo(models.Model):
         else:
             return False 
 
+    
+
     def assessments_desse_modulo(self):
         return self.assessment_set.all()
 
@@ -131,6 +134,10 @@ class Modulo(models.Model):
         videos = self.video_set.all() if not videos else videos
         user = get_current_user()
         return videos.filter(usuarios_concluintes=user).count()
+
+    def primeiro_video_do_modulo(self):
+        video = self.video_set.all().first()
+        return video
 
     def total_perguntas_respondidas(self, perguntas):
         user = get_current_user()
@@ -161,6 +168,7 @@ class Modulo(models.Model):
             total_perguntas_respondidas, # quantidade_perguntas_respondidas
             calcular_porcentagem(total_perguntas_respondidas, len(perguntas)) # progresso_perguntas
         )
+
     
     def get_perguntas(self):
         return list(
@@ -187,7 +195,7 @@ class Modulo(models.Model):
         total_videos_perguntas = videos.total_videos + perguntas.total_perguntas
         total_videos_perguntas_concluidos = videos.quantidade_videos_concluidos + perguntas.quantidade_perguntas_respondidas
         total_videos_perguntas_pendentes = total_videos_perguntas - total_videos_perguntas_concluidos
-
+    
         return Progresso(
             videos, # videos
             perguntas, # perguntas
@@ -198,12 +206,6 @@ class Modulo(models.Model):
             
             calcular_porcentagem(total_videos_perguntas_concluidos, total_videos_perguntas) # progresso_total
         )
-
-    def quantas_usuario_acertou_do_modulo(self):
-        user = get_current_user()
-        from ...respostas.models import Resposta
-        respostas = Resposta.objects.filter(usuario = user)
-        return len(list(filter(lambda resposta:resposta.correta, respostas)))
     
     def get_all_itens(self: object) -> list:
         '''
@@ -235,6 +237,24 @@ class Modulo(models.Model):
         
         return names
     
+    def quantas_usuario_acertou_do_modulo(self):
+        user = get_current_user()
+        from ...respostas.models import Resposta
+        respostas = Resposta.objects.filter(usuario = user)
+        return len(list(filter(lambda resposta:resposta.correta, respostas)))
+
+    def perguntas_certas(self):
+        user = get_current_user()
+        from perguntas.models.pergunta_multipla_escolha import PerguntaMultiplaEscolha
+        
+        lista_perguntas_corretas=[]
+        perguntas = list(set(PerguntaMultiplaEscolha.objects.filter(modulo=self)))
+        for pergunta in perguntas:
+            if pergunta.respondida and pergunta.respondeu_correto:
+                lista_perguntas_corretas.append(pergunta)
+        
+        return lista_perguntas_corretas
+
     def score(self):
         Score = namedtuple('Score', [
             'pontuacao_usuario',

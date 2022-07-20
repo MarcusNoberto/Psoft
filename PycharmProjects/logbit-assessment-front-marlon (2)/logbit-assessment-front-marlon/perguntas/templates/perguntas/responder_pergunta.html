@@ -20,7 +20,13 @@
                         {{pergunta.descricao}}
                     </h1>
 
-                    <div class="quiz-questions">
+                    <form 
+                        action="{% url 'responder_pergunta' pergunta.tipo pergunta.id %}" 
+                        name="form-pergunta" 
+                        method="post" 
+                        class="quiz-questions"
+                    >
+                        {% csrf_token %}
                         {% for alternativa in pergunta.alternativa_set.all %}
                             <label for="pergunta_multipla_escolha-{{alternativa.id}}" class="question">
                                 <input 
@@ -28,8 +34,7 @@
                                     name="resposta" 
                                     value="{{alternativa.titulo}}" 
                                     id="pergunta_multipla_escolha-{{alternativa.id}}"
-
-                                    >
+                                >
                                     
                                     <div class="status">
                                         <span>{{alternativa.titulo}}</span>
@@ -39,7 +44,7 @@
                                 <p>{{alternativa.descricao}}</p>
                             </label>
                         {% endfor %}
-                    </div>
+                    </form>
 
                     <footer class="flex items-center justify-between mt-32">
                         <p class="right-answer hidden">
@@ -52,9 +57,9 @@
                             Infelizmente, essa você errou... 
                         </p>
 
-                        <a js-link class="btn quiz !px-48 ml-auto">
+                        <button disabled js-submit class="btn quiz !px-48 ml-auto">
                             Prosseguir
-                        </a>
+                        </but>
                     </footer>
                 </div>
             </div>
@@ -70,6 +75,8 @@
             const quizOptions = document.querySelectorAll('.quiz-questions .question')
             const rightAnswerMsg = document.querySelector('.right-answer')
             const wrongAnswerMsg = document.querySelector('.wrong-answer')
+            const quizForm = document.querySelector('form[name="form-pergunta"]')
+            const quizSubmitButton = document.querySelector('[js-submit]')
 
             const correctAnswer = "{{pergunta.alternativa_correta}}"
 
@@ -94,26 +101,8 @@
                     addCorrectAnswerClass()
                 }
 
-                if (location.href.split('/')[6] == '5') {
-                    document.querySelector('[js-link]').innerHTML = 'Ver resultado'
-                    document.querySelector('[js-link]').href = 'https://simulador.logbit.com.br/cursos/conclusao_modulo/1/?curso=1'
-                    return
-                    
-                } else {
-                    const array = location.href.split('/')
-    
-                    const newArray = array.map((i, index) => {
-                        if (index == 6) {
-                            return Number(i) + 1
-                        }
-                        
-                        return i
-                    })
-    
-                    document.querySelector('[js-link]').href = newArray.join('/')
-
-                }
-
+                quizSubmitButton.removeAttribute('disabled')
+                quizSubmitButton.addEventListener('click', () => quizForm.submit())
             }
 
             const addCorrectAnswerClass = () => {

@@ -1,0 +1,51 @@
+{% load static %}
+
+<div class="card card-home flex flex-col md2:col-span-2 py-24 h-[25rem]">
+    <h3 class="line-before relative text-lg text-neutral-80 pl-24">
+        Minhas conquistas
+    </h3>
+
+    <div class="conteudo flex flex-col h-full">
+        <!-- <div class="flex-1 flex flex-col justify-center items-center">
+            <p class="text-sm text-center text-neutral-80 font-normal">Ainda não tem nenhuma conquista</p>
+            <a href="#" class="btn materials mt-8 !h-32 !px-8 !py-8">Conquistar troféu</a>
+        </div> -->
+
+        <div class="mt-24 px-24 grid gap-24 items-center" style="grid-template-columns: 8.375rem 1fr;">
+            <div class="card card-trophy small">
+                <img src="{% static 'assessment/assets/dist/images/master_trophy.png' %}" alt="Nível Mestre" />
+                <span>Mestre em estratégia</span>
+            </div>
+
+            <div>
+                <p class="text-sm font-medium text-neutral-80 leading-[1.0625rem]">
+                    Faltam apenas 22% para conquistar o troféu <strong>Mestre em estratégia</strong>
+                </p>
+
+                <a href="#" class="btn materials mt-8 w-max !h-32 !px-8 !py-8">Continuar de onde parei</a>
+            </div>
+        </div>
+
+        <div class="mt-24 px-24">
+            <h5 class="font-normal text-base leading-[1.1875rem] text-neutral-80 mb-16">
+                Veja os troféus já conquistados
+            </h5>
+
+            <div class="grid grid-cols-3 gap-8 overflow-y-auto h-160 styled-scroll">
+                <div class="card card-trophy small">
+                    <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
+                    <span>Prata em Estratégia</span>
+                </div>
+                <div class="card card-trophy small">
+                    <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
+                    <span>Prata em Aquisição</span>
+                </div>
+                <div class="card card-trophy small">
+                    <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
+                    <span>Prata em Mercado</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

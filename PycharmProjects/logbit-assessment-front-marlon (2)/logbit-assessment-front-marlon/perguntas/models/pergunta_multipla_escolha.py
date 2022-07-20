@@ -110,10 +110,10 @@ class PerguntaMultiplaEscolha(models.Model):
             if self.contem_mais_de_uma_resposta:
                 
                 for resposta in user.resposta_set.filter(pergunta_multipla_escolha=self):
-                    nota+=Alternativa.objects.get(titulo=resposta.resposta).valor
+                    nota+=Alternativa.objects.get(pergunta_multipla_escolha=self,titulo=resposta.resposta).valor
             else:
-                id_alternativa=user.resposta_set.filter(pergunta_multipla_escolha=self).last().resposta
-                nota+=Alternativa.objects.get(titulo=id_alternativa).valor
+                alternativa_marcada=user.resposta_set.filter(pergunta_multipla_escolha=self).last()
+                nota+=alternativa_marcada.pontuacao
 
         except:
             nota=0

@@ -135,7 +135,14 @@ class Curso(models.Model):
             self.modulo_set.total_modulos_concluidos(), # quantidade_modulos_concluidos
             self.progresso_total_modulos(modulos) # progresso_total
         )
-    
+
+    def primeiro_video_modulos(self):
+        modulos = self.modulo_set.all()
+        videos = []
+        for modulo in modulos:
+            videos.append(modulo.primeiro_video_do_modulo)
+        return videos
+
     def score(self):
         Score = namedtuple('Score', [
             'pontuacao_usuario',
