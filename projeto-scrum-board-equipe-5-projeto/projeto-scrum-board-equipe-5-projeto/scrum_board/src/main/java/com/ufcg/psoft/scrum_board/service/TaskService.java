@@ -14,6 +14,7 @@ import com.ufcg.psoft.scrum_board.exception.TaskNotFoundException;
 import com.ufcg.psoft.scrum_board.exception.UnauthorizedAccessException;
 import com.ufcg.psoft.scrum_board.exception.UserNotFoundException;
 import com.ufcg.psoft.scrum_board.exception.UserStoryNotFoundException;
+import com.ufcg.psoft.scrum_board.exception.WrongTaskStateException;
 import com.ufcg.psoft.scrum_board.model.Task;
 import com.ufcg.psoft.scrum_board.model.User;
 import com.ufcg.psoft.scrum_board.model.UserStory;
@@ -97,6 +98,32 @@ public class TaskService {
         } else {
             throw new TaskAlreadyDoneException("The task is already done!");
         }
+    }
+
+    public void setToVerify(String id_Task, String idUsuario) throws TaskNotFoundException, UserNotFoundException, TaskAlreadyDoneException, UnauthorizedAccessException, WrongTaskStateException{
+        Task task = this.taskRep.findTaskById(id_Task);
+        if (task == null) throw new TaskNotFoundException(task + " not found!");
+        User user = userRepository.getUserByUsername(idUsuario);
+        if (user == null) throw new UserNotFoundException("The user '"  +idUsuario + "' wasn't found!");
+        if (task.isDone() == false) {
+            if (task.getUserStory().getDevelopmentState().toString() == "Work In Progress") {
+                if (task.getUserStory().getDevs().contains(user) || task.getUserStory().getProject().getScrumMaster().equals(user)) {
+                    task.getUserStory().getDevelopmentState().moveToNextStage();
+                }
+                else {
+                    throw new UnauthorizedAccessException("The user '" + user.getUsername() + "' has no permission to modify this task!");
+                }
+            }
+            else{
+                throw new WrongTaskStateException("The stage of the task could not work in this action");
+            }
+        }
+
+    }
+
+    public void setDone(String id_Task, String idUsuario) throws TaskNotFoundException, UserNotFoundException, TaskAlreadyDoneException, UnauthorizedAccessException, WrongTaskStateException{
+
+
     }
     
 
