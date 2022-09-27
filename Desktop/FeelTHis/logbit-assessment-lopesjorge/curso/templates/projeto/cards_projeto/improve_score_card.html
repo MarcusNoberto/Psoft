@@ -1,0 +1,102 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col md2:col-span-2 py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-blue relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Melhorar meu score' request %}
+    </h3>
+
+    <div class="h-full mt-24 px-16 flex flex-col flex-1" x-data="{ openTab: 1 }">
+        <div class="flex-1 flex flex-col items-center justify-center h-full" x-show="openTab === 1">
+            {% if not cursos_com_acesso or cursos_com_acesso and cursos_com_acesso.first.progresso_quizz == 0 %}
+                <div class="conteudo flex items-center justify-center h-full">
+                    <p class="max-w-[220px] text-center text-neutral-80 font-medium">
+                        {% traduzir 'Você ainda não finalizou nenhum Quiz. Comece nos episódios para seu score subir' request %}
+                    </p>
+                </div>
+            {% elif cursos_com_acesso.last.progresso_quizz < cursos_com_acesso.last.pontuacao_bronze %}
+                <div class="card card-trophy small !w-[8.375rem]">
+                    <img src="{% static 'assessment/assets/dist/images/bronze_trophy.png' %}" />
+                    <span>{% traduzir 'Bronze em' request %} {{cursos_com_acesso.last.titulo}}</span>
+                </div>
+
+                <p class="mt-24 text-sm font-medium text-neutral-80 leading-[1.0625rem] text-center xl:mt-16">
+                    {% traduzir 'Faltam apenas' request %} {{cursos_com_acesso.last.progresso_curso_relacionado_conquista|floatformat}}% {% traduzir 'para você chegar atingir' request %} 
+                    <strong>{% traduzir 'Prata em' request %} {{pergunta_modulo}}</strong>
+                </p>
+        
+                <a href="{% url 'responder_pergunta' 'pergunta_multipla_escolha' cursos_com_acesso.first.primeira_pergunta cursos_com_acesso.first.projeto.slug %}?curso={{cursos_com_acesso.first.id}}" class="btn materials mt-32 w-max !h-32 !px-8 !py-8">{% traduzir 'Melhorar meus resultados' request %}</a>
+
+
+            {% elif cursos_com_acesso.last.progresso_quizz >= cursos_com_acesso.last.pontuacao_bronze and cursos_com_acesso.last.progresso_quizz <= cursos_com_acesso.last.pontuacao_prata %}
+                <div class="card card-trophy small !w-[8.375rem]">
+                    <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" />
+                    <span>{% traduzir 'Prata em' request %} {{cursos_com_acesso.last.titulo}}</span>
+                </div>
+
+                <p class="mt-24 text-sm font-medium text-neutral-80 leading-[1.0625rem] text-center xl:mt-16">
+                    {% traduzir 'Faltam apenas' request %} {{cursos_com_acesso.last.progresso_curso_relacionado_conquista|floatformat}}% {% traduzir 'para você chegar atingir' request %} 
+                    <strong>{% traduzir 'Prata em' request %} {{pergunta_modulo}}</strong>
+                </p>
+        
+                <!-- <a href="#" class="btn materials mt-32 w-max !h-32 !px-8 !py-8">{% traduzir 'Responder o Quiz' request %}</a> -->
+            {% elif cursos_com_acesso.last.progresso_quizz < 100 %}
+                <div class="card card-trophy small !w-[8.375rem]">
+                    <img src="{% static 'assessment/assets/dist/images/gold_trophy.png' %}" />
+                    <span>{% traduzir 'Ouro em' request %} {{cursos_com_acesso.last.titulo}}</span>
+                </div>
+
+                <p class="mt-24 text-sm font-medium text-neutral-80 leading-[1.0625rem] text-center xl:mt-16">
+                    {% traduzir 'Faltam apenas' request %} {{cursos_com_acesso.last.progresso_curso_relacionado_conquista|floatformat}}% {% traduzir 'para você chegar atingir' request %} 
+                    <strong>{% traduzir 'Prata em' request %} {{pergunta_modulo}}</strong>
+                </p>
+        
+                <!-- <a href="#" class="btn materials mt-32 w-max !h-32 !px-8 !py-8">{% traduzir 'Responder o Quiz' request %}</a> -->
+            {% else %}
+                <div class="card card-trophy small !w-[8.375rem]">
+                    <img src="{% static 'assessment/assets/dist/images/gold_trophy.png' %}" />
+                    <span>{% traduzir 'Ouro em' request %} {{cursos_com_acesso.last.titulo}}</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="conteudo relative flex flex-col gap-24 h-[16.125rem] overflow-y-auto styled-scroll xl:h-[12rem]" x-show="openTab === 2">
+            {% for curso in cursos_com_acesso %}
+                <article>
+                    <p class="font-normal text-base leading-[1.1875rem] text-neutral-80 mb-16">{{curso.titulo}}</p>
+                
+                    <div class="grid gap-8 styled-scroll grid-cols-3">
+                        <div class="card card-trophy small resize opacity-50 {% if curso.progresso_quizz < 33 %}!opacity-100{% endif %}">
+                            <img src="{% static 'assessment/assets/dist/images/bronze_trophy.png' %}" alt="Mestre" />
+                            <span>{% traduzir 'Nível Bronze' request %}</span>
+                        </div>
+                        <div class="card card-trophy small resize opacity-50 {% if curso.progresso_quizz >= 33 and curso.progresso_quizz < 66 %}!opacity-100{% endif %}">
+                            <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Mestre" />
+                            <span>{% traduzir 'Nível Prata' request %}</span>
+                        </div>
+                        <div class="card card-trophy small resize opacity-50 {% if curso.progresso_quizz >= 66 %}!opacity-100{% endif %}">
+                            <img src="{% static 'assessment/assets/dist/images/gold_trophy.png' %}" alt="Mestre" />
+                            <span>{% traduzir 'Nível Ouro' request %}</span>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    
+        <div class="footer-card mt-16 xl:mt-0">
+            <span class="group" @click="openTab = 2" x-show="openTab === 1" style="font-size: .75rem;">
+                {% traduzir 'Detalhes' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+            
+            <span class="group" @click="openTab = 1" x-show="openTab === 2" style="font-size: .75rem;">
+                {% traduzir 'Resumir' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+        </div>
+    </div>
+</div>

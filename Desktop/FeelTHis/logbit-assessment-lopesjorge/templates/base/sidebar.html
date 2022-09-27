@@ -1,0 +1,101 @@
+{% load static %}
+{% load traducao %}
+{% load modulos_permissionados %}
+{% modulos_p request as modulos_p %}
+<nav class="sidebar ">
+	<ul js-menu-lista>
+		<li class="menu-item group">
+			<a href="{% url 'home' %}" js-menu-page="home">
+				<svg class="icon">
+					<use xlink:href="#icon_home"></use>
+				</svg>
+
+				<span>Home</span>
+			</a>
+		</li>
+		
+		{% for module in modulos_p %}
+			<div class="accordion-item menu-item" js-accordion js-accordion-gsap>
+				<a js-menu-page="{{module.titulo}}" class="accordion-title" data-accordion="{{module.id}}">
+					{% if module.titulo == 'Estratégia' or module.titulo == 'Strategy' or module.titulo == 'Estrategia' %}
+						<svg class="icon">
+							<use xlink:href="#icon_strategy"></use>
+						</svg>
+					{% elif module.titulo == 'Aquisição' or module.titulo == 'Acquisition' or module.titulo == 'Adquisición' %}
+						<svg class="icon">
+							<use xlink:href="#icon_acquisition"></use>
+						</svg>
+					{% elif module.titulo == 'Controle' or module.titulo == 'Controll' or module.titulo == 'Control' %}
+						<svg class="icon">
+							<use xlink:href="#icon_controll"></use>
+						</svg>
+					{% elif module.titulo == 'Mercado' or module.titulo == 'Marketplace' %}
+						<svg class="icon">
+							<use xlink:href="#icon_marketplace"></use>
+						</svg>
+					{% elif module.titulo == 'Manutenção' or module.titulo == 'Maintenance' or module.titulo == 'Mantenimiento' %}
+						<svg class="icon">
+							<use xlink:href="#icon_maintenance"></use>
+						</svg>
+					{% elif module.titulo == 'Descarte' or module.titulo == 'Discard' or module.titulo == 'Desechar' %}
+						<svg class="icon">
+							<use xlink:href="#icon_discard"></use>
+						</svg>
+					{% else %}
+						<svg class="icon">
+							<use xlink:href="#icon_controll"></use>
+						</svg>
+					{% endif %}
+	
+					<span>{{module.titulo}}</span>
+	
+					<svg class="arrow">
+						<use xlink:href="#icon_arrow_bottom"></use>
+					</svg>
+				</a>
+
+				<ul class="accordion-content bg-neutral-90 pl-48" data-accordion="{{module.id}}">
+					<li class="accordion-container max-w-[468px]">
+						<a href="/cursos/{{module.id}}/{{module.projeto.slug}}">
+							<span>{% traduzir 'Dashboard de' request %} {{module.titulo}}</span>
+						</a>
+					</li>
+
+					{% for curso in module.modulo_set.all %}
+						<li class="accordion-container max-w-[468px] {% if curso.modulo_concluido %} checked {% endif %}">
+							<a href="/cursos/video/{{curso.id}}/{{curso.primeiro_video_do_modulo.id}}/{{curso.curso.projeto.slug}}?curso={{module.id}}"> <!-- Trazer id do primeiro video de cada curso no lugar de 8 -->
+								<div class="radio-style"></div>
+								<span>{{curso.titulo}}</span>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endfor %}
+
+		<li js-lista-name="hidden" class="hidden click-hidden"></li>
+	</ul>
+
+	<div class="flex flex-col gap-8">
+		<div class="h-40 mx-16 whitespace-nowrap menu-item group hidden sm:block">
+			<p 
+				data-id="modal_instrucoes" 
+				data-xopen="modal_video"
+				class="inline-flex font-medium text-sm leading-100 cursor-pointer text-white hover:text-neutral-40 transition-colors"
+			>
+				{% traduzir 'Instruções' request %}
+			</p>
+		</div>
+
+		<a href="{% url 'logout_kinects' %}" class="h-40 mx-16 whitespace-nowrap menu-item group text-white hover:text-neutral-40 transition-colors hidden sm:block">
+			<p class="inline-flex font-medium text-sm leading-100">{% traduzir 'Sair' request %}</p>
+		</a>
+        
+		<div class="imagem-logo flex gap-20">
+			<img src="{% static 'assessment/assets/dist/images/logbit-logo-esquerda.png' %}" alt="logo" class="w-[1.75rem] h-[1.75rem] ml-16 mb-16" />
+			<img src="{% static 'assessment/assets/dist/images/logbit-logo-direita.png' %}" alt="logo" class= "h-[1.75rem]" />
+		</div>
+	</div>
+</nav>
+
+<div class="nav-fundo"></div>

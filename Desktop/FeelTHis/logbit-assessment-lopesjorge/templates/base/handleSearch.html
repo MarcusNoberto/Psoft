@@ -1,0 +1,92 @@
+{% load traducao %}
+
+<script>
+  function handleSearch() {
+    const searchContainer = document.querySelector('.search-container')
+    const searchInput = document.querySelector('#header_search')
+    const searchStatus = searchContainer.querySelectorAll('.status')
+    const btnSearch = document.querySelector('.btn.search')
+    const darkBackground = document.querySelector('.modal_padrao--deep')
+
+    const hideAllStatus = () => searchStatus.forEach(status => status.classList.remove('show'))
+    
+    const loadingResults = () => searchStatus[0].classList.add('show')
+
+    const noResultsFound = () => {
+      hideAllStatus()
+      searchStatus[1].classList.add('show')
+    }
+
+    const displayResults = (data) => {
+      const resultList = document.querySelector('.video-list-container')
+      
+      hideAllStatus()
+      searchStatus[2].classList.add('show')
+      
+
+      resultList.innerHTML = data.map(li => `
+        <a class="video-item border-b" href="/cursos/video/${li.id_cap}/${li.id}/?curso=${li.id_modulo}">
+          <div class="video-thumbnail dark-bg">
+            <img src="${li.thumbnail}" class="background">
+            <svg><use xlink:href="#icon_play"></use></svg>
+          </div>
+
+          <div class="video-desc">
+            <strong class="title">${li.titulo}</strong>
+            <span class="desc">
+              {% traduzir 'no módulo' request %} <strong>${li.nome_modulo}</strong> {% traduzir 'no capítulo' request %} <strong>${li.nome_capitulo}</strong>
+            </span>
+          </div>
+        </a>
+      `).join('')
+    }
+
+    const fetchResults = async () => {
+      const text = searchInput.value
+
+      const response = await fetch(`/api/videos/?search=${text}`)
+      const data = await response.json()
+      console.log(`/api/videos/?search=${text}`);
+      if (data.results.length) {
+        displayResults(data.results)
+
+      } else {
+        noResultsFound()
+      } 
+    }
+
+    const toggleShowSearchContainer = () => {
+      if (searchInput.value.length < 3) { return }
+
+      searchContainer.classList.add('show')
+      darkBackground.classList.add('active')
+      darkBackground.style.zIndex = 45
+
+      fetchResults()
+    }
+
+    const toggleHideSearchContainer = () => {
+      searchContainer.classList.remove('show')
+    }
+
+    const events = () => {
+      darkBackground.addEventListener('click', toggleHideSearchContainer)
+      btnSearch.addEventListener('click', toggleShowSearchContainer)
+      searchInput.addEventListener('keyup', () => toggleShowSearchContainer())
+    }
+    
+    function init() {
+      hideAllStatus()
+      loadingResults()
+      events()
+      return this
+    }
+
+
+    return {
+      init,
+    }
+  }
+
+  handleSearch().init()
+</script>

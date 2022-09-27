@@ -1,0 +1,32 @@
+@layer components {
+    .breadcrumb {
+        &-wrapper {
+            @apply flex items-center mt-24 mb-20 md:mt-64;
+        }
+
+        &-item {
+            @apply flex items-center font-medium text-sm text-neutral-60 leading-[1rem];
+
+            &:last-child {
+                @apply font-bold text-primary-red;
+            }
+
+            &.mobile-hidden {
+                @apply sm:hidden;
+            }
+
+            a {
+                display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+
+                @apply overflow-hidden;
+            }
+
+            svg {
+                @apply w-20 h-20 mx-2;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,230 @@
+@import "../sass/mixins";
+@import "../sass/themes";
+@import "../sass/variaveis";
+@import "../sass/bootstrap__imports";
+
+// UTILIDADES
+@import "../sass/utilities/utilitarios";
+@import "../sass/utilities/responsivo";
+@import "../sass/utilities/reset";
+@import "../sass/utilities/animation";
+
+//MIXINS
+@import "../sass/@mixins/navTabs";
+@import "../sass/@mixins/sidebar";
+@import "../sass/@mixins/videoList";
+@import "../sass/@mixins/dashboard";
+@import "../sass/@mixins/videoChannel";
+@import "../sass/@mixins/moduloContent";
+@import "../sass/@mixins/percentageCircle";
+
+//components
+@import "../sass/components/modalX";
+@import "../sass/components/body";
+
+//modais
+@import "../sass/modais_globais";
+
+* {
+    font-family: $font-1;
+}
+main {
+    overflow: hidden;
+}
+//globais
+@import "./estilos_globais";
+
+.body__initial {
+    @import "./pages/page_initial";
+}
+
+.body__video {
+    @import "./pages/page_video";
+}
+
+.body__module {
+    @import "./pages/page_module";
+}
+
+.body__home {
+    @import "./pages/page_home";
+}
+
+// Global styles
+.grid--app {
+    display: grid;
+    grid-template-columns: 460px calc(100vw - 460px);
+
+    @media (max-width: 1440px) {
+        grid-template-columns: 350px calc(100vw - 345px);
+    }
+
+    @media (min-width: 1200px) {
+        &.sidebar--is-closed {
+            display: flex;
+            flex-direction: column;
+
+            .sidebar {
+                @include sidebarAnimation;
+            }
+        }
+    }
+
+    @media (max-width: 1200px) {
+        display: flex;
+        flex-direction: column;
+
+        .sidebar {
+            @include sidebarAnimation;
+        }
+
+        &.sidebar--is-closed {
+            .sidebar {
+                transform: translateX(0);
+                transition: transform 0.3s;
+
+                .sidebar-close {
+                    transform: translateX(1px);
+
+                    svg {
+                        transform: rotate(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.sidebar {
+    @include sidebar;
+}
+
+section.container {
+    max-width: none !important;
+    height: 100vh;
+    overflow-y: auto;
+    background: $gradiente-1;
+    padding: 2rem 4rem;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $red-dark;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $neutral-5;
+    }
+
+    @include d(l) {
+        padding: 4rem;
+    }
+
+    @include d(m) {
+        padding: 4rem 0;
+    }
+
+    @include d(ss) {
+        padding: 4rem  0;
+    }
+    @include d(ss) {
+        padding: 4rem 0  0;
+    }
+
+    .content {
+        width: 100%;
+        min-height: 49.5rem;
+
+        display: grid;
+        gap: 1.5rem;
+
+        margin-top: 1.25rem;
+        background: #fff;
+        border-radius: 8px;
+        @include d(m){
+            border-radius: 0 !important;
+        }
+    }
+}
+
+@include ModalX("modal_video") {
+    border-radius: 8px !important;
+    width: max-content !important;
+    height: max-content !important;
+    background: transparent;
+
+    button.close--modal {
+        position: absolute;
+        top: -30px;
+        right: 0;
+
+        ion-icon {
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 9999999 !important;
+        }
+    }
+
+    video {
+        width: 82rem;
+        border-radius: 8px;
+    }
+}
+
+@include ModalX("modal_avaliacao_video") {
+    border-radius: 8px !important;
+    width: max-content !important;
+    height: max-content !important;
+    background: transparent;
+
+    button.close--modal {
+        position: absolute;
+        top: -30px;
+        right: 0;
+
+        ion-icon {
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 9999999 !important;
+        }
+    }
+
+    .modal--content {
+        background: $neutral-5;
+        width: 40rem;
+        height: 20rem;
+        border-radius: $border-r;
+    }
+}
+
+@include ModalX("modal_conclusao") {
+    border-radius: 8px !important;
+    width: max-content !important;
+    height: max-content !important;
+    background: transparent;
+
+    button.close--modal {
+        position: absolute;
+        top: -30px;
+        right: 0;
+
+        ion-icon {
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 9999999 !important;
+        }
+    }
+
+    .modal--content {
+        background: $neutral-5;
+        width: 40rem;
+        height: 20rem;
+        border-radius: $border-r;
+    }
+}

@@ -1,0 +1,36 @@
+<header>
+    <h3 class="theme--content-title">Tu Diagnóstico</h3>
+    <div class="header--wrapper">
+        <div class="single-chart">
+            <svg viewBox="0 0 36 36" class="circular-chart orange">
+                <path class="circle-bg" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke-dasharray="{{curso.progresso_curso.progresso_total|floatformat:'0'}}, 100" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.222 27.333H5.92468C5.22868 27.333 4.66602 26.769 4.66602 26.0743V21.037C4.66602 20.341 5.23002 19.7783 5.92468 19.7783H12.2207" stroke="#1B1D26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M19.7754 5.92566V27.3337H26.0714C26.7674 27.3337 27.3301 26.7697 27.3301 26.075V5.92566C27.3301 5.22966 26.7661 4.66699 26.0714 4.66699H21.0341C20.3394 4.66699 19.7754 5.23099 19.7754 5.92566H19.7754Z" stroke="#1B1D26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M19.7767 27.3333H12.2207V13.4813C12.2207 12.7853 12.7847 12.2227 13.4794 12.2227H19.7754" stroke="#1B1D26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <div>
+            <p>
+                <strong>Nível: </strong>
+                Rumo a Qualificação ??
+            </p>
+            <p>
+                <strong>Previsão de Nota: </strong>
+                7.1 - {{request.content_params.curso.score_minimo|default_if_none:"-"}}
+            </p>
+            <p>
+                <strong>Preenchimento: </strong>
+                {{request.content_params.curso.progresso_curso.progresso_total}}%
+            </p>
+        </div>
+    </div>
+</header>

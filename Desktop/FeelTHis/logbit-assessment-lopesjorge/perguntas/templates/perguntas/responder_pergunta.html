@@ -1,0 +1,167 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load traducao %}
+
+{% block content %}
+    <main class="container-content" js-page="{{request.content_params.curso}}">
+        {% include 'base/breadcrumb.html' %}
+
+        <div class="flex gap-16 md2:flex-col md2:mt-32" style="min-height: calc(100vh - 13rem);">
+            <div class="grid place-items-center flex-1">
+                <div class="quiz-wrapper w-full max-w-[44.875rem] flex flex-col">
+                    <span class="font-bold text-sm leading-[1.0625rem] text-primary-red">
+                        {{pergunta.titulo}}
+                    </span>
+
+                    <h1 class="font-medium text-2xl leading-[1.8125rem] text-neutral-80 mt-8">
+                        <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor euismod in egestas sapien ullamcorper egestas elementum sit gravida. -->
+                        {{pergunta.descricao}}
+                    </h1>
+
+                    <form 
+                        action="{% url 'responder_pergunta' pergunta.tipo pergunta.id pergunta.modulo.curso.projeto.slug%}" 
+                        name="form-pergunta" 
+                        method="post" 
+                        class="quiz-questions"
+                    >
+                        {% csrf_token %}
+                        {% for alternativa in pergunta.alternativa_set.all %}
+                            <label for="pergunta_multipla_escolha-{{alternativa.id}}" class="question">
+                                <input 
+                                    type="radio" 
+                                    name="resposta" 
+                                    value="{{alternativa.titulo}}" 
+                                    id="pergunta_multipla_escolha-{{alternativa.id}}"
+                                >
+                                    
+                                    <div class="status">
+                                        <span>{{alternativa.titulo}}</span>
+                                        <svg right><use xlink:href="#icon_check"></use></svg>
+                                        <svg wrong><use xlink:href="#icon_wrong"></use></svg>
+                                    </div>
+                                <p>{{alternativa.descricao}}</p>
+                            </label>
+                        {% endfor %}
+                    </form>
+
+                    <footer class="flex items-center justify-between mt-32">
+                        <p class="right-answer hidden">
+                            <svg><use xlink:href="#icon_check"></use></svg>
+                            {% traduzir 'Parabéns, você acertou essa! Continue assim' request %}...
+                        </p>
+
+                        <p class="wrong-answer hidden">
+                            <svg><use xlink:href="#icon_wrong"></use></svg>
+                            {% traduzir 'Infelizmente, essa você errou' request %}... 
+                        </p>
+
+                        <button disabled js-submit class="btn quiz !px-48 ml-auto">
+                            {% traduzir 'Prosseguir' request %}
+                        </but>
+                    </footer>
+                </div>
+            </div>
+
+            {% include 'perguntas/quiz_list.html' %}
+        </div>
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function handleQuizObserver() {
+            const quizOptions = document.querySelectorAll('.quiz-questions .question')
+            const rightAnswerMsg = document.querySelector('.right-answer')
+            const wrongAnswerMsg = document.querySelector('.wrong-answer')
+            const quizForm = document.querySelector('form[name="form-pergunta"]')
+            const quizSubmitButton = document.querySelector('[js-submit]')
+
+            const correctAnswer = "{{pergunta.alternativa_correta}}"
+
+            // Funcions
+            const changeQuestionClass = (label) => {
+                quizOptions.forEach(opt => opt.classList.add('deselected', 'wrong'))
+
+                label.classList.remove('deselected', 'wrong')
+                label.classList.add('selected')
+            }
+
+            const verifyInputValue = (label) => {
+                const inputValue = label.querySelector('input').value
+
+                if (inputValue == correctAnswer) {
+                    label.classList.add('right')
+                    rightAnswerMsg.classList.remove('hidden')
+
+                } else {
+                    label.classList.add('wrong')
+                    wrongAnswerMsg.classList.remove('hidden')
+                    addCorrectAnswerClass()
+                }
+
+                quizSubmitButton.removeAttribute('disabled')
+                quizSubmitButton.addEventListener('click', () => quizForm.submit())
+            }
+
+            const addCorrectAnswerClass = () => {
+                quizOptions.forEach(opt => {
+                    const input = opt.querySelector('input')
+
+                    if (input.value == correctAnswer) {
+                        const label = input.parentNode
+
+                        label.classList.remove('wrong')
+                        label.classList.add('right')
+                    }
+                })
+            }
+
+
+            // Events
+            const events = () => {
+                quizOptions.forEach(opt => opt.addEventListener('change', () => {
+                    changeQuestionClass(opt)
+                    verifyInputValue(opt)
+                }))
+            }
+
+            function init() {
+                events()
+
+                return this
+            }
+
+            return { 
+                init
+            }
+        }
+
+        function changeProgressPercentage() {
+            const id = document.querySelector('[js-question-id]').innerHTML
+            const length = document.querySelector('[js-question-length]').innerHTML
+            const percentageSvg = document.querySelector('.circular-chart .circle')
+
+            const value = (Number(id) / Number(length)) * 100
+
+            percentageSvg.setAttribute('stroke-dasharray', `${value.toFixed(0)}, 100`)
+        }
+
+        function setQuizListLinks() {
+            const links = document.querySelectorAll('.progress-line a')
+            const urlParams = new URLSearchParams(window.location.search)
+            const moduleId = urlParams.get('curso')
+
+            links.forEach(link =>{
+                const questionId = link.dataset.id
+                const questionIrl = `/perguntas/responder/pergunta_multipla_escolha/${questionId}/?curso=${moduleId}`
+
+                link.setAttribute('href', questionIrl)
+            })
+        }
+
+        
+        setQuizListLinks()
+        handleQuizObserver().init()
+        changeProgressPercentage()
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load dicas_oportunidades_tags %}
+
+{% if curso %}
+    {% dicas_usuario request.user curso.id as dicas %}
+{% else %}
+    {% dicas_usuario request.user request.content_params.curso.id as dicas %}
+{% endif %}
+    
+<!-- <h3 class="theme--content-title">Consejos & Oportunidades</h3> -->
+
+<!-- <div class="right--content-card">
+    {% for dica in dicas %}
+        <p>
+            Consejo sobre la pregunta
+            <strong>{{dica.pergunta.titulo}}</strong>
+            do módulo <strong>{{dica.pergunta.modulo}}</strong>: <br>
+
+            {{ dica.dica }} <br>
+
+            {% if dica.aula_sugerida %}
+                Intenta ver la siguiente clase:
+                <strong>
+                    <a href="{% url 'video:video' dica.aula_sugerida.modulo.id dica.aula_sugerida_id %}?curso={{dica.pergunta.modulo.curso.id}}">
+                        {{ dica.aula_sugerida.titulo }}
+                    </a>
+                </strong>
+            {% endif %}
+        </p>
+    {% empty %}
+        <p>Responda los cuestionarios para identificar consejos y oportunidades.</p>
+    {% endfor %}
+</div> -->

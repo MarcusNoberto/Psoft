@@ -1,0 +1,85 @@
+{% load traducao %}
+
+<ul class="breadcrumb-wrapper">
+    <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">
+            Início
+        </a>
+
+        <svg>
+            <use xlink:href="#icon_arrow_right"></use>
+        </svg>
+    </li>
+
+    {% if not curso %}
+        <li class="breadcrumb-item">
+            <a href="{% url 'curso' request.content_params.curso.id request.content_params.curso.projeto.slug%}">
+                {{request.content_params.curso}}
+            </a>
+
+            <svg>
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+        </li>
+    {% endif %}
+
+    {% if modulo_atual %}
+        <li class="breadcrumb-item mobile-hidden">
+            <a href="/cursos/video/{{modulo_atual.id}}/{{modulo_atual.primeiro_video_do_modulo.id}}/?curso={{request.content_params.curso.id}}">
+                {{modulo_atual.titulo}}
+            </a>
+
+            <svg>
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+        </li>
+    {% endif %}
+
+    {% if pergunta and pergunta.modulo %}
+        <!-- <li class="breadcrumb-item mobile-hidden">
+            <a>
+                {{pergunta.modulo.titulo}}
+            </a>
+
+            <svg>
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+        </li> -->
+    {% endif %}
+
+    
+    {% if page_is_capitulo_conclusao %}
+        <li class="breadcrumb-item">
+            <a href="/cursos/{{curso.id}}/">
+                {{ curso.titulo }}
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <svg>
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+
+            <a href="/cursos/video/{{request.content_params.curso.primeiro_video_modulo.modulo.id}}/{{request.content_params.curso.primeiro_video_modulo.id}}/?curso={{request.content_params.curso.id}}">
+                {{title|default:"A 'title' variable is required"}}
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <svg>
+                <use xlink:href="#icon_arrow_right"></use>
+            </svg>
+
+            <a>
+                {% traduzir 'Perguntas e respostas' request %}
+            </a>
+        </li>
+        
+    {% else %}
+        <li class="breadcrumb-item">
+            <a>
+                {{title|default:"A 'title' variable is required"}}
+            </a>
+        </li>
+    {% endif %}
+</ul>

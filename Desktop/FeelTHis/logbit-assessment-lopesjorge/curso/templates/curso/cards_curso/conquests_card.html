@@ -1,0 +1,46 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col md2:col-span-2 py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-green relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Minhas conquistas' request %}
+    </h3>
+
+    <div class="conteudo flex flex-col h-full">
+        <div class="flex-1 flex flex-col justify-center items-center">
+            {% if curso.progresso_video < 100 and curso.progresso_video > 0%}
+                <div class="card card-trophy small">
+                    <img src="{% static 'assessment/assets/dist/images/master_trophy.png' %}" alt="Nível Mestre" />
+                    <span>{% traduzir 'Mestre em' request %} {{curso.titulo}}</span>
+                </div>
+
+                <p class="text-sm font-medium text-neutral-80 leading-[1.0625rem] mt-24">
+                    {% traduzir 'Faltam' request %} {{progresso_restante_video}}% {% traduzir 'para conquistar o troféu' request %}
+                </p>
+            {% elif curso.progresso_video == 100 %}
+                <div class="card card-trophy small">
+                    <img src="{% static 'assessment/assets/dist/images/master_trophy.png' %}" alt="Nível Mestre" />
+                    <span>{% traduzir 'Mestre em' request %} {{curso.titulo}}</span>
+                </div>
+
+                <p class="text-sm font-medium text-neutral-80 leading-[1.0625rem] mt-24">
+                    {% traduzir 'Troféu conquistado' request %}
+                </p>
+            {% elif curso.modulo_set.first and curso.modulo_set.first.video_set.first or curso.progresso_video == 0 %}
+                <p class="text-sm text-center text-neutral-80 font-normal">
+                    {% traduzir 'Ainda não tem nenhuma conquista' request %}
+                </p>
+                <a 
+                    href="{% url 'video:video' curso.modulo_set.first.id curso.modulo_set.first.video_set.first.id curso.projeto.slug%}" 
+                    class="btn materials mt-8 !h-32 !px-8 !py-8"
+                >
+                    {% traduzir 'Conquistar troféu' request %}
+                </a>
+            {% endif %}   
+            <!--TESTE-->
+            <a href="{% url 'video:video' next_aula.modulo.id next_aula.id curso.projeto.slug%}?curso={{curso.id}}" class="btn materials mt-8 !h-32 !px-8 !py-8">
+                {% traduzir 'Conquistar troféu' request %}
+            </a>
+        </div>
+    </div>
+</div>

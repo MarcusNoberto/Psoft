@@ -1,0 +1,105 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-blue relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Meu score' request %}
+    </h3>
+
+    <div class="h-full mt-24 px-16 flex flex-col flex-1 max-h-[18.5rem] xl:mt-14" x-data="{ openTab: 1 }">
+        <div class="conteudo flex flex-col justify-center h-full" x-show="openTab === 1">
+            <div class="relative w-[16.1875rem] h-[8.125rem] mx-auto">
+                <svg viewBox="0 0 259 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M192.885 24.1556C194.735 21.079 193.747 17.0699 190.582 15.3763C173.188 6.06944 153.877 0.829505 134.106 0.0906926C114.336 -0.64812 94.6875 3.13588 76.6475 11.1185C73.3647 12.5712 72.0806 16.4954 73.6955 19.7015C75.3104 22.9076 79.2123 24.1797 82.5032 22.7453C98.5757 15.7398 116.045 12.4248 133.621 13.0816C151.197 13.7384 168.37 18.348 183.875 26.5335C187.049 28.2095 191.035 27.2323 192.885 24.1556Z" fill="#E9E9EA" />
+                    <path d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#E9E9EA" />
+                    <path d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#E9E9EA" />
+                    <path d="M71.8665 20.41C70.1812 17.2403 66.2358 16.0229 63.1543 17.8645C44.8274 28.8171 29.4495 44.1348 18.4177 62.4919C7.38582 80.849 1.07758 101.617 0.00787042 122.941C-0.171992 126.526 2.75474 129.438 6.34459 129.439C9.93444 129.439 12.8261 126.527 13.0259 122.943C14.0829 103.98 19.7437 85.5232 29.5603 69.1882C39.377 52.8532 53.0174 39.1922 69.2662 29.3586C72.3374 27.4999 73.5517 23.5796 71.8665 20.41Z" fill="#E9E9EA" />
+                    <path js-progress-bar d="M71.8665 20.41C70.1812 17.2403 66.2358 16.0229 63.1543 17.8645C44.8274 28.8171 29.4495 44.1348 18.4177 62.4919C7.38582 80.849 1.07758 101.617 0.00787042 122.941C-0.171992 126.526 2.75474 129.438 6.34459 129.439C9.93444 129.439 12.8261 126.527 13.0259 122.943C14.0829 103.98 19.7437 85.5232 29.5603 69.1882C39.377 52.8532 53.0174 39.1922 69.2662 29.3586C72.3374 27.4999 73.5517 23.5796 71.8665 20.41Z" fill="#AC6D2F" />
+                    <path js-progress-bar d="M192.885 24.1556C194.735 21.079 193.747 17.0699 190.582 15.3763C173.188 6.06944 153.877 0.829505 134.106 0.0906926C114.336 -0.64812 94.6875 3.13588 76.6475 11.1185C73.3647 12.5712 72.0806 16.4954 73.6955 19.7015C75.3104 22.9076 79.2123 24.1797 82.5032 22.7453C98.5757 15.7398 116.045 12.4248 133.621 13.0816C151.197 13.7384 168.37 18.348 183.875 26.5335C187.049 28.2095 191.035 27.2323 192.885 24.1556Z" fill="#C0C0C0" />
+                    <path js-progress-bar d="M252.34 129.263C255.929 129.263 258.857 126.351 258.677 122.766C257.694 103.119 252.263 83.9221 242.759 66.635C233.256 49.348 219.957 34.476 203.896 23.119C200.965 21.0464 196.938 21.9575 195.014 24.9885C193.091 28.0195 194.001 32.0214 196.92 34.1102C211.138 44.2827 222.919 57.53 231.367 72.8978C239.816 88.2657 244.688 105.311 245.659 122.766C245.858 126.35 248.75 129.263 252.34 129.263Z" fill="#DBB000" />
+                </svg>
+    
+                <span js-progress-value class="absolute bottom-10 left-1/2 -translate-x-1/2 font-bold text-[2.5366rem] leading-[3.0625rem] text-neutral-80"></span>
+            </div>
+
+            <div class="legendas flex items-center justify-center mt-56 xl:mt-16">
+                <div class="item mr-8 flex items-center gap-8">
+                    <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-bronze block"></span>
+                    <p class="text-neutral-80 font-medium text-xs">{% traduzir 'Bronze' request %}</p>
+                </div>
+                <div class="item mr-8 flex items-center gap-8">
+                    <span class="legenda-badge legenda-badge w-16 h-[.375rem] rounded-lg bg-prata block"></span>
+                    <p class="text-neutral-80 font-medium text-xs">{% traduzir 'Prata' request %}</p>
+                </div>
+                <div class="item mr-8 flex items-center gap-8">
+                    <span class="legenda-badge w-16 h-[.375rem] rounded-lg bg-ouro block"></span>
+                    <p class="text-neutral-80 font-medium text-xs">{% traduzir 'Ouro' request %}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteudo relative flex flex-col h-full overflow-y-auto xl:h-[8.5rem] xl:flex-1" x-show="openTab === 2">
+            <div class="flex items-center justify-between font-bold text-xs leading-[.875rem] text-neutral-90 mb-8">
+                <span>{% traduzir 'Legenda' request %}</span>
+                
+                <div>
+                    <span>{% traduzir 'Perguntas respondidas' request %}</span>
+                    <span class="w-48 ml-56 text-right">Score%</span>
+                </div>
+            </div>
+
+            {% for curso in cursos %}
+                <a js-module-line class="flex items-center justify-between h-40 min-h-40 border-b border-neutral-5" style="min-height: 2.5rem;">
+                    <p class="font-normal text-base leading-[1.1875rem] text-neutral-80">
+                        {{curso.titulo}}
+                    </p>
+
+                    <div class="flex items-center w-[15.5rem]">
+                        <span class="font-medium text-xs leading-[.9375rem] text-neutral-80">
+                            <b>{{curso.quantidade_perguntas_respondidas}}</b>  
+                            {% traduzir 'de' request %} 
+                            <b>{{curso.quantidade_perguntas}}</b>
+                        </span>
+
+                        <div class="progress-bar h-12 w-120 bg-neutral-5 mx-8">
+                            <div class="bar-children" data-tippy-content="0%"></div>
+                        </div>
+
+                        <strong class="font-bold text-sm leading-[1.0625rem] text-neutral-90 ml-20 text-right flex-1">{{curso.progresso_quizz}}%</strong>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="footer-card mt-32 xl:mt-[.3rem]">
+            <div class="texto-footer" x-show="openTab === 1">
+                <h3 class="mb-2 text-neutral-black font-medium text-base">
+                    {% traduzir 'Geral' request %}
+                </h3>
+    
+                <p class="text-xs font-normal">
+                    {% traduzir 'Média dos itens' request %}
+                </p>
+    
+                <p class="text-xs font-normal">
+                    {% traduzir 'respondidos' request %} 
+                    <strong js-progress-score>({{perguntas_respondidas}} {% traduzir 'de' request %} {{total_perguntas}})</strong>
+                </p>
+            </div>
+            
+            <span class="group" @click="openTab = 2" x-show="openTab === 1" style="font-size: .75rem;">
+                {% traduzir 'Detalhes' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+            
+            <span class="group translate-y-2 xl:pt-96" @click="openTab = 1" x-show="openTab === 2" style="font-size: .75rem;">
+                {% traduzir 'Resumir' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-green relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Meu progresso' request %}
+    </h3>
+
+    <div class="h-full mt-24 px-16 flex flex-col flex-1 max-h-[18.5rem]" x-data="{ openTab: 1 }">
+        <div class="conteudo relative flex flex-col justify-center h-full mb-48" x-show="openTab === 1">
+            {% if percentual_aulas %}
+                <p class="porcentagem text-center text-[2.5rem] font-semibold text-neutral-90" js-progress-percent>
+                    {{percentual_aulas|floatformat}}%
+                </p>
+            {% else %}
+                <a href="{% url 'video:video' curso.primeiro_video_modulo.modulo.id curso.primeiro_video_modulo.id curso.projeto.slug%}?curso={{curso.id}}" class="btn quiz !px-16 !py-16 w-max mx-auto">
+                    {% traduzir 'Vamos começar' request %}
+                </a>
+            {% endif %}
+            
+            <div class="progress-bar h-16 w-full mt-24" js-total-modulos="1">
+                <div class="bar-children module"></div>
+            </div>
+        </div>
+
+        <div class="conteudo relative flex flex-col h-full overflow-y-auto styled-scroll mb-16" x-show="openTab === 2">
+            {% for modulo in curso.modulo_set.all %}
+                <a js-module-line class="flex items-center justify-between h-40 border-b border-neutral-5" style="min-height: 2.5rem;">
+                    <p class="font-normal text-base leading-[1.1875rem] text-neutral-80">
+                        {{modulo.titulo}}
+                    </p>
+
+                    <div class="flex items-center">
+                        <span class="font-medium text-xs leading-[.9375rem] text-neutral-80">
+                            <b>{{modulo.total_videos_finalizados}}</b> 
+                            {% traduzir 'de' request %} 
+                            <b>{{modulo.total_videos}}</b>
+                        </span>
+
+                        <div class="progress-bar h-12 w-120 bg-neutral-5 mx-8">
+                            <div class="bar-children" data-tippy-content="0%"></div>
+                        </div>
+                    <!--
+                        <svg class="w-24 h-24 transition-transform group-hover:translate-x-2" style="--cor-1: #D1D2D4">
+                            <use xlink:href="#icon_arrow_right"></use>
+                        </svg>
+                     --> 
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="footer-card ">
+            <div class="texto-footer" x-show="openTab === 1">
+                <p class="text-sm text-neutral-90" style="font-size: 0.71rem;">
+                    <strong>{{quantidade_aulas_concluidas}} {% traduzir 'de' request %} {{quantidade_aulas}}</strong> {% traduzir 'Episódios concluídos' request %}
+                </p>
+            </div>
+    
+            <span class="group" @click="openTab = 2" x-show="openTab === 1" style="font-size: .75rem;">
+                {% traduzir 'Detalhes' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+            
+            <span class="group" @click="openTab = 1" x-show="openTab === 2"style="font-size: .75rem;">
+                {% traduzir 'Resumir' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+        </div>
+    </div>
+</div>

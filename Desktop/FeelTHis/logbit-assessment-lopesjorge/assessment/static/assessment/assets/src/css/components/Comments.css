@@ -1,0 +1,129 @@
+@layer components {
+    .comments {
+        @apply max-h-[30rem] overflow-y-auto styled-scroll pr-8;
+
+        &--wrapper {
+            @apply mt-24;
+        }
+
+        &--header {
+            @apply flex items-center relative;
+
+            img {
+                @apply w-24 h-24 mr-8 rounded-full z-10;
+            }
+
+            p {
+                @apply font-bold text-sm leading-140 text-neutral-80;
+            }
+
+            span {
+                @apply font-medium text-[0.8125rem] leading-[133%] text-neutral-70 ml-8 pl-12 relative;
+
+                &::before {
+                    @apply content-[""] absolute left-0 top-[40%] w-[4px] h-[4px] rounded-full bg-neutral-20;
+                }
+            }
+        }
+
+        .line--content {
+            @apply relative flex justify-center;
+
+            img {
+                @apply w-32 h-32 rounded-full z-10;
+            }
+        
+            &::before {
+                height: calc(100% - 3rem);
+                @apply content-[""] absolute bottom-0 w-[1px] bg-neutral-10;
+            }
+        }
+
+        &--text {
+            p {
+                @apply font-normal text-sm leading-150 text-neutral-80 whitespace-pre-wrap;
+            }
+    
+            /* button {
+                @apply font-bold text-sm text-neutral-70 p-0;
+    
+                svg {
+                    @apply w-24 h-24;
+                }
+            } */
+        }
+
+        .respostas .comments--header::before {
+            @apply content-[""] absolute -top-4 -left-24 w-16 h-16 border-l border-b border-neutral-10 rounded-bl-xl;
+        }
+
+        .accordion-title {
+            @apply font-semibold text-sm text-neutral-60 pl-12 pr-4 h-32 btn white-hover cursor-pointer w-max relative rounded-2xl;
+    
+            &::before {
+                @apply content-[""] absolute -top-4 -left-[1.5625rem] w-16 h-16 border-l border-b border-neutral-10 rounded-bl-xl z-10;
+            }
+        }
+    
+        .accordion-content.active {
+            overflow: initial;
+        }
+    
+        .accordion-item:not(.active) .accordion-title::after {
+            content: "";
+            position: absolute;
+            left: -1.875rem;
+            bottom: -3px;
+            width: 1.875rem;
+            height: 1.875rem;
+            background: #FFF;
+        }
+    
+        .accordion-item.active .accordion-title {
+            @apply border bg-neutral-5 border-neutral-10;
+            
+            svg {
+                @apply rotate-180;
+            }
+        }
+    }
+
+    .criar_comentario,
+    .responder_comentario {
+        @apply flex items-center relative w-full;
+
+        img {
+            @apply w-24 h-24 mr-8 rounded-full z-10;
+        }
+
+        textarea {
+            @apply w-full h-40 max-h-40 py-8 pl-20 pr-80 bg-neutral-5 border border-neutral-10 rounded-[20px] resize-none overflow-hidden outline-1 outline-neutral-20 text-neutral-70;
+
+            &::placeholder {
+                @apply font-medium text-sm  text-neutral-80;
+            }
+        }
+
+        button {
+            @apply absolute right-4 bg-white font-semibold text-sm px-16 h-32 rounded-2xl white-hover btn;
+        }
+    }
+
+    .criar_comentario {
+        @apply mt-16 pt-16 border-t border-neutral-10;
+
+        img {
+            @apply w-32 h-32;
+        }
+    }
+
+    .responder_comentario {
+        &::before {
+            @apply content-[""] absolute top-4 -left-24 w-16 h-16 border-l border-b border-neutral-10 rounded-bl-xl z-10;
+        }
+
+        &::after {
+            @apply content-[""] w-40 h-[1.75rem] bg-white absolute bottom-0 -left-40 z-[1];
+        }
+    }
+}

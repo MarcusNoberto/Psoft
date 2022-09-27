@@ -1,0 +1,59 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col md2:col-span-2 py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-green relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Minhas conquistas' request %}
+    </h3>
+
+    <div class="conteudo flex flex-col h-full styled-scroll  xl:max-h-[15rem] xl:h-[15rem]">
+        {% if modulo_mais_proximo or modulos_concluidos %}
+            {% if modulo_mais_proximo %}
+                <div class="mt-24 px-24 grid gap-24 items-center" style="grid-template-columns: auto 1fr;">
+                    <div class="card card-trophy small">
+                        <img src="{% static 'assessment/assets/dist/images/master_trophy.png' %}" alt="Nível Mestre" />
+                        <span>{% traduzir 'Mestre em' request %} {{modulo_mais_proximo}}</span>   
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm font-medium text-neutral-80 leading-[1.0625rem]">
+                            {% traduzir 'Faltam' request %} {{progresso_mais_proximo|floatformat}}% {% traduzir 'para conquistar o troféu' request %} <strong>{% traduzir 'Mestre em' request %} {{modulo_mais_proximo}}</strong>
+                        </p>
+        
+                        <a href="{% url 'video:video' video_direcionado.modulo.id video_direcionado.id modulo_mais_proximo.projeto.slug%}?curso={{modulo_mais_proximo.id}}"
+                          class="btn materials mt-8 w-max !h-32 !px-8 !py-8">
+                          {% traduzir 'Continuar de onde parei' request %}
+                          
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="mt-24 px-24">
+                {% if modulos_concluidos %}
+                    <h5 class="font-normal text-base leading-[1.1875rem] text-neutral-80 mb-16">
+                        {% traduzir 'Veja os troféus já conquistados' request %}
+                    </h5>
+
+                    <div class="grid gap-8 overflow-y-auto styled-scroll grid-cols-3 {% if modulo_mais_proximo %} h-[8rem] {% else %} h-[16rem] xl:h-[11.5rem]{% endif %}">
+                        {% for modulo in modulos_concluidos %}
+                            <div class="card card-trophy small resize">
+                                <img src="{% static 'assessment/assets/dist/images/master_trophy.png' %}" alt="Mestre" />
+                                <span>{% traduzir 'Mestre em' request %} {{modulo.title}}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <p class="text-sm text-center text-neutral-80 font-normal">
+                    {% traduzir 'Ainda não tem nenhuma conquista' request %}
+                </p>
+                <a href="cursos/video/{{primeiro_video.modulo.id}}/{{primeiro_video.id}}/?curso=1" class="btn materials mt-8 !h-32 !px-8 !py-8">
+                    {% traduzir 'Conquistar troféu' request %}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>

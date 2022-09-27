@@ -1,0 +1,65 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card quiz-list-container">
+    <header>
+        <h4 class="card-title">
+            <svg><use xlink:href="#icon_quiz"></use></svg>
+            Quiz
+        </h4>
+
+        <div class="header-progress">
+            <div class="single-chart">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+            </div>
+
+            <p>
+                <strong js-question-id>{{pergunta.ordem}}</strong>
+                {% traduzir 'de' request %} 
+                <strong js-question-length>{{perguntas|length}}</strong>
+            </p>
+        </div>
+    </header>
+
+    <ul class="progress-line">
+        {% for question in perguntas %}
+            {% if question.respondida and question.ordem < pergunta.ordem  %}
+                {% if question.respondeu_correto %}
+                    <li class="correct">
+                        <a data-id="{{question.id}}">
+                            <svg><use xlink:href="#icon_quiz_correct"></use></svg>
+                            <span>{{question.titulo}}</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="wrong">
+                        <a data-id="{{question.id}}">
+                            <svg><use xlink:href="#icon_quiz_wrong"></use></svg>
+                            <span>{{question.titulo}}</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% elif question.id == pergunta.id %}
+                <li class="current">
+                    <a data-id="{{question.id}}">
+                        <svg><use xlink:href="#icon_quiz_current"></use></svg>
+                        <span>{{question.titulo}}</span>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a data-id="{{question.id}}">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="9" fill="white" stroke="#E9E9EA" stroke-width="2"/>
+                        </svg>
+    
+                        <span>{{question.titulo}}</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,1 @@
+default_app_config='dicas_oportunidades.apps.DicasOportunidadesConfig'

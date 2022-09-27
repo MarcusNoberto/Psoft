@@ -1,0 +1,47 @@
+@layer components {	
+	body {
+		overflow-x: hidden;
+		opacity: 0;
+		font-feature-settings: "pnum"on, "lnum"on;
+		-webkit-font-smoothing: antialiased;
+		@apply opacity-0 overflow-x-hidden styled-scroll bg-neutral-5;
+	
+		--width-menu: 21.5rem;
+		--width-menu-closed: 4rem;
+
+		&.menu-closed .container-main {
+			@apply ml-[var(--width-menu-closed)];
+		}
+	
+		&.DOMContentLoaded {
+			@apply opacity-100;
+
+			.container-login {
+				@apply translate-y-0 opacity-100;
+			}
+		}
+	}
+
+	.container-main {
+		@apply mt-80 md:mt-40 mx-auto ml-[var(--width-menu)] md:!ml-auto w-full md2:pl-0;
+
+		@media (max-width: 1367px) {
+			@apply ml-[var(--width-menu-closed)];
+		}
+
+		transition: margin 0.3s ease;
+	}
+	
+	.container-content {
+		@apply 
+			flex 
+			flex-col 
+			max-w-[1728px] 
+			/* 2xl:max-w-[1256px] 
+			lg:max-w-[1112px]  */
+			mx-auto 
+			mb-64 
+			px-48 
+			md2:px-12;
+	}
+}

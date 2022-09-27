@@ -1,0 +1,93 @@
+@layer components {
+	.card {
+		@apply bg-white border border-neutral-10;
+	}
+
+	.card-home {
+		@apply shadow-lg rounded;
+
+		&.main {
+			grid-template-columns: repeat(2, minmax(0, 38rem));
+			@apply grid justify-between items-center py-24 xl:h-[18rem];
+
+			.card-content {
+				@apply py-16 pl-24 h-full;
+
+				h1 {
+					@apply text-[2rem] text-neutral-90 font-normal pb-24 relative xl:text-[1.75rem] xl:pb-16;
+		
+					strong {
+						@apply font-black;
+					}
+				}
+		
+				p {
+					@apply text-neutral-70 text-base font-medium leading-150 mt-32;
+				}
+			}
+			.swiper[swiper-home]{
+				@apply xl:!mt-14;
+
+				.image-container img{
+					@apply xl:!h-120;
+				}
+			}
+		}
+
+		.footer-card {
+			@apply w-full flex justify-between;
+
+			.texto-footer {
+				p {
+					@apply text-neutral-90;
+
+					strong {
+						@apply text-neutral-90 font-bold ;
+					}
+				}
+			}
+
+			span, a {
+				@apply inline-flex items-end text-primary-red font-semibold cursor-pointer text-sm ml-auto;
+
+				svg {
+					@apply w-24 h-24 translate-y-1;
+					--cor-1: #D40203;
+				}
+			}
+		}
+		
+	}
+
+	.card-video {
+		@apply rounded-lg p-24;
+	}
+
+	.card-trophy {
+		@apply w-[12.5rem] h-[10rem] rounded-2xl flex items-center justify-center flex-col gap-16;
+
+		img {
+			@apply w-56 h-56 rounded-full;
+		}
+
+		span {
+			@apply block font-semibold text-base leading-[1.1875rem] text-neutral-80;
+		}
+
+		&.small {
+			@apply w-[8.375rem] h-[7.1875rem] bg-neutral-5;
+
+			img {
+				@apply w-48 h-48;
+			}
+
+			span {
+				@apply text-sm leading-[1.0625rem] text-neutral-90 px-8 pb-8 text-center;
+			}
+
+			&.resize {
+				@apply w-auto;
+			}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+section.container {
+    @include breadcrumb-mixin;
+    
+    .content {
+        grid-template-columns: 1fr 33.125rem;
+
+        @include d(mm) {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @include moduloContent;
+
+        .modulo--wrapper {
+            padding-top: 3rem;
+        }
+        
+        .video--list {
+            @include videoList;
+            
+            padding-top: 3rem;
+        }
+    }
+}

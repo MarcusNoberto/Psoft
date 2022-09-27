@@ -1,0 +1,84 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home main md:!flex md:flex-col">
+    <div class="card-content md:pr-24">
+        <h1 class="line-bottom"> 
+            {% traduzir 'Bem-vindo' request %}, 
+            <strong class="capitalize">{{user.get_full_name}}!</strong>
+        </h1>
+
+        <p class="text-justify text-sm">
+            {% traduzir 'Esperamos que você possa explorar ao máximo o conteúdo, incluir em seu portfólio de conhecimentos o know-how e preparar-se para enfrentar os desafios que se apresentam em uma área tão dinâmica como a de Coolers.' request %}
+        </p>
+
+        <p class="text-sm text-justify">
+            {% traduzir 'Mãos à obra e excelentes estudos!' request %}
+        </p>
+    </div>
+
+    <div class="h-[max-content] md:w-full px-24">
+        <p class="font-normal text-base leading-[1.25rem] text-neutral-80 mt-8 md:mt-32">
+            {% traduzir 'Por aqui, você pode começar:' request %}
+        </p>
+
+        <div class="swiper" swiper-home>
+            <div class="swiper-wrapper">
+                {% if usuario_completo or usuario_novo %} 
+               <!-- <p> Entrou nesse if</p>-->
+            
+                {% for video in lista %}
+                {% if video %}
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            
+                            <img src="{{video.thumbnail.url}}" alt="{{video.titulo}}">
+                            
+                            <a 
+                                js-toggle-hide-button 
+                                class="opacity-0 invisible"
+                                href="{% url 'video:video' video.modulo.id video.id video.modulo.curso.projeto.slug%}?curso={{video.modulo.curso.id}}"
+                            >
+                                {% traduzir 'Começar' request %}
+                            </a>
+                        </div>
+
+                        <p style="font-size: 0.84rem ;">{{video.titulo}}</p>
+                        <p style="font-size: 0.74rem ;">{{video.modulo.titulo}}</p>
+                    </div>
+                {% endif %}
+                {% endfor %}
+
+                {% else %}
+            
+
+                {% for video in next_aulas %}
+                {% if video %}
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            
+                            <img src="{{video.thumbnail.url}}" alt="{{video.titulo}}">
+                            
+                            <a 
+                                js-toggle-hide-button 
+                                class="opacity-0 invisible"
+                                href="{% url 'video:video' video.modulo.id video.id video.modulo.curso.projeto.slug %}?curso={{video.modulo.curso.id}}"
+                            >
+                                {% traduzir 'Começar' request %}
+                            </a>
+                        </div>
+
+                        <p style="font-size: 0.84rem ;" >{{video.titulo}} </p>
+                        <p style="font-size: 0.74rem ;">{{video.modulo.titulo}}</p>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+
+               </div>
+
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</div>

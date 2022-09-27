@@ -1,0 +1,86 @@
+@layer components {
+    .progress-bar {
+        @apply overflow-hidden flex bg-neutral-5 rounded-[3.3125rem];
+        
+        .bar-children {
+            @apply h-full flex justify-center;
+
+            &:nth-child(1) {
+                @apply bg-estrategia;
+            }
+            &:nth-child(2) {
+                @apply bg-aquisicao;
+            }
+            &:nth-child(3) {
+                @apply bg-controle;
+            }
+            &:nth-child(4) {
+                @apply bg-mercado;
+            }
+            &:nth-child(5) {
+                @apply bg-manutencao;
+            }
+            &:nth-child(6) {
+                @apply bg-descarte;
+            }
+
+            &.module {
+                @apply bg-primary-green;
+            }
+        }
+    }
+
+    .progress-legends {
+        @apply items-center justify-center mt-32;
+        
+        .legend-item {
+            @apply flex items-center gap-8;
+
+            span {
+                @apply w-16 h-[.375rem] rounded-lg block;
+            }
+
+            p {
+                @apply text-neutral-80 font-medium text-xs;
+            }
+
+            &:nth-child(1) span {
+                @apply bg-estrategia;
+            }
+            &:nth-child(2) span {
+                @apply bg-aquisicao;
+            }
+            &:nth-child(3) span {
+                @apply bg-controle;
+            }
+            &:nth-child(4) span {
+                @apply bg-mercado;
+            }
+            &:nth-child(5) span {
+                @apply bg-manutencao;
+            }
+            &:nth-child(6) span {
+                @apply bg-descarte;
+            }
+        }
+    }
+
+    [js-module-line]:nth-child(1) .bar-children {
+        @apply bg-estrategia;
+    }
+    [js-module-line]:nth-child(2) .bar-children {
+        @apply bg-aquisicao;
+    }
+    [js-module-line]:nth-child(3) .bar-children {
+        @apply bg-controle;
+    }
+    [js-module-line]:nth-child(4) .bar-children {
+        @apply bg-mercado;
+    }
+    [js-module-line]:nth-child(5) .bar-children {
+        @apply bg-manutencao;
+    }
+    [js-module-line]:nth-child(6) .bar-children {
+        @apply bg-descarte;
+    }
+}

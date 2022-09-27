@@ -1,0 +1,55 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-green relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Meu progresso no tempo' request %}
+    </h3>
+
+    <div class="h-full mt-24 xl:mt-12 px-16 flex flex-col flex-1" x-data="{ openTab: 1 }">
+        <div class="conteudo relative h-full" x-show="openTab === 1">
+            {% if tamanho_listagem_geral_video == 1 and listagem_geral_video.0.progresso == 0 %}
+                <a href="cursos/video/{{primeiro_video.modulo.id}}/{{primeiro_video.id}}/?curso=1" class="btn quiz !px-16 !py-16 absolute bottom-2/4 left-2/4 -translate-x-[50%] translate-y-[50%] z-10 ">
+                    {% traduzir 'Vamos começar' request %}
+                </a>
+
+                <div class="pointer-events-none" id="chart-time-progress"></div>
+            {% else %}
+                <div id="chart-time-progress"></div>
+            {% endif %}
+        </div>
+
+        <div class="conteudo relative h-full" x-show="openTab === 2">
+            <div id="chart-time-progress-detail"></div>
+        </div>
+
+        <div class="footer-card pt-24 xl:pt-12">
+            <div class="texto-footer">
+                {% if ultimo_registro_com_video %}
+                    <p class="font-normal text-neutral-90" style="font-size: 0.71rem;">
+                    {% traduzir 'Último episódio visto em' request %}
+                    {{ultimo_registro_com_video.data_hora}}
+                    </p>
+                    <h3 class="font-semibold text-neutral-90 text-xs">
+                       <!-- {{ ultimo_registro_com_video.video.titulo }}-->
+                       {{ultimo_registro_com_video.video.titulo}} - {{ultimo_registro_com_video.video.modulo.titulo}}
+                    </h3>
+                {% endif %}
+            </div>
+    
+            <span class="group" @click="openTab = 2" x-show="openTab === 1" style="font-size: .75rem;">
+                {% traduzir 'Detalhes' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+            
+            <span class="group" @click="openTab = 1" x-show="openTab === 2" style="font-size: .75rem;">
+                {% traduzir 'Resumir' request %}
+                <svg class="transition-transform group-hover:translate-x-2">
+                    <use xlink:href="#icon_arrow_right"></use>
+                </svg>
+            </span>
+        </div>
+    </div>
+</div>

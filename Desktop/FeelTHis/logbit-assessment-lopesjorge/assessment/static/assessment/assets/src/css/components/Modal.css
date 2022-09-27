@@ -1,0 +1,53 @@
+@layer components {
+    .modal--content {
+        .modal-header {
+            @apply h-80 flex p-20 items-center justify-between bg-neutral-100 rounded-tl-lg rounded-tr-lg -translate-y-2;
+
+            strong {
+                @apply font-semibold text-lg leading-140 text-white;
+            }
+
+            .close--modal {
+                @apply w-40 h-40 rounded-full grid place-items-center bg-[#FFFFFF33] border border-transparent hover:border-white hover:bg-[#FFFFFF40] transition-colors;
+
+                ion-icon {
+                    @apply w-24 h-24 text-white;
+                }
+            }
+        }
+
+        &[data-id="modal_materials"] {
+            .materials-list {
+                @apply flex flex-col flex-1 max-h-[24rem] overflow-y-auto styled-scroll;
+
+                &-empty {
+                    @apply grid place-content-center flex-1 text-base leading-140 text-neutral-60;
+                }
+            }
+
+            .materials-item {
+                @apply flex items-center justify-between px-16 py-14 border-b border-neutral-10;
+
+                &:last-child {
+                    @apply border-none;
+                }
+                
+                > div {
+                    @apply flex items-center;
+
+                    svg {
+                        @apply w-24 h-24 shrink-0;
+                    }
+
+                    span {
+                        @apply block ml-8 font-semibold text-base leading-140 text-neutral-60 overflow-hidden whitespace-nowrap text-ellipsis max-w-sm;
+
+                        b {
+                            @apply font-semibold;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

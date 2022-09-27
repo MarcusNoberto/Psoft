@@ -1,0 +1,189 @@
+@include ModalX("modal_video") {
+	border-radius: 8px !important;
+	width: max-content !important;
+	height: max-content !important;
+	background: transparent;
+
+	button.close--modal {
+		position: absolute;
+		top: -30px;
+		right: 0;
+
+		ion-icon {
+			color: #fff;
+			font-size: 2rem;
+			cursor: pointer;
+			z-index: 9999999 !important;
+		}
+	}
+
+	video {
+		width: 82rem;
+		border-radius: 8px;
+	}
+}
+
+@include ModalX("modal_avaliacao_video") {
+	border-radius: 8px !important;
+	width: max-content !important;
+	height: max-content !important;
+	background: transparent;
+
+	button.close--modal {
+		position: absolute;
+		top: -30px;
+		right: 0;
+
+		ion-icon {
+			color: #fff;
+			font-size: 2rem;
+			cursor: pointer;
+			z-index: 9999999 !important;
+		}
+	}
+
+	.modal--content {
+		background: $neutral-5;
+		width: 40rem;
+		height: 20rem;
+		border-radius: $border-r;
+	}
+}
+
+@include ModalX("modal_conclusao") {
+	border-radius: 8px !important;
+	width: max-content !important;
+	height: max-content !important;
+	background: transparent;
+
+	button.close--modal {
+		position: absolute;
+		top: -30px;
+		right: 0;
+
+		ion-icon {
+			color: #fff;
+			font-size: 2rem;
+			cursor: pointer;
+			z-index: 9999999 !important;
+		}
+	}
+
+	.modal--content {
+		background: $neutral-5;
+		width: 40rem;
+		height: 20rem;
+		border-radius: $border-r;
+	}
+}
+
+@include ModalX("modal_imagens") {
+	height: max-content !important;
+	width: 500px !important;
+	@include d(s){
+		width: 300px;
+	}
+
+	&[data-classx="modal_avatar"] {
+		.label--avatar {
+			label {
+				display: none !important;
+			}
+		}
+	}
+
+	form {
+		border: initial !important;
+	}
+
+	.label--avatar {
+		height: 20rem;
+		display: flex;
+		place-items: center;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		background: linear-gradient(180deg, #ad0306 0%, #600303 130%, #600303 100%), #fff;
+		cursor: pointer;
+		input {
+			display: none;
+		}
+
+		p {
+			font-weight: 600;
+			color: white !important;
+			font-size: 1.15rem;
+			letter-spacing: 0.1px;
+		}
+
+		&.have--img {
+			position: relative;
+
+			p {
+				display: none;
+			}
+
+			img {
+				@include size(100%); //100% tamanho
+				@include inset; //centraliza
+
+				position: absolute;
+				object-fit: cover;
+				@include size(100%);
+			}
+		}
+	}
+
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.5rem !important;
+		border: 1px solid rgba(0, 0, 0, 0.07);
+
+		h5 {
+			margin: 0;
+			padding: 0;
+			color: $neutral-80;
+			font-weight: 600;
+		}
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	.close--modal {
+		width: 2.5rem;
+		height: 2.5rem;
+		font-size: 8px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.52);
+		cursor: pointer;
+		display: grid;
+		place-items: center;
+		border: 1px solid rgba(0, 0, 0, 0.07);
+	}
+
+	input {
+		display: none;
+	}
+
+	[for="id_capa"] {
+		display: none;
+	}
+
+	footer {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	.btn--wrapper {
+		display: flex;
+		align-items: center;
+		padding: 24px 24px;
+		gap: 1rem;
+		width: 100%;
+	}
+}
