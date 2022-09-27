@@ -1,0 +1,59 @@
+@layer components {
+    .btn {
+        @apply flex items-center justify-center transition-all;
+
+        &.search {
+            @apply bg-white font-semibold rounded-2xl px-12 h-auto md:px-[.6875rem] gap-8 text-neutral-90 text-[.875rem] white-hover;
+        }
+
+        &.materials {
+            @apply h-48 text-primary-red bg-[#D402031A] font-semibold text-sm rounded-lg px-24 gap-4 shrink-0 light-red-hover;
+            
+            svg {
+                @apply w-24 h-24;
+            }
+        }
+
+        &.quiz {
+            @apply bg-primary-red rounded-lg px-24 py-14 font-semibold text-sm text-white leading-[1.225rem] dark-red-hover;  
+
+            &[disabled] {
+                @apply pointer-events-none opacity-50;
+            }
+        }
+
+        &.materials-small {
+            @apply w-max gap-4 h-24 font-semibold text-sm leading-140 text-neutral-70 bg-neutral-10 rounded-[2.875rem] px-12 sm:h-32 sm:px-16 medium-gray-hover;
+
+            svg {
+                --cor-1: #606168;
+                @apply w-14 h-14;
+            }
+        }
+
+        &.attachment {
+            @apply bg-neutral-10 rounded p-8 font-semibold text-sm leading-140 text-neutral-90 medium-gray-hover;
+        }
+    }
+
+    /* Hovers */
+    .light-red-hover {
+        @apply border border-transparent hover:bg-[#D4020333] hover:border-[#D402031A];
+    }
+
+    .dark-red-hover {
+        @apply border border-transparent hover:bg-[#8C0001] hover:border-[#B90001];
+    }
+
+    .light-gray-hover {
+        @apply border border-transparent hover:bg-neutral-10 hover:border-neutral-20;
+    }
+
+    .medium-gray-hover {
+        @apply border border-transparent hover:bg-neutral-20 hover:border-neutral-30;
+    }
+
+    .white-hover {
+        @apply border border-transparent hover:bg-neutral-5 hover:border-neutral-10;
+    }
+}

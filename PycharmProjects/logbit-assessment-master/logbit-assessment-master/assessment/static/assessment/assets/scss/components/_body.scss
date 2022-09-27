@@ -1,0 +1,56 @@
+body {
+    // @include scrollbars(8px, $cor-1, rgb(238, 238, 238));
+    // font-feature-settings: 'pnum'on, 'lnum'on;
+    // letter-spacing: 0.3px;
+    // line-height: 140%;
+    // background: #fff;
+    // min-height: 600px;
+    // height: 100vh;
+    font-size: 1rem;
+    overflow-x: hidden;
+    font-family: $font-1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+
+    &.DOMContentLoaded {
+        opacity: 1;
+    }
+}
+
+html {
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #1B1D26;
+        // background: #494A51;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, #AD0306 0%, #600303 100%, #600303 100%), #FFFFFF;;
+    }
+}
+
+
+
+//rem responsivo
+html {
+    overflow-x: hidden;
+
+    --font-base: 16px;
+    font-size: var(--font-base);
+}
+
+@media (max-width: 1440px) {
+    html {
+        font-size: calc(var(--font-base) - 29.25%);
+    }
+}
+
+@media (max-width: 980px) {
+    html {
+        font-size: calc(var(--font-base) - 12.5%);
+    }
+}

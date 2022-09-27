@@ -1,0 +1,234 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load traducao %}
+
+{% block content %}
+<main class="container-content" js-page="{{request.content_params.curso}}">
+    {% include 'base/breadcrumb.html' %}
+
+    <div class="flex gap-16 md2:flex-col justify-between">
+        <div class="flex flex-1 flex-col max-w-[53.5rem] md2:max-w-none">
+            <div class="font-medium text-2xl leading-[1.8125rem] text-neutral-90"> 
+                <h1>
+                    {% traduzir 'Parabéns' request %},
+                    <span class="text-primary-red">
+                        {{user.get_full_name}}!
+                    </span>
+                </h1>
+    
+                <p class="font-medium text-sm leading-[1.0625rem] text-neutral-70 mt-8">
+                    {% traduzir 'Você finalizou o quiz do item de' request %} {{modulo.titulo}}! {% traduzir 'Veja seus resultados abaixo:' request %}
+                </p>
+            </div>
+
+            <div class="home-line mt-48"> 
+                <h2 class="font-medium text-lg leading-[1.375rem] text-neutral-80 mb-8">
+                    {% traduzir 'Quiz' request %}
+                </h2>
+        
+                <div class="grid grid-cols-2 md:flex md:flex-col gap-16">
+                    <div class="card card-home flex flex-col py-24 h-[16.75rem]">
+                        <h3 class="line-before line-blue relative text-lg text-neutral-80 pl-24">
+                            {% traduzir 'Score Final' request %}
+                        </h3>
+    
+                        <div class="flex flex-1 items-center p-24 font-semibold text-[2.5rem] leading-[3rem] text-neutral-90">
+                            <h1>{{ percent_acertos }}%</h1>
+                        </div>
+    
+                        <div class="footer-card px-24">
+                            <div class="texto-footer flex items-center justify-between w-full">                
+                                <p class="text-sm font-normal">
+                                    {% traduzir 'Acertos' request %} 
+                                    <strong js-qtd-correct>{{ quantos_acertos }} </strong>
+                                    {% traduzir 'de' request %}
+                                    <strong js-qtd-questions> {{ total_perguntas }}</strong>
+                                </p>
+    
+                                <strong class="text-sm">
+                                    {% traduzir 'Nível' request %} 
+                                    {{ medalha }}
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card card-home flex flex-col py-24 h-[16.75rem]">
+                        <h3 class="line-before line-blue relative text-lg text-neutral-80 pl-24">
+                            {% traduzir 'Nível' request %}
+                        </h3>
+    
+                        <div class="conteudo flex flex-col flex-1 justify-center items-center">
+                            <div class="card card-trophy small">
+                                {% if medalha == 'Ouro' %}
+                                    <img src="{% static 'assessment/assets/dist/images/gold_trophy.png' %}" alt="Nível Ouro" />
+                                {% elif medalha == 'Prata' %}
+                                    <img src="{% static 'assessment/assets/dist/images/silver_trophy.png' %}" alt="Nível Prata" />
+                                {% else %}
+                                    <img src="{% static 'assessment/assets/dist/images/bronze_trophy.png' %}" alt="Nível Bronze" />
+                                {% endif %}
+                                <span>{% traduzir 'Nível' request %} {{ medalha }} {% traduzir 'em' request %} {{modulo.titulo}}</span>
+                            </div>
+
+                            <a href="{% url 'responder_pergunta' 'pergunta_multipla_escolha' modulo.primeira_pergunta curso.projeto.slug%}?curso={{curso.id}} " class="btn materials mt-32 w-max !h-32 !px-8 !py-8">
+                                {% traduzir 'Quero melhorar' request %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-line mt-24 md:mt-32">
+                <h2 class="font-medium text-lg leading-[1.375rem] text-neutral-80 mb-8">
+                    {% traduzir 'Episódios' request %}
+                </h2>
+
+                <div class="grid grid-cols-2 md:flex md:flex-col gap-16">
+                    <div class="card card-home flex flex-col py-24 h-[16.75rem]">
+                        <h3 class="line-before line-green relative text-lg text-neutral-80 pl-24">
+                            {% traduzir 'Meu progresso' request %}
+                        </h3>
+    
+                        <div class="conteudo flex flex-col flex-1 justify-center px-24">
+                            <p class="porcentagem text-[2.5rem] font-semibold text-neutral-90" js-progress-percent></p>
+
+                            <div class="progress-bar h-8 w-full mt-16" js-total-modulos="1">
+                                <div class="bar-children module"></div>
+                            </div>
+                        </div>
+
+                        <div class="footer-card px-24">
+                            <div class="texto-footer">
+                                <p class="text-sm text-neutral-90">
+                                    <strong js-qtd-finished>
+                                        {{modulo.videos_desse_modulo.quantidade_videos_concluidos}} 
+                                    </strong>
+                                    {% traduzir 'de' request %} 
+                                    <strong js-qtd-videos>
+                                        {{modulo.videos_desse_modulo.total_videos}} 
+                                    </strong>
+                                    {% traduzir 'Episódios concluídos' request %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if not ultimo_curso %}
+                        {% if continua_curso %}
+                            <a href="{% url 'video:video' next_modulo.id next_modulo.primeiro_video_do_modulo.id next_modulo.curso.projeto.slug%}?curso={{request.content_params.curso.id}}" class="btn quiz w-[8.75rem] h-56 ml-auto mt-auto md:w-full md:my-32">
+                                {% traduzir 'Seguir' request %}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'video:video' next_curso.primeiro_modulo.id next_curso.primeiro_modulo.primeiro_video_do_modulo.id next_curso.projeto.slug%}?curso={{next_curso.id}}" class="btn quiz w-[8.75rem] h-56 ml-auto mt-auto md:w-full md:my-32">
+                                {% traduzir 'Seguir' request %}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div> 
+        </div>
+        
+        <div class="card quiz-list-container">
+            <header>
+                <h4 class="card-title">
+                    <svg><use xlink:href="#icon_quiz"></use></svg>
+                    {% traduzir 'Quiz' request %}
+                </h4>
+        
+                <div class="header-progress">
+                    <div class="single-chart">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                    </div>
+        
+                    <p>
+                        <strong js-question-id>{{ quantos_acertos }}</strong>
+                        {% traduzir 'de' request %} 
+                        <strong js-question-length>{{ total_perguntas }}</strong>
+                    </p>
+                </div>
+            </header>
+
+            <ul class="progress-line result">
+                {% for question in modulo.get_perguntas %}
+                    {% if question.respondeu_correto %}
+                        <li class="correct">
+                            <a data-id="{{question.id}}">
+                                <svg><use xlink:href="#icon_quiz_correct"></use></svg>
+                                <span>{{question.titulo}}</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="wrong justify-between">
+                            <a data-id="{{question.id}}">
+                                <svg><use xlink:href="#icon_quiz_wrong"></use></svg>
+                                <span>{{question.titulo}}</span>
+                            </a>
+
+                            {% if question.aula_thumbnail %}
+                                <div class="w-[8.75rem] h-80 relative overflow-hidden rounded-lg">
+                                    <img src="{{question.aula_thumbnail.url}}" alt="{{question.aula_relacionada.titulo}}">
+
+                                    <a 
+                                        js-toggle-hide-button
+                                        href="{% url 'video:video' modulo.id question.aula_relacionada.id modulo.curso.projeto.slug%}?curso={{request.content_params.curso.id}}"
+                                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold text-sm leading-[1.0625rem] text-white bg-primary-red btn dark-red-hover p-4 pt-[.375rem] rounded-lg opacity-0 invisible"
+                                    >
+                                        {% traduzir 'Revisar' request %} 
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    GLOBAL.toggleHideButtons()
+
+    const swiper = new Swiper('[swiper-suggestions]', {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    })
+
+    function setProgressBar() {
+        const progressBar = document.querySelector('.bar-children')
+        const progressText = document.querySelector('[js-progress-percent]')
+        const qtdVideos = document.querySelector('[js-qtd-videos]').innerHTML.split()
+        const qtdFinished = document.querySelector('[js-qtd-finished]').innerHTML.split()
+
+        if (!qtdVideos) { return }
+
+        const value = ((Number(qtdFinished) / Number(qtdVideos)) * 100).toFixed(1)
+
+        progressBar.style.width = `${value}%`
+        progressText.innerHTML = `${value}%`
+    }
+
+    function changeListPercentage() {
+        const percentageSvg = document.querySelector('.circular-chart .circle')
+        const qtdCorrect = document.querySelector('[js-qtd-correct]').innerHTML.split()
+        const qtdQuestions = document.querySelector('[js-qtd-questions]').innerHTML.split()
+
+        if (!qtdCorrect) { return }
+
+        const value = ((Number(qtdCorrect) / Number(qtdQuestions)) * 100).toFixed(0)
+
+        percentageSvg.setAttribute('stroke-dasharray', `${value}, 100`)
+    }
+
+    setProgressBar()
+    changeListPercentage()
+</script>
+{% endblock %}

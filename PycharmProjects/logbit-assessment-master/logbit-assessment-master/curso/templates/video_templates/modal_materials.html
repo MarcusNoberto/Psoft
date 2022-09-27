@@ -1,0 +1,17 @@
+{% load traducao %}
+
+<section class="modal--content" data-id="modal_materials">
+    <div class="modal-header">
+        <strong>{% traduzir 'Materiais complementares' request %}</strong>
+        
+        <button data-xclose="modal_padrao" class="close--modal">
+            <ion-icon name="close"></ion-icon>
+        </button>
+    </div>
+
+    <ul class="materials-list">
+        <span class="materials-list-empty">
+            {% traduzir 'Carregando' request %}...
+        </span>
+    </ul>
+</section>

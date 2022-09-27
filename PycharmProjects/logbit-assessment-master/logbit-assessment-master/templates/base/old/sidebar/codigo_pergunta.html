@@ -1,0 +1,22 @@
+<a href="{% url 'responder_pergunta' item.tipo item.id %}?curso={{request.content_params.curso.id}}" class="accordion-link {% if pergunta.id == item.id %}active{% endif %}" data-nome="{{item}}">
+    <div>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d=" M8.07031 8.07117C8.26783 7.21987 9.0432 6.62962 9.91636 6.66586C10.8936 6.61173 11.7313 7.35639 11.7921 8.33322C11.7921 9.587 9.99972 10.0006 9.99972 10.8343" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M10.105 13.1269C10.105 13.1845 10.0583 13.231 10.0008 13.231C9.94326 13.231 9.89664 13.1844 9.89661 13.1268C9.89659 13.0693 9.94317 13.0227 10.0007 13.0226C10.0284 13.0226 10.0549 13.0335 10.0745 13.0531C10.0941 13.0727 10.1051 13.0993 10.105 13.1269" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M3.85653 14.3011C1.62061 11.1096 2.1952 6.73853 5.17995 4.23336C8.1647 1.72819 12.5692 1.92021 15.3246 4.67562C18.0801 7.43104 18.2721 11.8356 15.7669 14.8203C13.2617 17.8051 8.89062 18.3797 5.69918 16.1437L3.33008 16.6702L3.85653 14.3011Z" stroke="#76777D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <p>{{item}}</p>
+    </div>
+
+    {% if item.respondida %}
+        <svg class="done" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 17.5V17.5C5.8575 17.5 2.5 14.1425 2.5 10V10C2.5 5.8575 5.8575 2.5 10 2.5V2.5C14.1425 2.5 17.5 5.8575 17.5 10V10C17.5 14.1425 14.1425 17.5 10 17.5Z" stroke="var(--cor-1, #D40203)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13.3327 8.33301L9.16602 12.4997L6.66602 9.99967" stroke="var(--cor-1, #D40203)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    {% endif %}
+
+    <svg width="36" height="38" viewBox="0 0 36 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 25L22 19L16 13" stroke="#76777D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+</a>

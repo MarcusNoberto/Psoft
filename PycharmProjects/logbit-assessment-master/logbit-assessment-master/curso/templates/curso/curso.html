@@ -1,0 +1,189 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load traducao %}
+
+{% block body_class %}
+body__curso
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .apexcharts-legend-marker {
+        width: 1rem !important;
+        height: .375rem !important;
+        border-radius: .5rem !important;
+        margin-right: .5rem !important;
+        margin-left: .75rem !important;
+        transform: translateY(1px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container-content" js-page="{{request.content_params.curso}}">
+    {% include 'base/breadcrumb.html' %}
+
+    {% include './cards_curso/main_card.html' %}
+    
+    <div class="home-line">
+        <h2 class="font-medium text-2xl text-neutral-80 mb-16 mt-80 xl:mt-40">
+            {% traduzir 'Avanço nos Episódios' request %}
+        </h2>
+
+        <div class="grid grid-cols-3 md2:grid-cols-2 md:flex md:flex-col gap-16">
+            {% include './cards_curso/progress_card.html' %}
+            {% include './cards_curso/time_card.html' %}
+            {% include './cards_curso/conquests_card.html' %}
+        </div>
+
+        <div class="home-line">
+            <h2 class="font-medium text-2xl text-neutral-80 mb-16 mt-48 xl:mt-40">
+                {% traduzir 'Avanço no Quiz' request %}
+            </h2>
+    
+            <div class="grid grid-cols-3 md2:grid-cols-2 md:flex md:flex-col gap-16">
+                {% include './cards_curso/score_card.html' %}
+                {% include './cards_curso/evolution_card.html' %}
+                {% include './cards_curso/improve_score_card.html' %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script type="module">
+    import initLineChart from "{% static 'assessment/assets/src/js/modules/initLineChart.js' %}"
+    import renderPieProgress from "{% static 'assessment/assets/src/js/modules/renderPieProgress.js' %}"
+
+    
+    initLineChart('#chart-time-progress', { // Meu progresso no tempo
+        series: [{
+            name: "Progresso",
+            data: [
+                {% for registro in listagem_videos_registros %}
+                    '{{registro.progresso}}',
+                {% endfor %}
+            ],
+        }],
+        xaxis: {
+            categories: [
+                {% for registro in listagem_videos_registros %}
+                    '{{registro.data|date:"M/y"}}',
+                {% endfor %}
+            ],
+        },
+    })
+
+
+    initLineChart('#chart-my-evolution', { // Minha evolução
+        series: [{
+            name: "Progresso",
+            data: [
+                {% for registro in listagem_quizz_registros %}
+                    '{{registro.progresso}}',
+                {% endfor %}
+            ],
+        }],
+        xaxis: {
+            categories: [
+                {% for registro in listagem_quizz_registros %}
+                    '{{registro.data|date:"M/y"}}',
+                {% endfor %}
+            ],
+        },
+    })
+
+
+    function setScorePercent() {
+        const scoreText = document.querySelector('[js-progress-score]').innerHTML
+
+        const quizzesAnswered = Number(scoreText.split(' ')[0].replace('(', ''))
+        const qtdQuizzes = Number(scoreText.split(' ')[2].replace(')', ''))
+        const percent = ((quizzesAnswered / qtdQuizzes) * 100).toFixed(1)
+
+        renderPieProgress(
+            percent, 
+            '{{ curso.pontuacao_bronze }}', 
+            '{{ curso.pontuacao_prata }}', 
+            '{{ curso.pontuacao_ouro }}'
+        )
+    }
+
+    setScorePercent()
+</script>
+
+<script>
+    GLOBAL.toggleHideButtons()
+    
+    // Slide config
+    const swiper = new Swiper('[swiper-curso]', {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    })
+
+    function setProgressBar() {
+        const modules = document.querySelectorAll('[data-tippy-content]')
+
+        // Funcions
+        const renderTooltips = () => {
+            modules.forEach(el => {
+                const percentage = el.dataset.tippyContent
+                el.style.width = percentage
+
+                tippy(el, {
+                    theme: 'light',
+                    offset: [0, 1]
+                })
+            })
+        }
+
+        const setModuleProgressPercent = () => {
+            const moduleLines = document.querySelectorAll('[js-module-line]')
+
+            moduleLines.forEach(line => {
+                const qtdFinished = line.querySelectorAll('span b')[0].innerHTML
+                const qtdTotal = line.querySelectorAll('span b')[1].innerHTML
+                const progressBar = line.querySelector('[data-tippy-content]')
+
+                const percentValue = (Number(qtdFinished) / Number(qtdTotal)) * 100
+
+                progressBar.setAttribute('data-tippy-content', `${percentValue}%`)
+                progressBar.style.width = `${percentValue}%`
+            })
+        }
+
+
+        const setModuleBar = () => {
+            const bar = document.querySelector('.bar-children.module')
+            const progressTextEl = document.querySelector('[js-progress-percent]')
+
+            if (!progressTextEl)
+                return
+                
+            const progressText = progressTextEl.innerHTML.replace('%', '').replace(',', '.')
+            const progressPercent = Number(progressText)
+
+            bar.style.width = `${progressPercent}%`
+        }
+
+        function init() {
+            setModuleProgressPercent()
+            setModuleBar()
+            renderTooltips()
+
+            return this
+        }
+
+        return { init }
+    }
+
+    setProgressBar().init()
+</script>
+{% endblock %}

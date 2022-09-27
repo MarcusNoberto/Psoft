@@ -1,0 +1,22 @@
+{% load video_instrucao %}
+{% load traducao %}
+
+<div class="modal_video" data-position="center">
+    <section class="modal--content" data-id="modal_instrucoes">
+        <div class="modal-header">
+            <strong>{% traduzir 'Instruções' request %}</strong>
+            
+            <button data-xclose="modal_video" class="close--modal">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </div>
+
+        <video 
+            controls
+            class="w-full h-full m-auto -mt-4 rounded-bl-lg rounded-br-lg"
+        >   
+            <source src="{% video_instrucao request %}" type="video/mp4">
+            {% traduzir 'Seu navegador não suporta a tag de vídeo.' request %}
+        </video>
+    </section>
+</div>

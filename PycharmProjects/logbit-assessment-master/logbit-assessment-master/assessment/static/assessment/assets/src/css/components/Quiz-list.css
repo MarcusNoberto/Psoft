@@ -1,0 +1,107 @@
+@layer components {
+	.quiz-list-container {
+        @apply flex flex-col w-[29rem] h-max rounded-lg  md2:w-full;
+        /* xl:w-[20rem] */
+        header {
+            @apply flex items-center justify-between border-b border-neutral-10;
+        }
+
+        .header-progress {
+            @apply flex items-center gap-8 pr-24 font-normal text-sm leading-[1.0625rem] text-neutral-60;
+
+            strong:first-child {
+                @apply text-neutral-80;
+            }
+        }
+
+        .progress-line {
+            @apply flex flex-col p-24;
+
+            li {
+                @apply flex items-center gap-8 font-semibold text-sm leading-[1.1875rem] text-neutral-70 relative h-56;
+
+                a {
+                    @apply flex items-center gap-8;
+                }
+
+                svg {
+                    @apply w-20 h-20 bg-white z-10;
+                }
+
+                &::before {
+                    @apply content-[""] absolute left-[.54rem] -top-20 w-[2px] h-40 bg-neutral-10;
+                }
+
+                &:first-child::before {
+                    @apply h-32 top-0;
+                }
+
+                &.correct::before, 
+                &.wrong::before, 
+                &.current::before {
+                    @apply bg-neutral-70;
+                }
+
+                &.correct {
+                    @apply text-primary-green;
+                }
+
+                &.wrong {
+                    @apply text-primary-red;
+                }
+
+                &.current {
+                    @apply text-neutral-90;
+                }
+            }
+
+            &.result {
+                @apply p-0 max-h-[43rem] overflow-y-auto styled-scroll;
+
+                li {
+                    @apply px-24 h-[6rem] min-h-[6rem] border-b border-neutral-10;
+
+                    &::before {
+                        @apply left-[2.025rem] -top-48 h-96;
+                    }
+    
+                    &:first-child::before {
+                        @apply h-0;
+                    }
+
+                    &.correct::before, 
+                    &.wrong::before, 
+                    &.current::before {
+                        @apply bg-neutral-10;
+                    }
+                }
+            }
+        }
+    }
+
+    .single-chart {
+        @apply w-24 h-24 relative grid place-items-center bg-white rounded-full;
+        
+        .circle-bg {
+            @apply fill-[none] stroke-neutral-10;
+            stroke-width: 7;
+        }
+        
+        .circle {
+            @apply fill-[none] stroke-neutral-80;
+            stroke-width: 7;
+            stroke-linecap: round;
+            animation: progress 1s ease-out forwards;
+        }
+
+        svg:last-child, img {
+            @apply absolute rounded-full w-24 h-24;
+        }
+    
+        @keyframes progress {
+            0% {
+                stroke-dasharray: 0 100;
+            }
+        } 
+    }
+}

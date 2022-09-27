@@ -1,0 +1,277 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load traducao %}
+
+{% block body_class %}
+body__video
+{% endblock %}
+
+{% block content %}
+    <main class="container-content" js-page="{{request.content_params.curso}}">
+        {% include 'base/breadcrumb.html' %}
+
+        <div class="flex gap-16 md2:flex-col">
+            <div class="flex flex-1 flex-col gap-16">
+                {% include 'video_templates/video_player.html' %}
+
+                <div class="card card-video">
+                    <div class="flex justify-between gap-16">
+                        <div>
+                            <strong class="font-bold text-xs text-primary-red leading-[1rem] block">
+                                {{ modulo_atual.titulo }}
+                            </strong>
+        
+                            <h4 class="mt-4 font-medium text-2xl leading-[1.75rem] text-neutral-80">
+                                {{ video_atual.titulo }}
+                            </h4>
+                        </div>
+
+                        <button class="btn materials" data-id="modal_materials" data-xopen="modal_padrao" onclick="fillMaterialModal('{{ video_atual.id }}')">
+                            <svg>
+                                <use xlink:href="#icon_materials"></use>
+                            </svg>
+
+                            <span class="sm:hidden">
+                                {% traduzir 'Materiais' request %} 
+                                <span class="md:hidden">{% traduzir 'complementares' request %}</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="mt-16 font-normal text-sm leading-150 text-neutral-80">
+                        {{ video_atual.descricao|linebreaks }}
+                    </div>
+                </div>
+
+                <div class="card card-video">
+                    <strong class="text-neutral-60">{% traduzir 'Fórum de dúvidas' request %}</strong>
+
+                    {% include 'video_templates/comments.html' %}
+                </div>
+            </div>
+
+            {% include 'video_templates/video_list.html' %}
+        </div>
+    </main>
+{% endblock %}
+
+{% block modal_padrao %}
+    {% include 'video_templates/modal_materials.html' %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function fillMaterialModal(videoId) {
+            const getMaterials = async () => {
+                const response = await fetch(`/api/anexos_video/?video=${videoId}`)
+                const data = await response.json()
+
+                if (data.results.length) {
+                    const template = generateMaterialItem(data.results)
+                    insertModalHtml(template)
+
+                } else {
+                    insertModalHtml('', true)
+                }
+            }
+
+            const generateMaterialItem = (material) => {
+                return material.map(({
+                    id,
+                    titulo,
+                    anexo,
+                    arquivo_icon
+                }) => {
+                    return `
+                        <li class="materials-item" material-id="${id}">
+                            <div title="${titulo}">
+                                <svg><use xlink:href="#${arquivo_icon}"></use></svg>
+                                <span>
+                                    ${titulo}.<b attachment-format>${arquivo_icon.replace('icon_', '')}</b>
+                                </span>
+                            </div>
+
+                            <a href="${anexo}" target="_blank" class="btn attachment">
+                                Visualizar
+                            </a>
+                        </li>
+                    `
+                }).join("")
+            }
+
+            const insertModalHtml = (el, isEmpty) => {
+                const listEl = document.querySelector('.materials-list')
+                const msg = "{% traduzir 'Sem materiais complementares' request %}"
+
+                if (isEmpty) {
+                    listEl.innerHTML = `
+                        <span class="materials-list-empty">
+                            ${msg}
+                        </span>
+                    `
+                } else {
+                    listEl.innerHTML = el
+                }
+            }
+
+            getMaterials()
+        }
+
+        function handleVideoObserver() {
+            const videoEl = document.querySelector('[js-video]')
+            const videoOverlay = document.querySelector('[js-overlay]')
+            const videoReplay = document.querySelector('[js-replay]')
+            let progress
+            
+
+            const videoId = videoEl.dataset.id
+            const moduleId = videoEl.dataset.module
+            const csrf_token = videoEl.dataset.token
+            const idsVideosNaoConcluidos = [
+                {% for id in videos_nao_concluidos %}
+                    '{{id}}',
+                {% endfor %}
+            ]
+
+            const lastVideo = idsVideosNaoConcluidos.length == 1 ? idsVideosNaoConcluidos[0] : ''
+
+            let timer
+
+            // Funcions
+            const replayVideo = () => {
+                videoOverlay.classList.remove('visible', 'opacity-100')
+                videoOverlay.classList.add('invisible', 'opacity-0')
+
+                clearInterval(progress)
+                videoEl.play()
+            }
+
+            const showOverlay = () => {
+                videoOverlay.classList.remove('invisible', 'opacity-0')
+                videoOverlay.classList.add('visible', 'opacity-100')
+
+                nextStepTimer()
+            }
+
+            const toggleNextStepContent = (disable = false) => {
+                const nextQuiz = document.querySelector('[js-next-quiz]')
+                const nextVideo = document.querySelector('[js-next-video]')
+                const btnQuiz = document.querySelector('.btn.quiz')
+
+                nextQuiz.style.display = 'flex'
+                nextVideo.style.display = 'none'
+                btnQuiz.classList.remove('pointer-events-none', 'opacity-50')
+
+                if (disable)
+                    btnQuiz.classList.add('pointer-events-none', 'opacity-50')
+            }
+
+            const nextStepTimer = () => {
+                const timerText = document.querySelector('[js-next-step-timer]')
+                const linkType = timerText.getAttribute('js-next-step-timer')
+                let progressStartValue = 0
+                let progressText = 9
+
+                progress = setInterval(() => {
+                    timerText.innerHTML = progressText
+                    progressStartValue++
+                    progressText--
+
+                    if (progressStartValue == 10) {
+                        clearInterval(progress)
+
+                        if (linkType == 'video') {
+                            location.href = "/cursos/video/{{modulo_atual.id}}/{{video_proximo.id}}/?curso={{modulo_atual.curso.id}}"
+
+                        } else if (linkType == 'quiz') {
+                            {% if modulo_atual.primeira_pergunta %}
+                                location.href = "{% url 'responder_pergunta' 'pergunta_multipla_escolha' modulo_atual.primeira_pergunta curso_atual.projeto.slug%}?curso={{curso_atual.id}}"
+                            {% endif %}
+                        }
+                    }
+                }, 1000)
+            }
+
+            // Requests
+            const completePreview = () => {
+                $.ajax({
+                    url: "{% url 'video:conclui_visualizacao_video' %}",
+                    type: "POST",
+                    data: {
+                        'video_id': videoId,
+                        'csrfmiddlewaretoken': csrf_token,
+                    },
+                    success: data => console.log('Video successfully', data),
+                    // error: data => alert('ERROR ', data)
+                })
+            }
+
+            const rateVideo = nota => {
+                $.ajax({
+                    url: "{% url 'video:avaliar_video' %}",
+                    type: "POST",
+                    data: {
+                        'video_id': videoId,
+                        'csrfmiddlewaretoken': csrf_token,
+                        'nota': nota
+                    },
+                    success: data => alert('Nota enviada'),
+                    error: data => alert('Mostrar o modal com erro', data)
+                })
+            }
+
+
+            // Timer
+            const startTimer = () => {
+                timer = setInterval(() => { 
+                    if (videoEl.currentTime >= videoEl.duration * 0.9) {
+                        completePreview()
+                        stopTimer()
+
+                        if (lastVideo == videoId) 
+                            toggleNextStepContent()
+
+                    }
+                }, 2000)
+            }
+
+            const stopTimer = () => clearInterval(timer)
+
+
+            // Events
+            const events = () => {
+                videoEl.addEventListener('play', () => {
+                    startTimer()
+                })
+
+                videoEl.addEventListener('ended', () => {
+                    stopTimer()
+                    showOverlay()
+                })
+                
+                videoEl.addEventListener('pause', stopTimer)
+                videoReplay.addEventListener('click', replayVideo)
+
+                videoOverlay.querySelectorAll('.stars > svg').forEach(star => star.addEventListener('click', event => {
+                    star.closest('.stars').classList.add('brightness-50', 'pointer-events-none')
+                    rateVideo(star.dataset.star)
+                }))
+            }
+
+            function init() {
+                events()
+                
+                if (lastVideo == videoId)
+                    toggleNextStepContent(true)
+
+                return this
+            }
+
+            return {
+                init
+            }
+        }
+
+        handleVideoObserver().init()
+    </script>
+{% endblock %}

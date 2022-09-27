@@ -1,0 +1,27 @@
+@import "tailwindcss/base";
+
+
+/* /////////////////////////////////////////// */
+/* 	COMPONENTS */
+@import "tailwindcss/components";
+
+@import "./components/Html.css";
+@import "./components/Body.css";
+@import "./components/Header.css";
+@import "./components/Sidebar.css";
+@import "./components/Card.css";
+@import "./components/Slide.css";
+@import "./components/Progress.css";
+@import "./components/Breadcrumb.css";
+@import "./components/Button.css";
+@import "./components/Modal.css";
+@import "./components/Comments.css";
+@import "./components/Video-list.css";
+@import "./components/Quiz-list.css";
+@import "./components/Quiz-questions.css";
+
+
+/* /////////////////////////////////////////// */
+/* 	UTILITIES */
+@import "tailwindcss/utilities";
+@import "./utilities/util.css";

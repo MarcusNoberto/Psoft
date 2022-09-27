@@ -1,0 +1,10 @@
+.idea
+# If you are using sqlite3
+*.sqlite3
+*pyc
+media
+.vscode
+node_modules
+*.my
+package-lock.json
+.parcel-cache

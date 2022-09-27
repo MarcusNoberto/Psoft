@@ -1,0 +1,11 @@
+@import "./components/modalX";
+
+@include ModalX("modal_padrao");
+
+@include ModalX("modal_video") {
+  width: 800px !important;
+
+  @media (max-width: 610px) {
+    width: 95vw !important;
+  }
+};

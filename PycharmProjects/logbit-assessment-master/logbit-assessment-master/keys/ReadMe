@@ -1,0 +1,34 @@
+# Como acessar o servidor
+Essa chave é um arquivo que precisa ser secréto e seguro.
+
+Caso for usar, você precisa baixar para o seu computador,
+o local onde colocar fica a seu critério, recomendamos colocar
+na pasta .ssh que fica na sua pasta pessoal raiz (ubuntu).
+
+Depois de colocar em algum lugar, clique com o botão direito e
+acesse o menu de propriedades, lá você vai em permissões e
+tira todas elas. Depois disso é só rodar os seguinte comando
+
+ssh -i /caminho/para/chave/ChaveAWSLogbit.pem ubuntu@simulador.logbit.com.br
+
+# Como fazer deploy
+Atualize a branch master do git e com o servidor ssh aberto faça os seguintes
+comandos
+
+git pull origin master (SEM REBASE!!!)
+
+Adicione o usuário e a senha abaixo
+
+Usuário: edsondelimacosmejunior
+
+Senha(token): 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
+
+python manage.py migrate (NÃO FAZER MAKEMIGRATIONS!!!)
+
+sudo service gunicorn restart
+
+------------------------------------------
+Login 
+
+gabriel.godinho@logbit.com.br
+Logbit@123

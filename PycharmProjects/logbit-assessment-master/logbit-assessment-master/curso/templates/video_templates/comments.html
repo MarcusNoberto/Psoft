@@ -1,0 +1,139 @@
+{% load static %}
+{% load avatar_tags %}
+{% load traducao %}
+
+<div class="comments" id="comentarios">
+    {% for comentario in comentarios %}
+        <div class="comments--wrapper flex">
+            <div class="line--content">
+                {% avatar user %}
+            </div>
+
+            <div class="comments--content w-full ml-8">
+                <div class="comments--header mt-[.375rem]">
+                    <p>{{ comentario.usuario_criacao}}</p>
+                    <span>{{ comentario.data_criacao|date:'d/m/Y' }}</span>
+                </div>
+
+                <div class="comments--text" id="comentario-{{comentario.id}}">
+                    <p class="pt-16 pb-24">{{ comentario.comentario }}</p>
+
+                    {% if comentario.resposta_comentario_set.all.count >= 0 %}
+                        <div class="accordion-item" js-accordion js-accordion-gsap>
+                            <div class="accordion-title flex items-center" data-accordion="{{comentario.id}}">
+                                {% if comentario.resposta_comentario_set.all.count == 0 %}
+                                    Responder
+                                {% else %}
+                                    {{comentario.resposta_comentario_set.all.count}} {% traduzir 'resposta(s)' request %}
+                                {% endif %}
+                                
+                                <svg class="w-24 h-24"><use xlink:href="#icon_arrow_bottom"></use></svg>
+                            </div>
+
+                            <div class="accordion-content comments max-h-full" data-accordion="{{comentario.id}}">
+                                <div id="respostas-{{comentario.id}}"
+                                    {% if comentario.resposta_comentario_set.all.count > 0 %}
+                                        class="respostas collapse fade mt-16"
+                                    {% else %}
+                                        class="respostas collapse fade show mt-16"
+                                    {% endif %}
+                                >
+
+                                    {% for resposta in comentario.resposta_comentario_set.all %}
+                                        <div class="comments--header">
+                                            {% avatar user %}
+                                            <p>{{ resposta.usuario_criacao}}</p>
+                                            <span>{{ resposta.data_criacao|date:'d/m/Y' }}</span>
+                                        </div>
+                        
+                                        <div class="comments--text">
+                                            <p class="pt-4 pb-8">{{ resposta.comentario }}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="responder_comentario">
+                                    {% avatar user %}
+                
+                                    <textarea 
+                                        placeholder="{% traduzir 'Adicione uma resposta' request %}..." 
+                                        name="comentario" 
+                                        id="id_comentario_{{comentario.id}}" 
+                                        class="form-control"
+                                    ></textarea>
+                
+                                    <button 
+                                        data-idvideo="{{video_atual.id}}" 
+                                        data-idcomentario="{{comentario.id}}" 
+                                        type="button" 
+                                        onclick="subComments.createSubComment(this)"
+                                    >
+                                        {% traduzir 'Enviar' request %}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="responder_comentario">
+                            {% avatar user %}
+        
+                            <textarea 
+                                placeholder="{% traduzir 'Adicione uma resposta' request %}..." 
+                                name="comentario" 
+                                id="id_comentario_{{comentario.id}}" 
+                                class="form-control"
+                            ></textarea>
+        
+                            <button 
+                                data-idvideo="{{video_atual.id}}" 
+                                data-idcomentario="{{comentario.id}}" 
+                                type="button" 
+                                onclick="subComments.createSubComment(this)"
+                            >
+                                {% traduzir 'Enviar' request %}
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div id="div-not-comments">
+            <p class="text-center pb-20 pt-32 font-normal text-sm leading-150 text-neutral-80">
+                {% traduzir 'Sem comentários' request %}
+            </p>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="criar_comentario">
+    {% avatar user %}
+
+    <textarea 
+        placeholder="{% traduzir 'Adicione um comentário' request %}..."
+        name="comentario" 
+        id="id_comentario_{{comentario.id}}"
+    ></textarea>
+
+    <button 
+        data-idvideo="{{video_atual.id}}" 
+        type="button" 
+        onclick="comments.createComment(this)"
+    >
+        {% traduzir 'Enviar' request %}
+    </button>
+</div>
+
+<script type="module">
+    import handleCreateComments from "{% static 'assessment/assets/src/js/modules/handleCreateComments.js' %}"
+    import handleCreateSubComments from "{% static 'assessment/assets/src/js/modules/handleCreateSubComments.js' %}"
+
+    const urls = {
+        url_criar_comentario: "{% url 'url_criar_comentario' %}"
+    }
+
+    const avatar = '{% avatar user %}'
+
+    window.comments = handleCreateComments(urls, avatar)
+    window.subComments = handleCreateSubComments(urls, avatar)
+</script>

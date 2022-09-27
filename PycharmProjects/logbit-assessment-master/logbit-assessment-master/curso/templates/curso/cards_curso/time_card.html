@@ -1,0 +1,35 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card card-home flex flex-col py-24 h-[25rem] xl:h-[20rem]">
+    <h3 class="line-before line-green relative text-lg text-neutral-80 pl-24">
+        {% traduzir 'Meu progresso no tempo' request %}
+    </h3>
+
+    <div class="conteudo relative h-full mt-24 px-16 flex flex-col flex-1" x-show="openTab === 1">
+        {% if curso.primeiro_video_modulo.modulo %}
+        {% if tamanho_listagem_videos_registros == 1 and listagem_videos_registros.0.progresso == 0 %}
+            <a href="{% url 'video:video' curso.primeiro_video_modulo.modulo.id curso.primeiro_video_modulo.id curso.projeto.slug%}?curso={{curso.id}}" class="btn quiz !px-16 !py-16 absolute bottom-2/4 left-2/4 -translate-x-[50%] translate-y-[50%] z-10 ">
+                {% traduzir 'Vamos começar' request %}
+            </a>
+
+            <div class="pointer-events-none" id="chart-time-progress"></div>
+        {% else %}
+            <div id="chart-time-progress"></div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="footer-card pt-24 px-16 xl:pt-8">
+        <div class="texto-footer">
+            {% if ultimo_registro_com_video %}
+                <p class="text-xs font-normal text-neutral-90">
+                    {% traduzir 'Último episódio visto em' request %} {{ ultimo_registro_com_video.data_hora}}
+                </p>
+                <h3 class=" font-semibold text-neutral-90" style="font-size: 0.75rem;">
+                    {{ultimo_registro_com_video.video.titulo}} - {{ultimo_registro_com_video.video.modulo.titulo}}
+                </h3>
+            {% endif %}
+        </div>
+    </div>
+</div>

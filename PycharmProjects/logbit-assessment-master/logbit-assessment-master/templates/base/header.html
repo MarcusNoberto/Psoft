@@ -1,0 +1,63 @@
+{% load static %}
+{% load traducao %}
+
+<header class="header">
+    <div class="flex items-center gap-20 w-[10rem]">
+        <div class="menu-btn" onclick="menu.toogleMenu()">
+            <div class="menu-btn__burger"></div>
+        </div>
+    
+        <img src="{% static 'assessment/assets/dist/images/e2e-logo.png' %}" class="h-40 sm:h-32" alt="logo"/>
+    </div>
+
+    <div class="input-container">
+        <input 
+            type="text" 
+            name="header_search" 
+            id="header_search" 
+            placeholder="{% traduzir 'Pesquisar' request %}..."
+        >
+
+        <button class="btn search">
+            <svg class="w-12 h-12">
+                <use xlink:href="#icon_search"></use>
+            </svg>
+
+            <span class="sm:hidden">{% traduzir 'Buscar' request %}</span>
+        </button>
+
+        <div class="search-container">
+            <span class="status">
+                {% traduzir 'Carregando' request %}...
+            </span>
+
+            <span class="status">
+                {% traduzir 'Nenhum resultado encontrado' request %}
+            </span>
+
+            <span class="status">
+                {% traduzir 'Resultados da pesquisa' request %}
+            </span>
+
+            <ul class="video-list-container">
+                <!--  -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-8 w-[10rem] sm:hidden">
+        <button 
+            data-id="modal_instrucoes" 
+            data-xopen="modal_video"
+            class="btn bg-neutral-5 px-20 h-40 rounded-[1.25rem] light-gray-hover text-neutral-90 font-semibold text-[.875rem]"
+        >
+            {% traduzir 'Instruções' request %} 
+        </button>
+
+        <a href="{% url 'logout_kinects' %}" class="btn bg-[#D402031A] px-0 w-40 h-40 rounded-full light-red-hover">
+            <svg class="w-24 h-24">
+                <use xlink:href="#icon_logout"></use>
+            </svg>
+        </a>
+    </div>
+</header>

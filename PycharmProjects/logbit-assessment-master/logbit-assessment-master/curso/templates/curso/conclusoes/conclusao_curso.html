@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<main id="initial" class="content">
+    <div class="left--content">
+        {% include 'curso/conclusoes/conclusao_curso_content.html' %}
+    </div>
+        
+    <div class="right--content">
+        {% include 'curso/dicas_oportunidades.html' %}
+    </div>
+</main>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    
+    document.querySelector('.sidebar').style.transition = 'none'
+    document.querySelector('.grid--app').classList.add('sidebar--is-closed');
+    document.querySelector('.sidebar-close').classList.add('d-none');
+</script>
+{% endblock %}

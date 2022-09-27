@@ -1,0 +1,152 @@
+{% load static %}
+{% load traducao %}
+
+<div class="card video-list-container">
+    <h4 class="card-title">
+        <svg><use xlink:href="#icon_video"></use></svg>
+        {% traduzir 'Próximo' request %}
+    </h4>
+
+    <div class="quiz-content" style="display: none;" js-next-quiz>
+        <div class="flex">
+            <div class="quiz-content-icon">
+                <svg><use xlink:href="#icon_quiz_color"></use></svg>
+            </div>
+
+            {% if modulo_atual.primeira_pergunta %}
+                <h4 class="card-title">{% traduzir 'Iniciar Quiz' request %}</h4>
+            {% else %}
+                <h4 class="card-title">{% traduzir 'Sem Perguntas' request %}</h4>
+            {% endif %}
+        </div>
+
+        {% if modulo_atual.primeira_pergunta %}
+            <a 
+                href="{% url 'responder_pergunta' 'pergunta_multipla_escolha' modulo_atual.primeira_pergunta curso_atual.projeto.slug%}?curso={{curso_atual.id}} " 
+                class="btn quiz"
+            >
+                {% traduzir 'Começar' request %}
+            </a>
+        {% endif %}
+    </div>
+
+
+    {% if concluiu_todas %}
+        <div class="quiz-content">
+            <div class="flex">
+                <div class="quiz-content-icon">
+                    <svg><use xlink:href="#icon_quiz_color"></use></svg>
+                </div>
+
+                {% if modulo_atual.primeira_pergunta %}
+                    <h4 class="card-title">{% traduzir 'Iniciar Quiz' request %}</h4>
+                {% else %}
+                    <h4 class="card-title">{% traduzir 'Sem Perguntas' request %}</h4>
+                {% endif %}
+            </div>
+
+            {% if modulo_atual.primeira_pergunta %}
+                <a 
+                    href="{% url 'responder_pergunta' 'pergunta_multipla_escolha' modulo_atual.primeira_pergunta curso_atual.projeto.slug%}?curso={{curso_atual.id}} " 
+                    class="btn quiz"
+                >
+                    {% traduzir 'Começar' request %}
+                </a>
+            {% endif %}
+        </div>
+    
+    {% else %}
+        <div class="video-item active border-t" js-next-video>
+            {% if proximo_video_nao_concluido %}
+            <a 
+                href="{% url 'video:video' modulo_atual.id proximo_video_nao_concluido.id modulo_atual.curso.projeto.slug%}?curso={{request.content_params.curso.id}}" 
+                class="video-thumbnail dark-bg"
+                title="{{ proximo_video_nao_concluido.titulo }}"
+            >
+            {% if proximo_video_nao_concluido.thumbnail %}
+                <img src="{{proximo_video_nao_concluido.thumbnail.url}}" class="background">
+            {% else %}
+                <img src="{% static 'assessment/assets/dist/images/video_padrao.png' %}" class="background">
+            {% endif %}
+    
+
+                <svg><use xlink:href="#icon_play"></use></svg>
+            </a>
+
+            {% endif %} 
+
+            <div class="video-desc">
+                <span>{{proximo_video_nao_concluido.titulo}}</span>
+
+                <div class="flex items-center justify-between sm:mt-16">
+                    <svg class="check hidden sm:block">
+                        <use xlink:href="#icon_check"></use>
+                    </svg>
+
+                    <button class="btn materials-small" data-id="modal_materials" data-xopen="modal_padrao" onclick="fillMaterialModal('{{ proximo_video_nao_concluido.id }}')">
+                        <svg>
+                            <use xlink:href="#icon_materials"></use>
+                        </svg>
+
+                        {% traduzir 'Materiais' request %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    
+    <h4 class="card-title">
+        <svg><use xlink:href="#icon_playlist"></use></svg>
+        {% traduzir 'Episódios' request %}
+        <input type="text" style="display: none;" value="dados: {{request.session.dados_usuario}}"/>
+    </h4>
+
+    <ul class="video-list">
+        {% for video in videos %}
+            <li class="video-item {% if video.id == video_atual.id %} active {% endif %}">
+                <svg class="check {% if user in video.usuarios_concluintes.all %} show {% endif %} sm:hidden">
+                    <use xlink:href="#icon_check"></use>
+                </svg>
+
+                {% if video.thumbnail %}
+                    <a 
+                        href="{% url 'video:video' modulo_atual.id video.id modulo_atual.curso.projeto.slug%}?curso={{request.content_params.curso.id}}" 
+                        class="video-thumbnail dark-bg"
+                        title="{{ video.titulo }}"
+                    >
+                        <img src="{{video.thumbnail.url}}" class="background">
+                        <svg><use xlink:href="#icon_play"></use></svg>
+                    </a>
+                {% else %}
+                    <a 
+                        href="{% url 'video:video' modulo_atual.id video.id modulo_atual.curso.projeto.slug%}?curso={{request.content_params.curso.id}}" 
+                        class="video-thumbnail dark-bg"
+                        title="{{ video.titulo }}"
+                    >
+                        <img src="{% static 'assessment/assets/dist/images/video_padrao.png' %}" class="background">
+                        <svg><use xlink:href="#icon_play"></use></svg>
+                    </a>
+                {% endif %}
+
+                <div class="video-desc">
+                    <span>{{ video.titulo|linebreaks }}</span>
+
+                    <div class="flex items-center justify-between sm:mt-16">
+                        <svg class="check {% if user in video.usuarios_concluintes.all %} show {% endif %} hidden sm:block">
+                            <use xlink:href="#icon_check"></use>
+                        </svg>
+
+                        <button class="btn materials-small" data-id="modal_materials" data-xopen="modal_padrao" onclick="fillMaterialModal('{{ video.id }}')">
+                            <svg>
+                                <use xlink:href="#icon_materials"></use>
+                            </svg>
+    
+                            {% traduzir 'Materiais' request %}
+                        </button>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
